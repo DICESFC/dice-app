@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { Container, Typography, Box, Button } from "@mui/material";
 
-const Home: FC = () => {
+const About: FC = () => {
   return (
     <Container maxWidth="lg">
       <Box
@@ -16,12 +16,12 @@ const Home: FC = () => {
         <Typography variant="h4" component="h1" gutterBottom>
           Material UI - Next.js example in TypeScript
         </Typography>
-        <Button href="/about" color="secondary">
-          Go to the about page
-        </Button>
+        <Box maxWidth="sm">
+          <Button href="/">Go to the home page</Button>
+        </Box>
       </Box>
     </Container>
   );
 };
 
-export default Home;
+export default About;
