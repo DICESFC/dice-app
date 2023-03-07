@@ -1,5 +1,3 @@
-import { FC } from "react";
-
 import Document, {
   Html,
   Head,
@@ -20,7 +18,7 @@ interface MyDocumentProps extends DocumentProps {
 
 const MyDocument = ({ emotionStyleTags }: MyDocumentProps) => {
   return (
-    <Html lang="en" className={roboto.className}>
+    <Html lang="ja" className={roboto.className}>
       <Head>
         {/* PWA primary color */}
         <meta name="theme-color" content={theme.palette.primary.main} />

@@ -6,8 +6,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import { CacheProvider, EmotionCache } from "@emotion/react";
 import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
+import { Box } from "@mui/material";
 
-import HomeLayout from "@/components/layouts/HomeLayout";
+import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -27,11 +28,18 @@ const App: FC<MyAppProps> = ({
         <meta name="viewport" content="initial-scale=1, width=device-width" />
       </Head>
       <ThemeProvider theme={theme}>
-        <HomeLayout>
+        <Box
+          sx={{
+            display: "flex",
+            position: "relative",
+          }}
+        >
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
           <CssBaseline />
-          <Component {...pageProps} />
-        </HomeLayout>
+          <HomeLayout>
+            <Component {...pageProps} />
+          </HomeLayout>
+        </Box>
       </ThemeProvider>
     </CacheProvider>
   );

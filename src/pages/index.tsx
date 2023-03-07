@@ -19,6 +19,27 @@ const Home: FC = () => {
         <Button href="/about" color="secondary">
           Go to the about page
         </Button>
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
+        a<br />
       </Box>
     </Container>
   );
