@@ -8,6 +8,8 @@ import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
 import { Box } from "@mui/material";
 
+import "../styles/globals.css";
+
 import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -32,6 +34,8 @@ const App: FC<MyAppProps> = ({
           sx={{
             display: "flex",
             position: "relative",
+            width: "100%",
+            height: "100%",
           }}
         >
           {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}

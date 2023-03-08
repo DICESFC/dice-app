@@ -1,14 +1,13 @@
-import { useState, ReactNode, FC } from "react";
+import { useState, ReactNode, FC, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Card, BottomNavigation } from "@mui/material";
+import { Box, Card, BottomNavigation } from "@mui/material";
 
 import BottomMenuAction from "./BottomMenuAction";
 
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CasinoOutlinedIcon from "@mui/icons-material/CasinoOutlined";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import theme from "@/styles/theme";
 
 type Props = {
   children: ReactNode;
@@ -24,8 +23,9 @@ type Navigation = {
  * 下にナビゲーションバーが表示されるタイプのレイアウト(ホームなど)
  */
 const HomeLayout: FC<Props> = ({ children }) => {
-  //ボトムナビゲーションの一覧
-  //labelがkeyなので被りは無しでよろしゅう
+  //　ボトムナビゲーションの一覧
+  //　labelがkeyなので被りは無しで！
+  //　hrefは/で始める, 末尾の/は無し
   const NAVIGATIONS: Navigation[] = [
     {
       label: "ホーム",
@@ -34,7 +34,7 @@ const HomeLayout: FC<Props> = ({ children }) => {
     },
     {
       label: "レンタル",
-      href: "/rental",
+      href: "/borrow",
       icon: <ArchiveOutlinedIcon />,
     },
     {
@@ -44,22 +44,61 @@ const HomeLayout: FC<Props> = ({ children }) => {
     },
   ];
   const NAVIGATION_MARGIN = 20;
+  const NAVIGATION_HEIGHT = 50;
 
-  const router = useRouter();
-  const [selectedMenu, setSelectedMenu] = useState(0);
-
-  //メニューがタップされたら画面遷移＆メニュー見た目に反映
+  //メニューがタップされたら画面遷移
   const onSelectMenu = (menuID: number): void => {
-    setSelectedMenu(menuID);
-
     const targetNavigation = NAVIGATIONS[menuID];
     //画面遷移
     router.push(targetNavigation.href);
   };
 
+  //現在のpathから選択されたメニューを割り出す
+  //ちょっと重い処理なのであんまり呼び出したくない
+  const getMenuIDFromPath = (path: string): number => {
+    //前方一致の最大文字数
+    let maxMatchLength = 0;
+    let result = 0;
+
+    //各メニューに対し比較
+    for (let menuID = 0; menuID < NAVIGATIONS.length; menuID++) {
+      const nav = NAVIGATIONS[menuID];
+
+      //   navのhrefとpathが前方一致
+      //＆ これまでで一番文字数が大きい場合
+      // => 結果を上書き
+      if (path.indexOf(nav.href) === 0 && nav.href.length > maxMatchLength) {
+        maxMatchLength = nav.href.length;
+        result = menuID;
+      }
+    }
+    return result;
+  };
+
+  const router = useRouter();
+  const [selectedMenu, setSelectedMenu] = useState(-1);
+
+  //URL更新を監視してメニューに反映
+  //TODO: onSelectMenu経由でpathが変わった時には呼び出さないようにしたい
+  useEffect(() => {
+    const menuID = getMenuIDFromPath(router.pathname);
+    setSelectedMenu(menuID);
+  }, [router.pathname]);
+
   return (
     <>
-      {children}
+      <Box
+        sx={{
+          width: "100%",
+          height: "100%",
+          marginBottom: `${NAVIGATION_MARGIN * 2 + NAVIGATION_HEIGHT}px`,
+          backgroundColor: theme.palette.baseBackground.main,
+        }}
+      >
+        {children}
+      </Box>
+
+      {/* ナビゲーション本体 */}
       <Card
         sx={{
           position: "fixed",
@@ -77,7 +116,7 @@ const HomeLayout: FC<Props> = ({ children }) => {
             onSelectMenu(newValue);
           }}
           sx={{
-            height: 50,
+            height: `${NAVIGATION_HEIGHT}px`,
             opacity: 1,
           }}
         >

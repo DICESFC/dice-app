@@ -24,6 +24,9 @@ const MyDocument = ({ emotionStyleTags }: MyDocumentProps) => {
         <meta name="theme-color" content={theme.palette.primary.main} />
         <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="emotion-insertion-point" content="" />
+
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="mobile-web-app-capable" content="yes" />
         {emotionStyleTags}
       </Head>
       <body>
