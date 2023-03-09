@@ -1,6 +1,6 @@
 import { FC } from "react";
 import { Container, Typography, Box, Button, Card } from "@mui/material";
-import MembershipCard from "@/components/Home/MembershipCard";
+import MembershipCard from "@/components/home/MembershipCard";
 
 const Home: FC = () => {
   return (
