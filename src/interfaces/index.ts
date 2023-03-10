@@ -5,6 +5,7 @@ export type User = {
 
 export type BoardGame = {
   name: string;
+  name_english?: string;
   thumbnail?: string;
   //良好, 問題あり, 不明
   condition?: "Good" | "Bad" | "Unknown";
@@ -12,6 +13,7 @@ export type BoardGame = {
   minPlayers?: number;
   maxPlayers?: number;
   //プレイ時間(分)
-  playTime?: number;
+  minPlayTime?: number;
+  maxPlayTime?: number;
   createdAt?: number;
 };
