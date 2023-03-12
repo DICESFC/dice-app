@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collection, getDocs, addDoc } from "firebase/firestore";
-import type { BoardGame } from "../../interfaces";
+import type { BoardGame } from "../../interfaces/boardgame";
 import { db, auth } from "../../api/firebase";
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {

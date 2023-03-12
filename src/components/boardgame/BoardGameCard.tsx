@@ -1,11 +1,14 @@
 import { FC } from "react";
 import { Card } from "@mui/material";
-import { BoardGame } from "@/interfaces";
+import { BoardGame } from "@/interfaces/boardgame";
 
 type Props = {
   boardGame: BoardGame;
 };
 
+/*———————————–
+  ボドゲ一覧のカード
+———————————–*/
 const BoardGameCard: FC<Props> = ({ boardGame }) => {
   return (
     <Card elevation={3}>

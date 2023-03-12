@@ -1,17 +1,13 @@
-export type User = {
-  id: number;
-  name?: string;
-};
-
 export type BoardGame = {
   name: string;
   code: string;
+  isBorrowedNow: boolean;
+  prohibitBorrow: boolean;
+
   englishName?: string;
   thumbnail?: string;
   //良好, 問題あり, 不明
   condition?: "Good" | "Bad" | "Unknown";
-  isBorrowedNow: boolean;
-  prohibitBorrow: boolean;
   minPlayers?: number;
   maxPlayers?: number;
   //プレイ時間(分)

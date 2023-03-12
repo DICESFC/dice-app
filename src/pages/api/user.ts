@@ -1,7 +1,12 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { collection, getDocs } from "firebase/firestore";
-import type { User } from "../../interfaces";
 import { db, auth } from "../../api/firebase";
+
+//仮置
+export type User = {
+  id: number;
+  name?: string;
+};
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
   const usersCollectionRef = collection(db, "users");

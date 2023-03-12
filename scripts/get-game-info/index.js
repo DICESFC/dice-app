@@ -44,7 +44,6 @@ fs.createReadStream(__dirname + "/data.csv").pipe(
             rating: game.average_user_rating,
             ratingCount: game.num_user_ratings,
             isExpansion: game.type === "expansion",
-            categories: game.categories,
           });
         } else {
           console.log("No data:", targetRow[nameCol]);

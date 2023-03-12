@@ -1,4 +1,4 @@
-import { BoardGame } from "@/interfaces";
+import { BoardGame } from "@/interfaces/boardgame";
 import axios from "axios";
 
 export const createBoardGame = async (data: BoardGame) => {

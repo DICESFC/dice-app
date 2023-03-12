@@ -19,9 +19,9 @@ type Navigation = {
   icon?: ReactNode;
 };
 
-/*
- * 下にナビゲーションバーが表示されるタイプのレイアウト(ホームなど)
- */
+/*———————————–
+  下部にナビゲーションが表示されるレイアウト(Homeなど)
+———————————–*/
 const HomeLayout: FC<Props> = ({ children }) => {
   //　ボトムナビゲーションの一覧
   //　labelがkeyなので被りは無しで！
@@ -95,7 +95,7 @@ const HomeLayout: FC<Props> = ({ children }) => {
           backgroundColor: theme.palette.baseBackground.main,
         }}
       >
-        {children}
+        <main>{children}</main>
       </Box>
 
       {/* ナビゲーション本体 */}
