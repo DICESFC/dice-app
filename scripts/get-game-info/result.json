@@ -1,0 +1,377 @@
+[
+    {
+        "name": "アルケミスト",
+        "code": "4542325310823",
+        "englishName": "Alchemists",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559255077524-61a8J4UVuZL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 4,
+        "minPlayTime": 120,
+        "maxPlayTime": 180,
+        "rating": 3.704765001477978,
+        "ratingCount": 199,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "bCBXJy9qDw",
+                "url": "https://www.boardgameatlas.com/category/bCBXJy9qDw/undefined"
+            },
+            {
+                "id": "ZTneo8TaIO",
+                "url": "https://www.boardgameatlas.com/category/ZTneo8TaIO/undefined"
+            }
+        ]
+    },
+    {
+        "name": "ワインと毒とゴブレット",
+        "code": "4981932022925",
+        "englishName": "Raise Your Goblets",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559254996012-516IKzwrNBL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 12,
+        "minPlayTime": 20,
+        "maxPlayTime": 45,
+        "rating": 2.9705882352941178,
+        "ratingCount": 17,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "bCBXJy9qDw",
+                "url": "https://www.boardgameatlas.com/category/bCBXJy9qDw/undefined"
+            },
+            {
+                "id": "TYnxiuiI3X",
+                "url": "https://www.boardgameatlas.com/category/TYnxiuiI3X/undefined"
+            },
+            {
+                "id": "X8J7RM6dxX",
+                "url": "https://www.boardgameatlas.com/category/X8J7RM6dxX/undefined"
+            }
+        ]
+    },
+    {
+        "name": "ギャラクシー・トラッカー",
+        "code": "8594156310011",
+        "englishName": "Galaxy Trucker",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1632339006052",
+        "minPlayers": 2,
+        "maxPlayers": 4,
+        "minPlayTime": 20,
+        "maxPlayTime": 30,
+        "rating": 3.9285714285714284,
+        "ratingCount": 7,
+        "isExpansion": false,
+        "categories": []
+    },
+    {
+        "name": " ニューヨーク1901 多言語版",
+        "code": "3770000904345",
+        "englishName": "New York 1901",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559257441405-61PZIKOcfBL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 4,
+        "minPlayTime": 30,
+        "maxPlayTime": 60,
+        "rating": 3.272727272727273,
+        "ratingCount": 99,
+        "isExpansion": false,
+        "categories": []
+    },
+    {
+        "name": "Small World Underground",
+        "code": "824968726990",
+        "englishName": "Small World: Underground",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559255098802-616j4kx32RL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 5,
+        "minPlayTime": 40,
+        "maxPlayTime": 80,
+        "rating": 3.422222222222221,
+        "ratingCount": 90,
+        "isExpansion": false,
+        "categories": []
+    },
+    {
+        "name": "スモールワールド",
+        "code": "824968726013",
+        "englishName": "Small World",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559254992240-511JJsfrrNL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 5,
+        "minPlayTime": 40,
+        "maxPlayTime": 80,
+        "rating": 3.4070399803225784,
+        "ratingCount": 590,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "ZTneo8TaIO",
+                "url": "https://www.boardgameatlas.com/category/ZTneo8TaIO/undefined"
+            },
+            {
+                "id": "upXZ8vNfNO",
+                "url": "https://www.boardgameatlas.com/category/upXZ8vNfNO/undefined"
+            },
+            {
+                "id": "buDTYyPw4D",
+                "url": "https://www.boardgameatlas.com/category/buDTYyPw4D/undefined"
+            }
+        ]
+    },
+    {
+        "name": "7WONDERS",
+        "code": "5425016920558",
+        "englishName": "7 Wonders",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559253945470-61dlm9QcXpL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 7,
+        "minPlayTime": 30,
+        "maxPlayTime": 45,
+        "rating": 3.8556162790697663,
+        "ratingCount": 860,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "a8NM5cugJX",
+                "url": "https://www.boardgameatlas.com/category/a8NM5cugJX/undefined"
+            },
+            {
+                "id": "eX8uuNlQkQ",
+                "url": "https://www.boardgameatlas.com/category/eX8uuNlQkQ/undefined"
+            },
+            {
+                "id": "ODWOjWAJj3",
+                "url": "https://www.boardgameatlas.com/category/ODWOjWAJj3/undefined"
+            }
+        ]
+    },
+    {
+        "name": "シドマイヤーズ シヴィライゼーション:新たな夜明け",
+        "code": "4981932023991",
+        "englishName": "Civilization: A New Dawn",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559255042180-51o1XaPvLGL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 4,
+        "minPlayTime": 60,
+        "maxPlayTime": 120,
+        "rating": 3.5853181818181814,
+        "ratingCount": 88,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "329DxyFL9D",
+                "url": "https://www.boardgameatlas.com/category/329DxyFL9D/undefined"
+            },
+            {
+                "id": "knFtS8LntM",
+                "url": "https://www.boardgameatlas.com/category/knFtS8LntM/undefined"
+            }
+        ]
+    },
+    {
+        "name": "チーム3 ピンク",
+        "code": "4981932024790",
+        "englishName": "TEAM3 PINK",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1562110314172",
+        "minPlayers": 3,
+        "maxPlayers": 6,
+        "minPlayTime": 30,
+        "maxPlayTime": 30,
+        "rating": 3.6083333333333334,
+        "ratingCount": 6,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "bKrxqD9mYc",
+                "url": "https://www.boardgameatlas.com/category/bKrxqD9mYc/undefined"
+            }
+        ]
+    },
+    {
+        "name": "チーム3 グリーン",
+        "code": "4981932024783",
+        "englishName": "TEAM3 GREEN",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559314129152",
+        "minPlayers": 3,
+        "maxPlayers": 6,
+        "minPlayTime": 30,
+        "maxPlayTime": 30,
+        "rating": 3.9166666666666665,
+        "ratingCount": 9,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "bKrxqD9mYc",
+                "url": "https://www.boardgameatlas.com/category/bKrxqD9mYc/undefined"
+            }
+        ]
+    },
+    {
+        "name": "ベガス",
+        "code": "4005556266203",
+        "englishName": "Las Vegas",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559254150791-51clKovssKL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 5,
+        "minPlayTime": 30,
+        "maxPlayTime": 45,
+        "rating": 3.4873188405797095,
+        "ratingCount": 138,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "mavSOM8vjH",
+                "url": "https://www.boardgameatlas.com/category/mavSOM8vjH/undefined"
+            }
+        ]
+    },
+    {
+        "name": "カルカソンヌ ドイツ語版",
+        "code": "4001504481254",
+        "englishName": "Carcassonne",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1634417910623",
+        "minPlayers": 2,
+        "maxPlayers": 5,
+        "minPlayTime": 30,
+        "maxPlayTime": 45,
+        "rating": 3.735916856492028,
+        "ratingCount": 878,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "ODWOjWAJj3",
+                "url": "https://www.boardgameatlas.com/category/ODWOjWAJj3/undefined"
+            },
+            {
+                "id": "7rV11PKqME",
+                "url": "https://www.boardgameatlas.com/category/7rV11PKqME/undefined"
+            },
+            {
+                "id": "QAYkTHK1Dd",
+                "url": "https://www.boardgameatlas.com/category/QAYkTHK1Dd/undefined"
+            }
+        ]
+    },
+    {
+        "name": "ごきぶりデュエル",
+        "code": "4580215110337",
+        "englishName": "Kakerlaken-Duell",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 2,
+        "minPlayTime": 15,
+        "maxPlayTime": 25,
+        "rating": 0,
+        "ratingCount": 0,
+        "isExpansion": false,
+        "categories": []
+    },
+    {
+        "name": "スコットランドヤード",
+        "code": "4005556810161",
+        "englishName": "Scotland Yard",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559254819288-51ruOK8wVqL.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 6,
+        "minPlayTime": 45,
+        "maxPlayTime": 45,
+        "rating": 3.0056639839034207,
+        "ratingCount": 142,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "ge8pIhEUGE",
+                "url": "https://www.boardgameatlas.com/category/ge8pIhEUGE/undefined"
+            },
+            {
+                "id": "bCBXJy9qDw",
+                "url": "https://www.boardgameatlas.com/category/bCBXJy9qDw/undefined"
+            },
+            {
+                "id": "Hc6vcim5DS",
+                "url": "https://www.boardgameatlas.com/category/Hc6vcim5DS/undefined"
+            }
+        ]
+    },
+    {
+        "name": "テンデイズゲームズ キングドミノ",
+        "code": "4560450500438",
+        "englishName": "Kingdomino",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1559254188772-515tbFJ5C8L.jpg",
+        "minPlayers": 2,
+        "maxPlayers": 4,
+        "minPlayTime": 15,
+        "maxPlayTime": 20,
+        "rating": 3.5940330811247216,
+        "ratingCount": 566,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "ODWOjWAJj3",
+                "url": "https://www.boardgameatlas.com/category/ODWOjWAJj3/undefined"
+            },
+            {
+                "id": "ZTneo8TaIO",
+                "url": "https://www.boardgameatlas.com/category/ZTneo8TaIO/undefined"
+            },
+            {
+                "id": "QAYkTHK1Dd",
+                "url": "https://www.boardgameatlas.com/category/QAYkTHK1Dd/undefined"
+            },
+            {
+                "id": "buDTYyPw4D",
+                "url": "https://www.boardgameatlas.com/category/buDTYyPw4D/undefined"
+            }
+        ]
+    },
+    {
+        "name": "Q.E.",
+        "code": "4573538060052",
+        "englishName": "Q.E.",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1637617647040",
+        "minPlayers": 3,
+        "maxPlayers": 5,
+        "minPlayTime": 45,
+        "maxPlayTime": 45,
+        "rating": 3.7576037735849055,
+        "ratingCount": 53,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "N0TkEGfEsF",
+                "url": "https://www.boardgameatlas.com/category/N0TkEGfEsF/undefined"
+            },
+            {
+                "id": "rrvd68LjOR",
+                "url": "https://www.boardgameatlas.com/category/rrvd68LjOR/undefined"
+            }
+        ]
+    },
+    {
+        "name": "アグリコラ",
+        "code": "4981932020433",
+        "englishName": "Agricola",
+        "thumbnail": "https://s3-us-west-1.amazonaws.com/5cc.images/games/uploaded/1575999333848",
+        "minPlayers": 1,
+        "maxPlayers": 5,
+        "minPlayTime": 30,
+        "maxPlayTime": 60,
+        "rating": 3.9008928571428587,
+        "ratingCount": 336,
+        "isExpansion": false,
+        "categories": [
+            {
+                "id": "MWoxgHrOJD",
+                "url": "https://www.boardgameatlas.com/category/MWoxgHrOJD/undefined"
+            },
+            {
+                "id": "N0TkEGfEsF",
+                "url": "https://www.boardgameatlas.com/category/N0TkEGfEsF/undefined"
+            },
+            {
+                "id": "Wr8uXcoR9p",
+                "url": "https://www.boardgameatlas.com/category/Wr8uXcoR9p/undefined"
+            }
+        ]
+    }
+]
