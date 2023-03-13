@@ -1,5 +1,9 @@
 import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Box, Button, Typography } from "@mui/material";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+
+import { useAuthState } from "@/hooks/useAuthState";
+
 import Image from "@/components/common/Image";
 import GoogleLoginButton from "@/components/auth/GoogleButton";
 
@@ -7,6 +11,22 @@ import GoogleLoginButton from "@/components/auth/GoogleButton";
   ログイン画面
 ———————————–*/
 const Home: NextPageWithLayout = () => {
+  const authState = useAuthState();
+  console.log(authState);
+  const auth = getAuth();
+
+  const signInWithGoogle = async () => {
+    try {
+      // Googleプロバイダオブジェクトのインスタンスを作成
+      const provider = new GoogleAuthProvider();
+      // Googleでログイン
+      const result = await signInWithPopup(auth, provider);
+      console.log(result);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <Container
       maxWidth="sm"
@@ -37,11 +57,12 @@ const Home: NextPageWithLayout = () => {
             alt="DICEロゴ"
             width="700"
             height="700"
+            priority={false}
           />
         </Box>
 
         <Box sx={{ mb: 1 }}>
-          <GoogleLoginButton />
+          <GoogleLoginButton onClick={signInWithGoogle} />
         </Box>
         <Typography variant="caption">ログインするには？</Typography>
       </Box>

@@ -10,6 +10,7 @@ import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
 import { Box } from "@mui/material";
 
+import "../api/init-firebase";
 import "../styles/globals.css";
 
 // Client-side cache, shared for the whole session of the user in the browser.

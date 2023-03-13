@@ -2,6 +2,7 @@ import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
+import Auth from "@/components/auth/Auth";
 
 /*———————————–
   ホーム画面
@@ -33,7 +34,11 @@ const Home: NextPageWithLayout = () => {
 };
 
 Home.getLayout = (page) => {
-  return <HomeLayout>{page}</HomeLayout>;
+  return (
+    <Auth>
+      <HomeLayout>{page}</HomeLayout>
+    </Auth>
+  );
 };
 
 export default Home;

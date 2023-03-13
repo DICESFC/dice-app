@@ -1,6 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { collection, getDocs } from "firebase/firestore";
-import { db, auth } from "../../api/firebase";
+import { collection, getDocs, getFirestore } from "firebase/firestore";
 
 //仮置
 export type User = {
@@ -9,6 +8,8 @@ export type User = {
 };
 
 const handler = async (req: NextApiRequest, res: NextApiResponse) => {
+  const db = getFirestore();
+
   const usersCollectionRef = collection(db, "users");
 
   if (req.method === "POST") {

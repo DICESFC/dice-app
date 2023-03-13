@@ -1,22 +1,31 @@
-import { BoardGame } from "@/interfaces/boardgame";
-import axios from "axios";
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+import type { BoardGame } from "../../interfaces/boardgame";
 
+const db = getFirestore();
+const boardGamesCollectionRef = collection(db, "games");
+
+//===================
+//*
+//* ボドゲ取得
+//*
+//===================
+export const getBoardGame = async () => {
+  try {
+    const gameSnap = await getDocs(boardGamesCollectionRef);
+    return gameSnap.docs.map((doc) => {
+      return doc.data() as BoardGame;
+    });
+  } catch (e) {
+    throw new Error(`${e}`);
+  }
+};
+
+//===================
+//*
+//* ボドゲ追加
+//*
+//===================
 export const createBoardGame = async (data: BoardGame) => {
-  const res = await axios.post("api/game", data);
-  return res.data;
-};
-
-export const getBoardGame = async (data: any) => {
-  const res = await axios.get("api/game", data);
-  return res.data;
-};
-
-export const updateBoardGame = async (data: any) => {
-  const res = await axios.put("api/game", data);
-  return res.data;
-};
-
-export const deleteBoardGame = async (data: any) => {
-  const res = await axios.delete("api/game", data);
-  return res.data;
+  const docRef = await addDoc(boardGamesCollectionRef, data);
+  return { status: "success", ref: docRef };
 };
