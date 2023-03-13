@@ -1,10 +1,13 @@
 import { FC } from "react";
 import { Card } from "@mui/material";
+import { useAuthState } from "@/hooks/useAuthState";
 
 /*———————————–
   メンバーカード
 ———————————–*/
 const MembershipCard: FC = () => {
+  const { userInfo } = useAuthState();
+
   return (
     <Card
       sx={{
@@ -14,7 +17,7 @@ const MembershipCard: FC = () => {
       }}
       elevation={7}
     >
-      メンバーカード
+      ようこそ {userInfo.name}さん！
     </Card>
   );
 };

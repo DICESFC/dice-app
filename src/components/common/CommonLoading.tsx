@@ -2,6 +2,10 @@ import { FC, ReactNode } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
 import theme from "@/styles/theme";
 
+/*———————————–
+  ロード中のサークル
+———————————–*/
+
 type Props = {
   children?: ReactNode;
 };

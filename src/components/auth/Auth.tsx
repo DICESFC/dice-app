@@ -1,12 +1,11 @@
 import { useAuthState } from "@/hooks/useAuthState";
-import { Typography } from "@mui/material";
-import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
 import CommonLoading from "../common/CommonLoading";
 
 /*———————————–
   これで囲んだコンテンツは非メンバーに見えない
+  TODO: スケルトン使いたい
 ———————————–*/
 type Props = {
   children: ReactNode;
