@@ -83,7 +83,7 @@ const HomeLayout: FC<Props> = ({ children }) => {
   useEffect(() => {
     const menuID = getMenuIDFromPath(router.pathname);
     setSelectedMenu(menuID);
-  }, [router.pathname]);
+  }, [router.pathname, getMenuIDFromPath]);
 
   return (
     <>
