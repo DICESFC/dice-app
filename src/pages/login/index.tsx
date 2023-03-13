@@ -6,22 +6,29 @@ import { useAuthState } from "@/hooks/useAuthState";
 
 import Image from "@/components/common/Image";
 import GoogleLoginButton from "@/components/auth/GoogleButton";
+import { useRouter } from "next/router";
 
 /*———————————–
   ログイン画面
 ———————————–*/
-const Home: NextPageWithLayout = () => {
-  const authState = useAuthState();
-  console.log(authState);
-  const auth = getAuth();
+const Login: NextPageWithLayout = () => {
+  const { isSignedIn, userInfo } = useAuthState();
+  const router = useRouter();
+
+  //正常にログインした状態ならホームへ
+  if (isSignedIn && (userInfo.isMember || userInfo.isAdmin)) {
+    router.replace("/");
+  }
 
   const signInWithGoogle = async () => {
     try {
+      const auth = getAuth();
+
       // Googleプロバイダオブジェクトのインスタンスを作成
       const provider = new GoogleAuthProvider();
       // Googleでログイン
       const result = await signInWithPopup(auth, provider);
-      console.log(result);
+      console.log("login:", result);
     } catch (error) {
       console.error(error);
     }
@@ -57,7 +64,7 @@ const Home: NextPageWithLayout = () => {
             alt="DICEロゴ"
             width="700"
             height="700"
-            priority={false}
+            priority={true}
           />
         </Box>
 
@@ -70,4 +77,4 @@ const Home: NextPageWithLayout = () => {
   );
 };
 
-export default Home;
+export default Login;

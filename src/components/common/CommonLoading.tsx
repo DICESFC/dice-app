@@ -1,8 +1,12 @@
-import { FC } from "react";
-import { Box, CircularProgress } from "@mui/material";
+import { FC, ReactNode } from "react";
+import { Box, CircularProgress, Typography } from "@mui/material";
 import theme from "@/styles/theme";
 
-const CommonLoading: FC = () => {
+type Props = {
+  children?: ReactNode;
+};
+
+const CommonLoading: FC<Props> = ({ children }) => {
   return (
     <Box
       sx={{
@@ -20,6 +24,7 @@ const CommonLoading: FC = () => {
           color: theme.palette.orange.main,
         }}
       />
+      {children && <Typography variant="body2">{children}</Typography>}
     </Box>
   );
 };

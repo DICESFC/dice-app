@@ -4,6 +4,7 @@ import { BoardGame } from "@/interfaces/boardgame";
 import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
 
 import axios from "axios";
+import Auth from "@/components/auth/Auth";
 
 /*———————————–
   レンタル画面
@@ -52,7 +53,11 @@ const Borrow: NextPageWithLayout = () => {
 };
 
 Borrow.getLayout = (page) => {
-  return <HomeLayout>{page}</HomeLayout>;
+  return (
+    <Auth>
+      <HomeLayout>{page}</HomeLayout>
+    </Auth>
+  );
 };
 
 export default Borrow;

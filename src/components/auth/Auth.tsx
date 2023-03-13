@@ -1,4 +1,6 @@
 import { useAuthState } from "@/hooks/useAuthState";
+import { Typography } from "@mui/material";
+import { Box } from "@mui/system";
 import { useRouter } from "next/router";
 import { FC, ReactNode } from "react";
 import CommonLoading from "../common/CommonLoading";
@@ -18,8 +20,9 @@ const Auth: FC<Props> = ({
   adminOnly = false,
 }: Props) => {
   const { isLoading, isSignedIn, userInfo } = useAuthState();
+  const router = useRouter();
 
-  if (isLoading) return <CommonLoading />;
+  if (isLoading) return <CommonLoading>認証情報を取得中...</CommonLoading>;
 
   const isAuthenticated =
     isSignedIn &&
@@ -28,7 +31,6 @@ const Auth: FC<Props> = ({
 
   //認証だめやろがい！の場合
   if (!isAuthenticated) {
-    const router = useRouter();
     router.replace("/login");
     return <CommonLoading />;
   }

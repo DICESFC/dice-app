@@ -1,6 +1,9 @@
 import { ButtonBase, ButtonBaseProps } from "@mui/material";
 import ResponsiveImage from "../common/Image";
 
+/*———————————–
+  ログインボタン
+———————————–*/
 const GoogleLoginButton = (props: ButtonBaseProps) => {
   return (
     <ButtonBase {...props}>
