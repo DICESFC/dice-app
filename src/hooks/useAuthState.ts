@@ -8,6 +8,7 @@ import { doc, getDoc, getFirestore } from "firebase/firestore";
 export type AuthState = {
   isSignedIn: boolean;
   isLoading: boolean;
+  isError: boolean;
   userId: string | undefined;
   userInfo: {
     name: string | undefined;
@@ -22,6 +23,7 @@ export type AuthState = {
  */
 const INITIAL_AUTH_STATE: AuthState = {
   isSignedIn: false,
+  isError: false,
   isLoading: true,
   userId: undefined,
   userInfo: {
@@ -41,26 +43,37 @@ export const useAuthState = (): AuthState => {
   // サインイン状態の変化を監視する
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(getAuth(), async (user) => {
-      if (user) {
-        const docRef = doc(getFirestore(), "users", user.uid);
-        const result = await getDoc(docRef);
-        const data = result.data();
+      try {
+        if (user) {
+          const docRef = doc(getFirestore(), "users", user.uid);
+          const result = await getDoc(docRef);
+          const data = result.data();
 
-        const userInfo = data ? data : {};
+          const userInfo = data ? data : {};
 
+          setAuthState({
+            isSignedIn: true,
+            isLoading: false,
+            isError: false,
+            userId: user.uid,
+            userInfo: {
+              name: userInfo.name || undefined,
+              email: userInfo.email || undefined,
+              isAdmin: userInfo.isAdmin || false,
+              isMember: userInfo.isMember || false,
+            },
+          });
+        } else {
+          setAuthState({ ...INITIAL_AUTH_STATE, isLoading: false });
+        }
+      } catch (e) {
+        //登録されていないユーザーなど
+        console.error(e);
         setAuthState({
-          isSignedIn: true,
+          ...INITIAL_AUTH_STATE,
           isLoading: false,
-          userId: user.uid,
-          userInfo: {
-            name: userInfo.name || undefined,
-            email: userInfo.email || undefined,
-            isAdmin: userInfo.isAdmin || false,
-            isMember: userInfo.isMember || false,
-          },
+          isError: true,
         });
-      } else {
-        setAuthState({ ...INITIAL_AUTH_STATE, isLoading: false });
       }
     });
 

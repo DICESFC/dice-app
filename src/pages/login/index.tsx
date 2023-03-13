@@ -7,16 +7,17 @@ import { useAuthState } from "@/hooks/useAuthState";
 import Image from "@/components/common/Image";
 import GoogleLoginButton from "@/components/auth/GoogleButton";
 import { useRouter } from "next/router";
+import CommonError from "@/components/common/CommonError";
 
 /*———————————–
   ログイン画面
 ———————————–*/
 const Login: NextPageWithLayout = () => {
-  const { isSignedIn, userInfo } = useAuthState();
+  const { isSignedIn, isError, userInfo } = useAuthState();
   const router = useRouter();
 
   //正常にログインした状態ならホームへ
-  if (isSignedIn && (userInfo.isMember || userInfo.isAdmin)) {
+  if (isSignedIn && userInfo.isMember) {
     router.replace("/");
   }
 
@@ -72,6 +73,22 @@ const Login: NextPageWithLayout = () => {
           <GoogleLoginButton onClick={signInWithGoogle} />
         </Box>
         <Typography variant="caption">ログインするには？</Typography>
+
+        {isError && (
+          <CommonError title="認証エラー">
+            Google認証に失敗しました。
+            <br />
+            keio.jpアカウントにログインできているかを再度確認して下さい。
+          </CommonError>
+        )}
+
+        {isSignedIn && !userInfo.isMember && (
+          <CommonError title="権限エラー" severity="warning">
+            アプリの閲覧権限がありません。
+            <br />
+            サークルへお問い合わせ下さい。
+          </CommonError>
+        )}
       </Box>
     </Container>
   );
