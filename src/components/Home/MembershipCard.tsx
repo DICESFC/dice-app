@@ -1,6 +1,9 @@
 import { FC } from "react";
 import { Card } from "@mui/material";
 
+/*———————————–
+  メンバーカード
+———————————–*/
 const MembershipCard: FC = () => {
   return (
     <Card

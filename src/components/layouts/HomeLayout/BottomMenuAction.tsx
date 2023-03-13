@@ -4,9 +4,9 @@ import {
   styled,
 } from "@mui/material";
 
-/*
- * 角丸　＆　アクセントカラーを利用したBottomNavigationAction
- */
+/*———————————–
+  ホーム下部のナビゲーションボタン
+———————————–*/
 const BottomMenuAction = styled(
   BottomNavigationAction
 )<BottomNavigationActionProps>(({ theme }) => ({

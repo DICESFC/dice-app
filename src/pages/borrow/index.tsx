@@ -1,15 +1,22 @@
-import { FC } from "react";
+import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Box, Button } from "@mui/material";
-import axios from "axios";
-import { BoardGame } from "@/interfaces";
+import { BoardGame } from "@/interfaces/boardgame";
+import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
 
-const About: FC = () => {
+import axios from "axios";
+import Auth from "@/components/auth/Auth";
+
+/*———————————–
+  レンタル画面
+———————————–*/
+const Borrow: NextPageWithLayout = () => {
   const submit = async () => {
     const game: BoardGame = {
       name: "カタン",
+      code: "00000000",
       condition: "Good",
-      canBorrow: true,
-      playTime: 60,
+      prohibitBorrow: false,
+      isBorrowedNow: false,
       createdAt: new Date().getTime(),
     };
     await axios.post("/api/game", game);
@@ -45,4 +52,12 @@ const About: FC = () => {
   );
 };
 
-export default About;
+Borrow.getLayout = (page) => {
+  return (
+    <Auth>
+      <HomeLayout>{page}</HomeLayout>
+    </Auth>
+  );
+};
+
+export default Borrow;
