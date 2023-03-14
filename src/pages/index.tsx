@@ -16,7 +16,6 @@ const Home: NextPageWithLayout = () => {
           flexDirection: "column",
           justifyContent: "center",
           alignItems: "center",
-          my: 3,
         }}
       >
         <Container

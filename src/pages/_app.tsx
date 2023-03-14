@@ -39,7 +39,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
               display: "flex",
               position: "relative",
               width: "100%",
-              minHeight: "100%",
+              height: "100%",
               overflow: "scroll",
             }}
           >
