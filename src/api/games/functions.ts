@@ -5,9 +5,7 @@ const db = getFirestore();
 const boardGamesCollectionRef = collection(db, "games");
 
 //===================
-//*
 //* ボドゲ取得
-//*
 //===================
 export const getBoardGame = async () => {
   try {
@@ -21,9 +19,7 @@ export const getBoardGame = async () => {
 };
 
 //===================
-//*
 //* ボドゲ追加
-//*
 //===================
 export const createBoardGame = async (data: BoardGame) => {
   const docRef = await addDoc(boardGamesCollectionRef, data);

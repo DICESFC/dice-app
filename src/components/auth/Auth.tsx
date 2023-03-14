@@ -21,7 +21,7 @@ const Auth: FC<Props> = ({
   const { isLoading, isSignedIn, userInfo } = useAuthState();
   const router = useRouter();
 
-  if (isLoading) return <CommonLoading>認証情報を取得中...</CommonLoading>;
+  if (isLoading) return <CommonLoading>ログインしています...</CommonLoading>;
 
   const isAuthenticated =
     isSignedIn &&

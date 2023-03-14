@@ -1,8 +1,8 @@
 import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Box, Button, Typography } from "@mui/material";
-import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 import { useAuthState } from "@/hooks/useAuthState";
+import { signInWithGoogle } from "@/api/auth/functions";
 
 import Image from "@/components/common/Image";
 import GoogleLoginButton from "@/components/auth/GoogleButton";
@@ -20,20 +20,6 @@ const Login: NextPageWithLayout = () => {
   if (isSignedIn && userInfo.isMember) {
     router.replace("/");
   }
-
-  const signInWithGoogle = async () => {
-    try {
-      const auth = getAuth();
-
-      // Googleプロバイダオブジェクトのインスタンスを作成
-      const provider = new GoogleAuthProvider();
-      // Googleでログイン
-      const result = await signInWithPopup(auth, provider);
-      console.log("login:", result);
-    } catch (error) {
-      console.error(error);
-    }
-  };
 
   return (
     <Container
@@ -65,7 +51,7 @@ const Login: NextPageWithLayout = () => {
             alt="DICEロゴ"
             width="700"
             height="700"
-            priority={true}
+            priority
           />
         </Box>
 
@@ -73,23 +59,23 @@ const Login: NextPageWithLayout = () => {
           <GoogleLoginButton onClick={signInWithGoogle} />
         </Box>
         <Typography variant="caption">ログインするには？</Typography>
-
-        {isError && (
-          <CommonError title="認証エラー">
-            Google認証に失敗しました。
-            <br />
-            keio.jpアカウントにログインできているかを再度確認して下さい。
-          </CommonError>
-        )}
-
-        {isSignedIn && !userInfo.isMember && (
-          <CommonError title="権限エラー" severity="warning">
-            アプリの閲覧権限がありません。
-            <br />
-            サークルへお問い合わせ下さい。
-          </CommonError>
-        )}
       </Box>
+
+      {isError && (
+        <CommonError title="認証エラー">
+          Google認証に失敗しました。
+          <br />
+          keio.jpアカウントでログインし直してみてください。
+        </CommonError>
+      )}
+
+      {isSignedIn && !userInfo.isMember && (
+        <CommonError title="権限エラー" severity="warning">
+          アプリの閲覧権限がありません。
+          <br />
+          サークルへお問い合わせ下さい。
+        </CommonError>
+      )}
     </Container>
   );
 };

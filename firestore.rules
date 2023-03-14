@@ -9,7 +9,9 @@ service cloud.firestore {
     }
 
     function isMember() {
-      return request.auth == null;
+      return request.auth != null &&
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isMember == true;
     }
 
     match /{document=**} {
