@@ -14,6 +14,7 @@ const MembershipCard: FC = () => {
         width: "100%",
         aspectRatio: "5 / 3",
         borderRadius: "7px",
+        height: 500,
       }}
       elevation={7}
     >

@@ -90,8 +90,7 @@ const HomeLayout: FC<Props> = ({ children }) => {
       <Box
         sx={{
           width: "100%",
-          height: "100%",
-          marginBottom: `${NAVIGATION_MARGIN * 2 + NAVIGATION_HEIGHT}px`,
+          paddingBottom: `${NAVIGATION_MARGIN * 2 + NAVIGATION_HEIGHT}px`,
           backgroundColor: theme.palette.baseBackground.main,
         }}
       >

@@ -5,9 +5,6 @@ import { red } from "@mui/material/colors";
 //Styles型の拡張
 declare module "@mui/material/styles" {
   interface Palette {
-    orange: {
-      main: string;
-    };
     baseBackground: {
       main: string;
     };
@@ -33,7 +30,7 @@ export const roboto = Roboto({
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#EA5617",
     },
     secondary: {
       main: "#19857b",
@@ -42,10 +39,7 @@ const theme = createTheme({
       main: red.A400,
     },
     baseBackground: {
-      main: "#F1F1F1",
-    },
-    orange: {
-      main: "#EA5617",
+      main: "#FaFaFa",
     },
   },
   typography: {

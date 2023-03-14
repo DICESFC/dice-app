@@ -32,16 +32,17 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
       </Head>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
+          {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+          <CssBaseline />
           <Box
             sx={{
               display: "flex",
               position: "relative",
               width: "100%",
-              height: "100%",
+              minHeight: "100%",
+              overflow: "scroll",
             }}
           >
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
             {getLayout(<Component {...pageProps} />)}
           </Box>
         </QueryClientProvider>
