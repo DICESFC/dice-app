@@ -18,5 +18,9 @@ service cloud.firestore {
       allow read, write: if isAdmin();
       allow read: if isMember();
     }
+    match /games/{document=**} {
+        //新歓用： 非メンバーでもボードゲームの読み取りは可能
+        allow read;
+    }
   }
 }

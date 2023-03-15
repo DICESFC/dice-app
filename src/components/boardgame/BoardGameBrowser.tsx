@@ -19,8 +19,15 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
   const { data, isError, isLoading } = useQuery("get-boardgame", getBoardGame);
 
   // ロード中,エラー時はそれに応じた表示
-  if (isLoading) return <CommonLoading />;
-  if (isError || !data) return <CommonError />;
+  if (isLoading)
+    return <CommonLoading>ゲーム情報を読み込み中...</CommonLoading>;
+
+  if (isError || !data)
+    return (
+      <CommonError>
+        データの読み込み中にエラーが発生しました。権限が無いか、APIが使用回数上限に達している可能性があります。
+      </CommonError>
+    );
 
   return (
     <Grid container sx={{ mt: 3 }} spacing={1}>

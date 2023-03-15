@@ -4,7 +4,6 @@ import { Box, Card, BottomNavigation } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CasinoOutlinedIcon from "@mui/icons-material/CasinoOutlined";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
-import theme from "@/styles/theme";
 
 import BottomMenuAction from "./BottomMenuAction";
 
@@ -91,7 +90,7 @@ const HomeLayout: FC<Props> = ({ children }) => {
           width: "100%",
           height: "100%",
           overflow: "scroll",
-          backgroundColor: theme.palette.baseBackground.main,
+          backgroundColor: "baseBackground.main",
         }}
       >
         <Box
