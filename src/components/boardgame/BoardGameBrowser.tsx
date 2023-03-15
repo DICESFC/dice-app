@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import BoardGameCard from "@/components/boardgame/BoardGameCard";
 import CommonError from "@/components/common/CommonError";
 import CommonLoading from "@/components/common/CommonLoading";
+import { limit, where } from "firebase/firestore";
 
 type Props = {
   allowBorrow?: boolean;
@@ -16,7 +17,9 @@ type Props = {
   ボドゲリスト本体
 ———————————–*/
 const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
-  const { data, isError, isLoading } = useQuery("get-boardgame", getBoardGame);
+  const { data, isError, isLoading } = useQuery("get-boardgame", () => {
+    return getBoardGame([where("name", "==", "カタン"), limit(3)]);
+  });
 
   // ロード中,エラー時はそれに応じた表示
   if (isLoading)

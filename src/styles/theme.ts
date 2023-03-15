@@ -5,13 +5,20 @@ import { red } from "@mui/material/colors";
 //Styles型の拡張
 declare module "@mui/material/styles" {
   interface Palette {
+    admin: {
+      main: string;
+      light: string;
+      dark: string;
+    };
     baseBackground: {
       main: string;
     };
   }
   interface PaletteOptions {
-    orange?: {
-      main?: string;
+    admin: {
+      main: string;
+      light: string;
+      dark: string;
     };
     baseBackground: {
       main?: string;
@@ -33,6 +40,11 @@ const theme = createTheme({
       main: "#EA5617",
       dark: "#a33c10",
       light: "#ee7745",
+    },
+    admin: {
+      main: "#1976d2",
+      dark: "#1565c0",
+      light: "#42a5f5",
     },
     secondary: {
       dark: "#1769aa",
