@@ -1,4 +1,6 @@
 export type BoardGame = {
+  [key: string]: any;
+
   name: string;
   code: string;
   isBorrowedNow?: boolean;

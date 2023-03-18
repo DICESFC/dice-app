@@ -3,15 +3,20 @@ import { Container } from "@mui/material";
 
 import Auth from "@/components/auth/Auth";
 import AdminLayout from "@/components/layouts/AdminLayout/AdminLayout";
+import GameCsvUploader from "@/components/admin/games/GameCsvUploader";
 
 /*———————————–
-  管理者画面ホーム
+  ボドゲ管理画面
 ———————————–*/
-const AdminHome: NextPageWithLayout = () => {
-  return <Container>ようこそ、管理者ページへ...</Container>;
+const AdminGameManager: NextPageWithLayout = () => {
+  return (
+    <Container maxWidth="md">
+      <GameCsvUploader />
+    </Container>
+  );
 };
 
-AdminHome.getLayout = (page) => {
+AdminGameManager.getLayout = (page) => {
   return (
     <Auth adminOnly>
       <AdminLayout>{page}</AdminLayout>
@@ -19,4 +24,4 @@ AdminHome.getLayout = (page) => {
   );
 };
 
-export default AdminHome;
+export default AdminGameManager;

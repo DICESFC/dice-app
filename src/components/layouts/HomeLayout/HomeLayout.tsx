@@ -1,6 +1,6 @@
 import { useState, ReactNode, FC, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Box, Card, BottomNavigation } from "@mui/material";
+import { Box, BottomNavigation, Card } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CasinoOutlinedIcon from "@mui/icons-material/CasinoOutlined";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";

@@ -88,7 +88,9 @@ const AdminLayout: FC<Props> = ({ children }) => {
 
       <Box sx={{ flexGrow: 1 }}>
         {/* ページ本体 */}
-        <Container sx={{ paddingTop: "30px" }}>{children}</Container>
+        <Container sx={{ paddingTop: "30px", width: "100%" }}>
+          {children}
+        </Container>
       </Box>
     </Box>
   );
