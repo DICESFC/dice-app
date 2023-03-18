@@ -5,11 +5,11 @@ import { BoardGame } from "@/interfaces/boardgame";
 export const csvToGameList = (csv: string[][]) => {
   if (!csv[0].includes("name")) {
     throw new Error(
-      `nameの列がありません。テンプレートを参照してcsvを修正して下さい。`
+      `nameの列がありません。テンプレートを参考にcsvを修正して下さい。`
     );
   } else if (!csv[0].includes("code")) {
     throw new Error(
-      `codeの列がありません。テンプレートを参照してcsvを修正して下さい。`
+      `codeの列がありません。テンプレートを参考にcsvを修正して下さい。`
     );
   }
 

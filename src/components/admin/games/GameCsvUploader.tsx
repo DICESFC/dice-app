@@ -1,8 +1,18 @@
 import { FC, useState } from "react";
-import { Box, Paper, Typography, Button, Divider } from "@mui/material";
+import {
+  Box,
+  Paper,
+  Typography,
+  Button,
+  Divider,
+  CircularProgress,
+} from "@mui/material";
 import CsvUploadButton from "./CsvUploadButton";
 import GameConfirmTable from "./GameConfirmTable";
 import { BoardGame } from "@/interfaces/boardgame";
+import CommonError from "@/components/common/CommonError";
+import { createBoardGame } from "@/api/games/functions";
+import { useSnackbar } from "@/hooks/useSnackbar";
 
 type Props = {};
 
@@ -12,6 +22,9 @@ type Props = {};
 const GameCsvUploader: FC<Props> = () => {
   const [gameData, setGameData] = useState<BoardGame[]>([]);
   const [isReadyToSubmit, setReadyToSubmit] = useState<boolean>(true);
+  const [error, setError] = useState<null | string>(null);
+
+  const { openSnackbar } = useSnackbar();
 
   //テンプレートファイルを保存
   const onDownloadTemplate = () => {
@@ -23,8 +36,20 @@ const GameCsvUploader: FC<Props> = () => {
 
   //ボドゲ登録
   const submit = async () => {
-    if (isReadyToSubmit) {
-      setReadyToSubmit(false);
+    try {
+      if (isReadyToSubmit) {
+        setReadyToSubmit(false);
+        const promises = gameData.map((data) => createBoardGame(data));
+        const result = Promise.all(promises);
+        console.log(result);
+        openSnackbar(`${gameData.length}件のアイテムが追加されました🎉`);
+        setError(null);
+        setReadyToSubmit(true);
+        setGameData([]);
+      }
+    } catch (e) {
+      setReadyToSubmit(true);
+      setError(String(e));
     }
   };
 
@@ -40,7 +65,7 @@ const GameCsvUploader: FC<Props> = () => {
       <Typography variant="h6">CSVからボードゲームを追加</Typography>
 
       <Box sx={{ my: 1 }}>
-        <CsvUploadButton setGameData={setGameData} />
+        <CsvUploadButton setGameData={setGameData} setError={setError} />
 
         <Button
           variant="contained"
@@ -50,6 +75,9 @@ const GameCsvUploader: FC<Props> = () => {
           テンプレートを入手
         </Button>
       </Box>
+
+      {/* エラーメッセージ */}
+      {error && <CommonError>{error}</CommonError>}
 
       {/* アップロード完了後 */}
       {!!gameData.length && (
@@ -74,8 +102,17 @@ const GameCsvUploader: FC<Props> = () => {
             送信ボタンでボドゲが登録されます
           </Typography>
 
-          <Button variant="contained" color="secondary" sx={{ mt: 1 }}>
-            送信
+          <Button
+            variant="contained"
+            color="secondary"
+            sx={{ mt: 1, width: 80 }}
+            onClick={() => submit()}
+          >
+            {isReadyToSubmit ? (
+              "送信"
+            ) : (
+              <CircularProgress size={25} color="inherit" />
+            )}
           </Button>
         </Box>
       )}

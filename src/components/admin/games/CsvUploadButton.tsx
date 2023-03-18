@@ -6,11 +6,10 @@ import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 type Props = {
   setGameData: any;
+  setError: any;
 };
 
-const CsvUploadButton: FC<Props> = ({ setGameData }) => {
-  const [error, setError] = useState<null | string>(null);
-
+const CsvUploadButton: FC<Props> = ({ setGameData, setError }) => {
   //アップロードされたファイルをパースして親に渡す
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -43,6 +42,9 @@ const CsvUploadButton: FC<Props> = ({ setGameData }) => {
       };
 
       reader.readAsText(file);
+
+      //選択状況をリセット
+      event.target.value = "";
     }
   };
 
@@ -64,8 +66,6 @@ const CsvUploadButton: FC<Props> = ({ setGameData }) => {
           onChange={handleFileUpload}
         />
       </Button>
-
-      {error && <CommonError>{error}</CommonError>}
     </>
   );
 };

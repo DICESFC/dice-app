@@ -18,7 +18,7 @@ type Props = {
 ———————————–*/
 const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
   const { data, isError, isLoading } = useQuery("get-boardgame", () => {
-    return getBoardGame([where("name", "==", "カタン"), limit(3)]);
+    return getBoardGame([where("name", "!=", "test"), limit(400)]);
   });
 
   // ロード中,エラー時はそれに応じた表示
@@ -35,7 +35,7 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
   return (
     <Grid container sx={{ mt: 3 }} spacing={1}>
       {data.map((game: BoardGame) => (
-        <Grid item xs={6} sm={4} lg={3} key={game.code}>
+        <Grid item xs={6} sm={4} md={3} lg={2} key={game.code}>
           <BoardGameCard boardGame={game} />
         </Grid>
       ))}
