@@ -31,19 +31,25 @@ fs.createReadStream(__dirname + "/data.csv").pipe(
           const res = await axios.get(url);
           const game = res.data.games[0];
 
-          console.log(game.name);
+          console.log(targetRow[nameCol], game.name);
           result.push({
             name: targetRow[nameCol],
-            code: targetRow[codeCol],
             englishName: game.name,
-            thumbnail: game.image_url,
             minPlayers: game.min_players,
             maxPlayers: game.max_players,
             minPlayTime: game.min_playtime,
             maxPlayTime: game.max_playtime,
             rating: game.average_user_rating,
             ratingCount: game.num_user_ratings,
+            learningComplexity: game.average_learning_complexity,
+            strategyComplexity: game.average_strategy_complexity,
+            complexityVotes: game.num_user_complexity_votes,
             isExpansion: game.type === "expansion",
+            code: targetRow[codeCol],
+            atlasID: game.id,
+            atlasURL: game.url,
+            officialURL: game.official_url,
+            thumbnail: game.image_url,
           });
         } else {
           console.log("No data:", targetRow[nameCol]);

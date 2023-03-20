@@ -9,6 +9,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
 import { Box } from "@mui/material";
+import SnackbarProvider from "@/hooks/provider/SnackbarProvider";
 
 import "../api/init-firebase";
 import "../styles/globals.css";
@@ -32,18 +33,21 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
       </Head>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>
-          <Box
-            sx={{
-              display: "flex",
-              position: "relative",
-              width: "100%",
-              height: "100%",
-            }}
-          >
+          <SnackbarProvider>
             {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
             <CssBaseline />
-            {getLayout(<Component {...pageProps} />)}
-          </Box>
+            <Box
+              sx={{
+                display: "flex",
+                position: "relative",
+                width: "100%",
+                height: "100%",
+                overflow: "scroll",
+              }}
+            >
+              {getLayout(<Component {...pageProps} />)}
+            </Box>
+          </SnackbarProvider>
         </QueryClientProvider>
       </ThemeProvider>
     </CacheProvider>

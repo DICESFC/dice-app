@@ -1,6 +1,5 @@
 import { FC, ReactNode } from "react";
 import { Box, CircularProgress, Typography } from "@mui/material";
-import theme from "@/styles/theme";
 
 /*———————————–
   ロード中のサークル
@@ -25,7 +24,6 @@ const CommonLoading: FC<Props> = ({ children }) => {
       <CircularProgress
         sx={{
           m: 5,
-          color: theme.palette.orange.main,
         }}
       />
       {children && <Typography variant="body2">{children}</Typography>}

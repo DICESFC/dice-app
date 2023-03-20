@@ -12,6 +12,7 @@ const GoogleLoginButton = (props: ButtonBaseProps) => {
         alt="Sign in with Google"
         width="382"
         height="92"
+        priority
       />
     </ButtonBase>
   );

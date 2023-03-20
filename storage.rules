@@ -1,0 +1,22 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /{allPaths=**} {
+      //isMember, isAdminフラッグはfirestoreに保存
+      function isAdmin() {
+        return request.auth != null &&
+          firestore.exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
+          firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+      }
+
+      function isMember() {
+        return request.auth != null &&
+          firestore.exists(/databases/(default)/documents/users/$(request.auth.uid)) &&
+          firestore.get(/databases/(default)/documents/users/$(request.auth.uid)).data.isMember == true;
+      }
+
+      allow read: if isMember();
+      allow read, write: if isAdmin();
+    }
+  }
+}

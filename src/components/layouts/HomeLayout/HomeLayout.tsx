@@ -1,13 +1,11 @@
 import { useState, ReactNode, FC, useEffect } from "react";
 import { useRouter } from "next/router";
-import { Box, Card, BottomNavigation } from "@mui/material";
-
-import BottomMenuAction from "./BottomMenuAction";
-
+import { Box, BottomNavigation, Card } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CasinoOutlinedIcon from "@mui/icons-material/CasinoOutlined";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
-import theme from "@/styles/theme";
+
+import BottomMenuAction from "./BottomMenuAction";
 
 type Props = {
   children: ReactNode;
@@ -91,11 +89,17 @@ const HomeLayout: FC<Props> = ({ children }) => {
         sx={{
           width: "100%",
           height: "100%",
-          marginBottom: `${NAVIGATION_MARGIN * 2 + NAVIGATION_HEIGHT}px`,
-          backgroundColor: theme.palette.baseBackground.main,
+          overflow: "scroll",
+          backgroundColor: "baseBackground.main",
         }}
       >
-        <main>{children}</main>
+        <Box
+          style={{
+            paddingBottom: `${NAVIGATION_MARGIN * 1.5 + NAVIGATION_HEIGHT}px`,
+          }}
+        >
+          <main>{children}</main>
+        </Box>
       </Box>
 
       {/* ナビゲーション本体 */}

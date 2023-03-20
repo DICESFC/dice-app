@@ -5,16 +5,20 @@ import { red } from "@mui/material/colors";
 //Styles型の拡張
 declare module "@mui/material/styles" {
   interface Palette {
-    orange: {
+    admin: {
       main: string;
+      light: string;
+      dark: string;
     };
     baseBackground: {
       main: string;
     };
   }
   interface PaletteOptions {
-    orange?: {
-      main?: string;
+    admin: {
+      main: string;
+      light: string;
+      dark: string;
     };
     baseBackground: {
       main?: string;
@@ -33,19 +37,25 @@ export const roboto = Roboto({
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#556cd6",
+      main: "#EA5617",
+      dark: "#a33c10",
+      light: "#ee7745",
+    },
+    admin: {
+      main: "#1976d2",
+      dark: "#1565c0",
+      light: "#42a5f5",
     },
     secondary: {
-      main: "#19857b",
+      dark: "#1769aa",
+      main: "#2196f3",
+      light: "#4dabf5",
     },
     error: {
       main: red.A400,
     },
     baseBackground: {
-      main: "#F1F1F1",
-    },
-    orange: {
-      main: "#EA5617",
+      main: "#FaFaFa",
     },
   },
   typography: {
