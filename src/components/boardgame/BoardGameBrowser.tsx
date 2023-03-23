@@ -1,5 +1,7 @@
 import { FC } from "react";
 import { Grid } from "@mui/material";
+//mui試験的機能のMasonryを使用してるので注意
+import Masonry from "@mui/lab/Masonry";
 import { BoardGame } from "@/interfaces/boardgame";
 import { getBoardGame } from "@/api/games/functions";
 import { useQuery } from "react-query";
@@ -7,7 +9,7 @@ import { useQuery } from "react-query";
 import BoardGameCard from "@/components/boardgame/BoardGameCard";
 import CommonError from "@/components/common/CommonError";
 import CommonLoading from "@/components/common/CommonLoading";
-import { limit, where } from "firebase/firestore";
+import { limit, where, orderBy } from "firebase/firestore";
 
 type Props = {
   allowBorrow?: boolean;
@@ -18,7 +20,7 @@ type Props = {
 ———————————–*/
 const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
   const { data, isError, isLoading } = useQuery("get-boardgame", () => {
-    return getBoardGame([where("name", "!=", "test"), limit(400)]);
+    return getBoardGame([orderBy("ratingCount", "desc"), limit(30)]);
   });
 
   // ロード中,エラー時はそれに応じた表示
@@ -33,13 +35,11 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
     );
 
   return (
-    <Grid container sx={{ mt: 3 }} spacing={1}>
+    <Masonry columns={{ xs: 2, sm: 3, md: 4, lg: 5 }} spacing={1}>
       {data.map((game: BoardGame) => (
-        <Grid item xs={6} sm={4} md={3} lg={2} key={game.code}>
-          <BoardGameCard boardGame={game} />
-        </Grid>
+        <BoardGameCard boardGame={game} key={game.code} />
       ))}
-    </Grid>
+    </Masonry>
   );
 };
 

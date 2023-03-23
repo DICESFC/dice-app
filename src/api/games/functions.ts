@@ -20,6 +20,7 @@ const gamesCollectionRef = collection(db, "games");
 const excludeThumbnailURLs: string[] = [
   "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box.jpg",
 ];
+
 export const createBoardGame = async (data: BoardGame) => {
   console.log("create boardgame:", data.name, data.code);
   try {
