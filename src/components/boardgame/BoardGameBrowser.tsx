@@ -1,45 +1,115 @@
-import { FC } from "react";
-import { Grid } from "@mui/material";
+import { FC, useEffect, useState, useRef } from "react";
+import { Box, Container, SxProps } from "@mui/system";
 import { BoardGame } from "@/interfaces/boardgame";
-import { getBoardGame } from "@/api/games/functions";
-import { useQuery } from "react-query";
+
+import { getBoardGameSnapshot } from "@/api/games/functions";
+import {
+  where,
+  orderBy,
+  endAt,
+  limit,
+  startAfter,
+  DocumentData,
+} from "firebase/firestore";
+import { useInfiniteScroller } from "@/hooks/useInfiniteScroller";
 
 import BoardGameCard from "@/components/boardgame/BoardGameCard";
-import CommonError from "@/components/common/CommonError";
 import CommonLoading from "@/components/common/CommonLoading";
-import { limit, where } from "firebase/firestore";
+import { Grid, Typography } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
+import { useSnackbar } from "@/hooks/useSnackbar";
+import CommonError from "../common/CommonError";
 
 type Props = {
   allowBorrow?: boolean;
+  sx?: SxProps;
 };
 
 /*———————————–
   ボドゲリスト本体
 ———————————–*/
-const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
-  const { data, isError, isLoading } = useQuery("get-boardgame", () => {
-    return getBoardGame([where("name", "!=", "test"), limit(400)]);
-  });
+const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
+  //一度に何件取得するか
+  const DATA_FETCH_AMOUNT = 20;
+  const LOAD_BUFFER_HEIGHT = 500;
 
-  // ロード中,エラー時はそれに応じた表示
-  if (isLoading)
-    return <CommonLoading>ゲーム情報を読み込み中...</CommonLoading>;
+  const [lastDoc, setLastDoc] = useState<DocumentData | null>(null);
 
-  if (isError || !data)
-    return (
-      <CommonError>
-        データの読み込み中にエラーが発生しました。権限が無いか、APIが使用回数上限に達している可能性があります。
-      </CommonError>
-    );
+  //ページに応じて適切な情報を抜き出す
+  const fetch = async (page: number): Promise<BoardGame[]> => {
+    const gameSnapShot = await getBoardGameSnapshot([
+      orderBy("ratingCount", "desc"),
+      ...(lastDoc ? [startAfter(lastDoc)] : []), //条件付き追加。雑。
+      limit(DATA_FETCH_AMOUNT),
+    ]);
+
+    setLastDoc(gameSnapShot.docs[gameSnapShot.docs.length - 1]);
+
+    const newData: BoardGame[] = gameSnapShot.docs.map((doc) =>
+      doc.data()
+    ) as BoardGame[];
+    return newData;
+  };
+
+  const loadMoreLineRef = useRef(null);
+  const { data, hasMore, isError } = useInfiniteScroller<BoardGame>(
+    loadMoreLineRef,
+    fetch
+  );
 
   return (
-    <Grid container sx={{ mt: 3 }} spacing={1}>
-      {data.map((game: BoardGame) => (
-        <Grid item xs={6} sm={4} md={3} lg={2} key={game.code}>
-          <BoardGameCard boardGame={game} />
+    <Box
+      sx={{
+        position: "relative",
+        minHeight: 1,
+        ...sx,
+      }}
+    >
+      {/* ボドゲリスト本体 */}
+      <Container maxWidth="lg" sx={{}}>
+        <Grid container spacing={1} sx={{ mt: 0.5 }}>
+          {data.map((game: BoardGame) => (
+            <Grid item xs={6} sm={4} md={3} lg={2} key={game.code}>
+              <BoardGameCard boardGame={game} />
+            </Grid>
+          ))}
         </Grid>
-      ))}
-    </Grid>
+      </Container>
+
+      {isError ? (
+        <CommonError>
+          データロード中にエラーが発生しました。
+          <br />
+          再読み込みが必要です。
+        </CommonError>
+      ) : hasMore ? (
+        <Box sx={{ my: 1 }}>
+          <CommonLoading />
+        </Box>
+      ) : (
+        <Box sx={{ mt: 5, mb: 1, textAlign: "center" }}>
+          <DoneIcon color="success" fontSize="large" />
+          <Typography variant="h6" sx={{ mb: 4 }}>
+            全て表示しました🙌
+          </Typography>
+
+          <Typography variant="body2">
+            お探しのゲームがありませんか？
+            <br />
+            購入希望を出してボドゲを増やしましょう！
+          </Typography>
+        </Box>
+      )}
+      {/* ロード検知用ボックス。これが画面に入ると追加でコンテンツ取得 */}
+      <Box
+        ref={loadMoreLineRef}
+        sx={{
+          position: "absolute",
+          bottom: `${LOAD_BUFFER_HEIGHT}px`,
+          height: `${LOAD_BUFFER_HEIGHT}px`,
+        }}
+      />
+    </Box>
   );
 };
 

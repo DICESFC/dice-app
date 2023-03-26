@@ -17,6 +17,11 @@ type Navigation = {
   icon?: ReactNode;
 };
 
+const NAVIGATION_MARGIN = 20;
+const NAVIGATION_HEIGHT = 50;
+export const navigationPadding: number =
+  NAVIGATION_MARGIN * 1.5 + NAVIGATION_HEIGHT;
+
 /*———————————–
   下部にナビゲーションが表示されるレイアウト(Homeなど)
 ———————————–*/
@@ -41,8 +46,6 @@ const HomeLayout: FC<Props> = ({ children }) => {
       icon: <CasinoOutlinedIcon />,
     },
   ];
-  const NAVIGATION_MARGIN = 20;
-  const NAVIGATION_HEIGHT = 50;
 
   //メニューがタップされたら画面遷移
   const onSelectMenu = (menuID: number): void => {
@@ -89,13 +92,13 @@ const HomeLayout: FC<Props> = ({ children }) => {
         sx={{
           width: "100%",
           height: "100%",
-          overflow: "scroll",
           backgroundColor: "baseBackground.main",
         }}
       >
         <Box
           style={{
-            paddingBottom: `${NAVIGATION_MARGIN * 1.5 + NAVIGATION_HEIGHT}px`,
+            paddingBottom: `${navigationPadding}px`,
+            height: `calc(100% - ${navigationPadding}px)`,
           }}
         >
           <main>{children}</main>

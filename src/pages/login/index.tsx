@@ -65,7 +65,7 @@ const Login: NextPageWithLayout = () => {
         <CommonError title="認証エラー">
           Google認証に失敗しました。
           <br />
-          keio.jpアカウントでログインし直してみてください。
+          keio.jpアカウントで再ログインしてみて下さい。
         </CommonError>
       )}
 

@@ -1,18 +1,15 @@
 import { NextPageWithLayout } from "@/interfaces/common";
-import { Container } from "@mui/material";
 import BoardGameBrowser from "@/components/boardgame/BoardGameBrowser";
-import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
+import HomeLayout, {
+  navigationPadding,
+} from "@/components/layouts/HomeLayout/HomeLayout";
 import Auth from "@/components/auth/Auth";
 
 /*———————————–
   ボドゲ一覧画面
 ———————————–*/
 const Games: NextPageWithLayout = () => {
-  return (
-    <Container maxWidth="lg">
-      <BoardGameBrowser allowBorrow />
-    </Container>
-  );
+  return <BoardGameBrowser allowBorrow sx={{ pb: `${navigationPadding}px` }} />;
 };
 
 Games.getLayout = (page) => {

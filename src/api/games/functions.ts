@@ -5,6 +5,7 @@ import {
   addDoc,
   query,
   QueryConstraint,
+  QuerySnapshot,
 } from "firebase/firestore";
 import type { BoardGame } from "../../interfaces/boardgame";
 import { uploadImage } from "../storage/functions";
@@ -20,6 +21,7 @@ const gamesCollectionRef = collection(db, "games");
 const excludeThumbnailURLs: string[] = [
   "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box.jpg",
 ];
+
 export const createBoardGame = async (data: BoardGame) => {
   console.log("create boardgame:", data.name, data.code);
   try {
@@ -52,18 +54,33 @@ export const createBoardGame = async (data: BoardGame) => {
 };
 
 //===================
-//* ボドゲ取得
+//* ボドゲのSnapshotを取得。ボドゲブラウザーとかで使う
 //* queryの条件, またはその配列を受け取る
 //===================
-export const getBoardGame = async (
+export const getBoardGameSnapshot = async (
   queryData: QueryConstraint[] | QueryConstraint
-) => {
+): Promise<QuerySnapshot> => {
   try {
     //クエリを配列に変換
-    const queryArray = Array.isArray(queryData) ? [...queryData] : [queryData];
+    const queryArray = Array.isArray(queryData) ? queryData : [queryData];
 
     const q = query(gamesCollectionRef, ...queryArray);
     const querySnapshot = await getDocs(q);
+    return querySnapshot;
+  } catch (e) {
+    throw new Error(`${e}`);
+  }
+};
+
+//===================
+//* ボドゲ取得
+//* queryの条件, またはその配列を受け取る
+//===================
+export const getBoardGameData = async (
+  queryData: QueryConstraint[] | QueryConstraint
+) => {
+  try {
+    const querySnapshot = await getBoardGameSnapshot(queryData);
     return querySnapshot.docs.map((doc) => doc.data() as BoardGame);
   } catch (e) {
     throw new Error(`${e}`);
