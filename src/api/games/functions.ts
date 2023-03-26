@@ -7,8 +7,9 @@ import {
   QueryConstraint,
   QuerySnapshot,
 } from "firebase/firestore";
-import type { BoardGame } from "../../interfaces/boardgame";
+import type { BoardGame, BoardGameAddQuery } from "../../interfaces/boardgame";
 import { uploadImage } from "../storage/functions";
+import { generateBoardGameID } from "./utils";
 
 const db = getFirestore();
 const gamesCollectionRef = collection(db, "games");
@@ -22,11 +23,12 @@ const excludeThumbnailURLs: string[] = [
   "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box.jpg",
 ];
 
-export const createBoardGame = async (data: BoardGame) => {
+export const createBoardGame = async (data: BoardGameAddQuery) => {
   console.log("create boardgame:", data.name, data.code);
   try {
     const gameData: BoardGame = {
       ...data,
+      id: await generateBoardGameID(data.id),
       thumbnail: "",
       condition: "Unknown",
       isBorrowedNow: false,
