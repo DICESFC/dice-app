@@ -1,5 +1,5 @@
 import { FC, ReactNode } from "react";
-import { Box, CircularProgress, Typography } from "@mui/material";
+import { Box, CircularProgress, SxProps, Typography } from "@mui/material";
 
 /*———————————–
   ロード中のサークル
@@ -7,9 +7,10 @@ import { Box, CircularProgress, Typography } from "@mui/material";
 
 type Props = {
   children?: ReactNode;
+  sx?: SxProps;
 };
 
-const CommonLoading: FC<Props> = ({ children }) => {
+const CommonLoading: FC<Props> = ({ children, sx }) => {
   return (
     <Box
       sx={{
@@ -19,6 +20,7 @@ const CommonLoading: FC<Props> = ({ children }) => {
         alignItems: "center",
         flexDirection: "column",
         justifyContent: "center",
+        ...sx,
       }}
     >
       <CircularProgress

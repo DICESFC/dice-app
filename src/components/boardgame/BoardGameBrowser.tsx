@@ -1,111 +1,95 @@
 import { FC, useEffect, useState, useRef } from "react";
-import { useQuery } from "react-query";
-//mui試験的機能のMasonryを使用してるので注意
-import Masonry from "@mui/lab/Masonry";
-import InfiniteScroll from "react-infinite-scroller";
-
+import { Box, Container, SxProps } from "@mui/system";
 import { BoardGame } from "@/interfaces/boardgame";
+
 import { getBoardGame } from "@/api/games/functions";
+import { where, orderBy, startAt, endAt } from "firebase/firestore";
+import { useInfiniteScroller } from "@/hooks/useInfiniteScroller";
 
 import BoardGameCard from "@/components/boardgame/BoardGameCard";
-import CommonError from "@/components/common/CommonError";
 import CommonLoading from "@/components/common/CommonLoading";
-import { limit, where, orderBy, startAt } from "firebase/firestore";
-import { Box } from "@mui/system";
+import { Grid, Typography } from "@mui/material";
+import DoneIcon from "@mui/icons-material/Done";
 
 type Props = {
   allowBorrow?: boolean;
+  sx?: SxProps;
 };
 
 /*———————————–
   ボドゲリスト本体
-  react-infinite-scrollerライブラリを使ってるけど後々変えたい
 ———————————–*/
-const BoardGameBrowser: FC<Props> = ({ allowBorrow }) => {
+const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
   //一度に何件取得するか
   const DATA_FETCH_AMOUNT = 20;
-
-  const [data, setData] = useState<BoardGame[]>([]);
-  const [hasMore, setHasMore] = useState<boolean>(true);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
-
-  const scrollerRef = useRef(null);
+  //
+  const LOAD_BUFFER_HEIGHT = 500;
 
   //ページに応じて適切な情報を抜き出す
-  const loadPage = async (page: number): Promise<BoardGame[]> => {
-    try {
-      setIsFetching(true);
-      /*
-      const newData: BoardGame[] = await getBoardGame([
-        orderBy("ratingCount", "desc"),
-        startAt(page * DATA_FETCH_AMOUNT),
-        limit(DATA_FETCH_AMOUNT),
-      ]);
-      */
-
-      const newData: BoardGame[] = [];
-
-      for (let i = 0; i < DATA_FETCH_AMOUNT; i++) {
-        newData.push({
-          name: `ボドゲ${page}-${i + 1}`,
-          code: `${Math.random()}`,
-        });
-      }
-
-      await new Promise((r) => setTimeout(r, 10));
-
-      return newData;
-    } finally {
-      setIsFetching(false);
-    }
+  const fetch = async (page: number): Promise<BoardGame[]> => {
+    console.log(
+      page * DATA_FETCH_AMOUNT,
+      page * DATA_FETCH_AMOUNT + DATA_FETCH_AMOUNT
+    );
+    const newData: BoardGame[] = await getBoardGame([
+      where("isExpansion", "==", true),
+    ]);
+    return newData;
   };
 
-  //loadMoreが2回呼び出されてしまうのでクロージャ変数を使って止めてる。
-  //あんまりいい実装じゃないので変えたい
-  const getLoadHandler = () => {
-    let isHandlerCalled = false;
-
-    //追加のデータを読み込む関数
-    return async (page: number) => {
-      if (isFetching || isHandlerCalled) return;
-      isHandlerCalled = true;
-
-      console.log(page);
-
-      //新しいデータを取得
-      const newData = await loadPage(page);
-
-      if (newData.length === 0) {
-        // 取得したデータがない場合は取得を停止する
-        setHasMore(false);
-        return;
-      }
-
-      // 新しいデータを古いデータに追加する
-      setData((prevData) => [...prevData, ...newData]);
-    };
-  };
+  const loadMoreLineRef = useRef(null);
+  const { data, hasMore } = useInfiniteScroller<BoardGame>(
+    loadMoreLineRef,
+    fetch
+  );
 
   return (
-    <Box sx={{ overflow: "scroll", height: "100vh" }} ref={scrollerRef}>
-      <InfiniteScroll
-        initialLoad
-        pageStart={0}
-        loadMore={getLoadHandler()}
-        hasMore={hasMore}
-        loader={
-          <CommonLoading key={0}>データを読み込み中です...</CommonLoading>
-        }
-        useWindow={false}
-        threshold={700}
-        getScrollParent={() => null}
-      >
-        <Masonry columns={{ xs: 2, sm: 3, md: 4, lg: 5 }} spacing={1}>
+    <Box
+      sx={{
+        position: "relative",
+        minHeight: 1,
+        ...sx,
+      }}
+    >
+      {/* ボドゲリスト本体 */}
+      <Container maxWidth="lg" sx={{}}>
+        <Grid container spacing={1} sx={{ mt: 0.5 }}>
           {data.map((game: BoardGame) => (
-            <BoardGameCard boardGame={game} key={game.code} />
+            <Grid item xs={6} sm={4} md={3} lg={2} key={game.code}>
+              <BoardGameCard boardGame={game} />
+            </Grid>
           ))}
-        </Masonry>
-      </InfiniteScroll>
+        </Grid>
+      </Container>
+
+      {hasMore ? (
+        <Box sx={{ my: 1 }}>
+          <CommonLoading />
+        </Box>
+      ) : (
+        <Box sx={{ mt: 5, mb: 1, textAlign: "center" }}>
+          <DoneIcon color="success" fontSize="large" />
+          <Typography variant="h6" sx={{ mb: 4 }}>
+            全て表示しました🙌
+          </Typography>
+
+          <Typography variant="body2">
+            お探しのゲームがありませんか？
+            <br />
+            購入希望を出してボドゲを増やしましょう！
+          </Typography>
+        </Box>
+      )}
+
+      {/* ロード検知用ボックス。これが画面に入ると追加でコンテンツ取得 */}
+      <Box
+        ref={loadMoreLineRef}
+        sx={{
+          position: "absolute",
+          bottom: `${LOAD_BUFFER_HEIGHT}px`,
+          height: `${LOAD_BUFFER_HEIGHT}px`,
+        }}
+      />
     </Box>
   );
 };

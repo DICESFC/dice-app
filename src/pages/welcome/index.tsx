@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "@/interfaces/common";
-import { Container } from "@mui/material";
+import { Box } from "@mui/material";
 import BoardGameBrowser from "@/components/boardgame/BoardGameBrowser";
 
 /*———————————–
@@ -7,9 +7,13 @@ import BoardGameBrowser from "@/components/boardgame/BoardGameBrowser";
 ———————————–*/
 const Games: NextPageWithLayout = () => {
   return (
-    <Container maxWidth="lg">
-      <BoardGameBrowser allowBorrow />
-    </Container>
+    <Box
+      style={{
+        height: "100vh",
+      }}
+    >
+      <BoardGameBrowser />
+    </Box>
   );
 };
 

@@ -7,7 +7,6 @@ import { Box } from "@mui/system";
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
-import CloseIcon from "@mui/icons-material/Close";
 
 import styled from "@emotion/styled";
 
@@ -44,6 +43,7 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
         />
       </Box>
 
+      {/* ボドゲ名 */}
       <Typography
         variant="body1"
         sx={{

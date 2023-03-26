@@ -10,6 +10,8 @@ export const useInfiniteScroller = <T>(
   const [data, setData] = useState<T[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
+  //空配列などが帰ってきたらロードを止めるためのやつ
+  const [hasMore, setHasMore] = useState<boolean>(true);
 
   //ページは0から始まる
   const [page, setPage] = useState(0);
@@ -18,10 +20,18 @@ export const useInfiniteScroller = <T>(
     () =>
       new IntersectionObserver((entries) => {
         entries.forEach(async (entry) => {
-          if (entry.isIntersecting) {
+          //オブザーブ対象の要素が画面に入った時
+          if (entry.isIntersecting && !isLoading && hasMore) {
             try {
               setIsLoading(true);
+
+              //読み込み対象が無い時
               const newData = await fetch(page);
+              if (!newData.length) {
+                setHasMore(false);
+                return;
+              }
+
               setPage(page + 1);
               setData((oldData) => [...oldData, ...newData]);
             } catch (e) {
@@ -47,5 +57,5 @@ export const useInfiniteScroller = <T>(
     }
   }, [scrollObserver, ref]);
 
-  return { data, isLoading, isError };
+  return { data, isLoading, isError, hasMore };
 };
