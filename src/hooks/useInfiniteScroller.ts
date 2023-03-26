@@ -37,6 +37,7 @@ export const useInfiniteScroller = <T>(
             } catch (e) {
               console.error(e);
               setIsError(true);
+              setHasMore(false);
             } finally {
               setIsLoading(false);
             }

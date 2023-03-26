@@ -2,14 +2,23 @@ import { FC, useEffect, useState, useRef } from "react";
 import { Box, Container, SxProps } from "@mui/system";
 import { BoardGame } from "@/interfaces/boardgame";
 
-import { getBoardGame } from "@/api/games/functions";
-import { where, orderBy, startAt, endAt } from "firebase/firestore";
+import { getBoardGameSnapshot } from "@/api/games/functions";
+import {
+  where,
+  orderBy,
+  endAt,
+  limit,
+  startAfter,
+  DocumentData,
+} from "firebase/firestore";
 import { useInfiniteScroller } from "@/hooks/useInfiniteScroller";
 
 import BoardGameCard from "@/components/boardgame/BoardGameCard";
 import CommonLoading from "@/components/common/CommonLoading";
 import { Grid, Typography } from "@mui/material";
 import DoneIcon from "@mui/icons-material/Done";
+import { useSnackbar } from "@/hooks/useSnackbar";
+import CommonError from "../common/CommonError";
 
 type Props = {
   allowBorrow?: boolean;
@@ -22,23 +31,28 @@ type Props = {
 const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
   //一度に何件取得するか
   const DATA_FETCH_AMOUNT = 20;
-  //
   const LOAD_BUFFER_HEIGHT = 500;
+
+  const [lastDoc, setLastDoc] = useState<DocumentData | null>(null);
 
   //ページに応じて適切な情報を抜き出す
   const fetch = async (page: number): Promise<BoardGame[]> => {
-    console.log(
-      page * DATA_FETCH_AMOUNT,
-      page * DATA_FETCH_AMOUNT + DATA_FETCH_AMOUNT
-    );
-    const newData: BoardGame[] = await getBoardGame([
-      where("isExpansion", "==", true),
+    const gameSnapShot = await getBoardGameSnapshot([
+      orderBy("ratingCount", "desc"),
+      ...(lastDoc ? [startAfter(lastDoc)] : []), //条件付き追加。雑。
+      limit(DATA_FETCH_AMOUNT),
     ]);
+
+    setLastDoc(gameSnapShot.docs[gameSnapShot.docs.length - 1]);
+
+    const newData: BoardGame[] = gameSnapShot.docs.map((doc) =>
+      doc.data()
+    ) as BoardGame[];
     return newData;
   };
 
   const loadMoreLineRef = useRef(null);
-  const { data, hasMore } = useInfiniteScroller<BoardGame>(
+  const { data, hasMore, isError } = useInfiniteScroller<BoardGame>(
     loadMoreLineRef,
     fetch
   );
@@ -62,7 +76,13 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
         </Grid>
       </Container>
 
-      {hasMore ? (
+      {isError ? (
+        <CommonError>
+          データロード中にエラーが発生しました。
+          <br />
+          再読み込みが必要です。
+        </CommonError>
+      ) : hasMore ? (
         <Box sx={{ my: 1 }}>
           <CommonLoading />
         </Box>
@@ -80,7 +100,6 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
           </Typography>
         </Box>
       )}
-
       {/* ロード検知用ボックス。これが画面に入ると追加でコンテンツ取得 */}
       <Box
         ref={loadMoreLineRef}
