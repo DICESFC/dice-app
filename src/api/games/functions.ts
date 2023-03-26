@@ -61,7 +61,7 @@ export const getBoardGame = async (
 ) => {
   try {
     //クエリを配列に変換
-    const queryArray = Array.isArray(queryData) ? [...queryData] : [queryData];
+    const queryArray = Array.isArray(queryData) ? queryData : [queryData];
 
     const q = query(gamesCollectionRef, ...queryArray);
     const querySnapshot = await getDocs(q);

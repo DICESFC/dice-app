@@ -3,9 +3,12 @@ import { Card, Typography } from "@mui/material";
 import { BoardGame } from "@/interfaces/boardgame";
 import Image from "../common/Image";
 import { Box } from "@mui/system";
+
 import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
+import CloseIcon from "@mui/icons-material/Close";
+
 import styled from "@emotion/styled";
 
 const GameOverviewText = styled(Typography)({
@@ -21,6 +24,9 @@ type Props = {
   ボドゲ一覧のカード
 ———————————–*/
 const BoardGameCard: FC<Props> = ({ boardGame }) => {
+  const canBorrow =
+    boardGame.isBorrowedNow === false && !boardGame.prohibitBorrow;
+
   return (
     <Card elevation={3} sx={{ p: 1 }}>
       {/* サムネイル */}
@@ -28,8 +34,8 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
         <Image
           src={boardGame.thumbnail || "/resources/logo/dicelogo.png"}
           alt={boardGame.name}
-          width="500"
-          height="500"
+          width="300"
+          height="300"
           style={{
             objectFit: "contain",
             width: "100%",
@@ -47,8 +53,10 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
           overflow: "hidden",
           textOverflow: "ellipsis",
           display: "-webkit-box",
-          "-webkit-line-clamp": 2,
-          "-webkit-box-orient": "vertical",
+
+          //非推奨説あり？
+          WebkitLineClamp: 2,
+          WebkitBoxOrient: "vertical",
           lineHeight: "1.2",
           maxHeight: "2.4rem",
         }}
@@ -66,10 +74,19 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
       >
         <GameOverviewText
           variant="caption"
-          sx={{ color: "success.main", fontWeight: 700 }}
+          sx={{
+            color: canBorrow ? "success.main" : "warning.main",
+            fontWeight: 700,
+          }}
         >
-          <CheckOutlinedIcon fontSize="inherit" />
-          貸出可
+          {canBorrow ? (
+            <>
+              <CheckOutlinedIcon fontSize="inherit" />
+              貸出可
+            </>
+          ) : (
+            <>貸出不可</>
+          )}
         </GameOverviewText>
 
         <GameOverviewText variant="caption">

@@ -89,13 +89,15 @@ const HomeLayout: FC<Props> = ({ children }) => {
         sx={{
           width: "100%",
           height: "100%",
-          overflow: "scroll",
           backgroundColor: "baseBackground.main",
         }}
       >
         <Box
           style={{
             paddingBottom: `${NAVIGATION_MARGIN * 1.5 + NAVIGATION_HEIGHT}px`,
+            height: `calc(100% - ${
+              NAVIGATION_MARGIN * 1.5 + NAVIGATION_HEIGHT
+            }px)`,
           }}
         >
           <main>{children}</main>
