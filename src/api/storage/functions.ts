@@ -7,7 +7,7 @@ import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 export const uploadImage = async (
   url: string,
   gameName: string
-): Promise<string> => {
+): Promise<string | undefined> => {
   try {
     const storage = getStorage();
 
@@ -26,6 +26,7 @@ export const uploadImage = async (
     const downloadUrl = await getDownloadURL(storageRef);
     return downloadUrl;
   } catch (e) {
-    throw new Error(`${e}`);
+    console.error(e);
+    return undefined;
   }
 };

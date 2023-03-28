@@ -3,6 +3,7 @@ export type BoardGame = {
 
   name: string;
   code: string;
+  id: string;
   isBorrowedNow?: boolean;
   prohibitBorrow?: boolean;
 
@@ -30,4 +31,9 @@ export type BoardGame = {
   atlasURL?: string;
   //追加日
   createdAt?: number;
+};
+
+//ボドゲ追加時の情報
+export type BoardGameAddQuery = BoardGame & {
+  id?: string;
 };

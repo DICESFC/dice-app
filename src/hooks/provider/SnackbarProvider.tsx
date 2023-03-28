@@ -17,6 +17,11 @@ const SnackbarProvider = ({ children }: Props) => {
     message: string,
     severity: "success" | "error" | "warning" | "info" = "success"
   ) => {
+    //エラーならログにも出力する
+    if (severity === "error") {
+      console.error(message);
+    }
+
     setMessage(message);
     setSeverity(severity);
     setOpen(true);

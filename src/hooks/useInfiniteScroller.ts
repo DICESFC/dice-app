@@ -44,7 +44,7 @@ export const useInfiniteScroller = <T>(
           }
         });
       }),
-    [page, fetch]
+    [page, fetch, hasMore, isLoading]
   );
 
   useEffect(() => {

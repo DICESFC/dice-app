@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, Typography } from "@mui/material";
+import { ButtonBase, Card, Typography } from "@mui/material";
 import { BoardGame } from "@/interfaces/boardgame";
 import Image from "../common/Image";
 import { Box } from "@mui/system";
@@ -9,6 +9,8 @@ import CheckOutlinedIcon from "@mui/icons-material/CheckOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 import styled from "@emotion/styled";
+import { useRouter } from "next/router";
+import { useSnackbar } from "@/hooks/useSnackbar";
 
 const GameOverviewText = styled(Typography)({
   display: "inline-flex",
@@ -23,18 +25,26 @@ type Props = {
   ボドゲ一覧のカード
 ———————————–*/
 const BoardGameCard: FC<Props> = ({ boardGame }) => {
+  const router = useRouter();
+  const { openSnackbar } = useSnackbar();
+
   const canBorrow =
     boardGame.isBorrowedNow === false && !boardGame.prohibitBorrow;
 
+  const onClick = () => {
+    //router.push(`games/${boardGame.id}`);
+    openSnackbar(`ボドゲ詳細画面は現在制作中です。お楽しみに！`, "info");
+  };
+
   return (
-    <Card elevation={3} sx={{ p: 1 }}>
+    <Card elevation={3} sx={{ p: 1 }} onClick={() => onClick()}>
       {/* サムネイル */}
       <Box>
         <Image
           src={boardGame.thumbnail || "/resources/logo/dicelogo.png"}
           alt={boardGame.name}
-          width="300"
-          height="300"
+          width="200"
+          height="200"
           style={{
             objectFit: "contain",
             width: "100%",
@@ -53,10 +63,6 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
           overflow: "hidden",
           textOverflow: "ellipsis",
           display: "-webkit-box",
-
-          //非推奨説あり？
-          WebkitLineClamp: 2,
-          WebkitBoxOrient: "vertical",
           lineHeight: "1.2",
           maxHeight: "2.4rem",
         }}
@@ -68,7 +74,7 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          mx: 1,
+          mx: 0.5,
           mt: 0.3,
         }}
       >
@@ -98,6 +104,16 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
           <PersonOutlineOutlinedIcon fontSize="inherit" />
           {boardGame.minPlayers}-{boardGame.maxPlayers}
         </GameOverviewText>
+
+        {/*        
+        <GameOverviewText variant="caption">
+          {boardGame.isExpansion === true
+            ? "拡張"
+            : boardGame.isExpansion === false
+            ? "本体"
+            : "不明"}
+        </GameOverviewText>
+        */}
       </Box>
     </Card>
   );
