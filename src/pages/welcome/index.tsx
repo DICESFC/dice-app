@@ -10,6 +10,7 @@ const Games: NextPageWithLayout = () => {
     <Box
       style={{
         height: "100vh",
+        width: "100%",
       }}
     >
       <BoardGameBrowser />

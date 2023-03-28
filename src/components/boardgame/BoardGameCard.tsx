@@ -10,6 +10,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 
 import styled from "@emotion/styled";
 import { useRouter } from "next/router";
+import { useSnackbar } from "@/hooks/useSnackbar";
 
 const GameOverviewText = styled(Typography)({
   display: "inline-flex",
@@ -25,12 +26,14 @@ type Props = {
 ———————————–*/
 const BoardGameCard: FC<Props> = ({ boardGame }) => {
   const router = useRouter();
+  const { openSnackbar } = useSnackbar();
 
   const canBorrow =
     boardGame.isBorrowedNow === false && !boardGame.prohibitBorrow;
 
   const onClick = () => {
-    router.push(`games/${boardGame.id}`);
+    //router.push(`games/${boardGame.id}`);
+    openSnackbar(`ボドゲ詳細画面は現在制作中です。お楽しみに！`, "info");
   };
 
   return (
@@ -40,8 +43,8 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
         <Image
           src={boardGame.thumbnail || "/resources/logo/dicelogo.png"}
           alt={boardGame.name}
-          width="300"
-          height="300"
+          width="200"
+          height="200"
           style={{
             objectFit: "contain",
             width: "100%",
@@ -61,7 +64,7 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
           textOverflow: "ellipsis",
           display: "-webkit-box",
           lineHeight: "1.2",
-          height: "2.4rem",
+          maxHeight: "2.4rem",
         }}
       >
         {boardGame.name}

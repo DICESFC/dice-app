@@ -84,7 +84,7 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
         </CommonError>
       ) : hasMore ? (
         <Box sx={{ my: 1 }}>
-          <CommonLoading />
+          <CommonLoading>データを読み込み中...</CommonLoading>
         </Box>
       ) : (
         <Box sx={{ mt: 5, mb: 1, textAlign: "center" }}>
