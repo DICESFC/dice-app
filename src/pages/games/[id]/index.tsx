@@ -9,6 +9,8 @@ import { getBoardGameData } from "@/api/games/functions";
 import { where } from "firebase/firestore";
 import CommonLoading from "@/components/common/CommonLoading";
 import { useSnackbar } from "@/hooks/useSnackbar";
+import BoardGameDetail from "@/components/boardgame/BoardGameDetail";
+import Head from "next/head";
 
 /*———————————–
   ボドゲ詳細画面
@@ -41,7 +43,16 @@ const Games: NextPageWithLayout = () => {
 
   const gameData = data[0];
 
-  return <Box>{`${gameData.name}`}</Box>;
+  return (
+    <>
+      <Head>
+        <title>ボドゲ詳細 - {gameData.name}</title>
+      </Head>
+      <Box>
+        <BoardGameDetail game={gameData} />
+      </Box>
+    </>
+  );
 };
 
 Games.getLayout = (page) => {

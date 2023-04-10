@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { ButtonBase, Card, Typography } from "@mui/material";
+import { Card, Typography } from "@mui/material";
 import { BoardGame } from "@/interfaces/boardgame";
 import Image from "../common/Image";
 import { Box } from "@mui/system";
@@ -19,12 +19,13 @@ const GameOverviewText = styled(Typography)({
 
 type Props = {
   boardGame: BoardGame;
+  openDialog: (game: BoardGame) => void;
 };
 
 /*———————————–
   ボドゲ一覧のカード
 ———————————–*/
-const BoardGameCard: FC<Props> = ({ boardGame }) => {
+const BoardGameCard: FC<Props> = ({ boardGame, openDialog }) => {
   const router = useRouter();
   const { openSnackbar } = useSnackbar();
 
@@ -33,7 +34,7 @@ const BoardGameCard: FC<Props> = ({ boardGame }) => {
 
   const onClick = () => {
     //router.push(`games/${boardGame.id}`);
-    openSnackbar(`ボドゲ詳細画面は現在制作中です。お楽しみに！`, "info");
+    openDialog(boardGame);
   };
 
   return (
