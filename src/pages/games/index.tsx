@@ -4,6 +4,7 @@ import HomeLayout, {
   navigationPadding,
 } from "@/components/layouts/HomeLayout/HomeLayout";
 import Auth from "@/components/auth/Auth";
+import Head from "next/head";
 
 /*———————————–
   ボドゲ一覧画面
@@ -14,9 +15,15 @@ const Games: NextPageWithLayout = () => {
 
 Games.getLayout = (page) => {
   return (
-    <Auth>
-      <HomeLayout>{page}</HomeLayout>
-    </Auth>
+    <>
+      <Head>
+        <title>ボドゲリスト - DICE</title>
+      </Head>
+
+      <Auth>
+        <HomeLayout>{page}</HomeLayout>
+      </Auth>
+    </>
   );
 };
 

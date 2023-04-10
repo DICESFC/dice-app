@@ -46,8 +46,9 @@ const Games: NextPageWithLayout = () => {
   return (
     <>
       <Head>
-        <title>ボドゲ詳細 - {gameData.name}</title>
+        <title>{gameData.name} - DICE</title>
       </Head>
+
       <Box>
         <BoardGameDetail game={gameData} />
       </Box>
@@ -57,9 +58,11 @@ const Games: NextPageWithLayout = () => {
 
 Games.getLayout = (page) => {
   return (
-    <Auth>
-      <HomeLayout>{page}</HomeLayout>
-    </Auth>
+    <>
+      <Auth>
+        <HomeLayout>{page}</HomeLayout>
+      </Auth>
+    </>
   );
 };
 

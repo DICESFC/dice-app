@@ -5,35 +5,44 @@ import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
 
 import axios from "axios";
 import Auth from "@/components/auth/Auth";
+import Head from "next/head";
 
 /*———————————–
   レンタル画面
 ———————————–*/
 const Borrow: NextPageWithLayout = () => {
   return (
-    <Container maxWidth="lg">
-      <Box
-        sx={{
-          my: 4,
-          display: "flex",
-          flexDirection: "column",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        レンタルページ
-        <br />
-        現状は開発用のあれこれ置き場です
-      </Box>
-    </Container>
+    <>
+      <Container maxWidth="lg">
+        <Box
+          sx={{
+            my: 4,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          レンタルページ
+          <br />
+          現状は開発用のあれこれ置き場です
+        </Box>
+      </Container>
+    </>
   );
 };
 
 Borrow.getLayout = (page) => {
   return (
-    <Auth>
-      <HomeLayout>{page}</HomeLayout>
-    </Auth>
+    <>
+      <Head>
+        <title>ボドゲレンタル - DICE</title>
+      </Head>
+
+      <Auth>
+        <HomeLayout>{page}</HomeLayout>
+      </Auth>
+    </>
   );
 };
 

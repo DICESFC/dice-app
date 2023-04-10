@@ -14,6 +14,7 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import AdminMenu from "./AdminMenu";
 import theme from "@/styles/theme";
+import Head from "next/head";
 
 type Props = {
   children: ReactNode;
@@ -41,58 +42,64 @@ const AdminLayout: FC<Props> = ({ children }) => {
   const shiftContents = !isMobileSize && isMenuOpen;
 
   return (
-    <Box
-      sx={{
-        width: "100%",
-        height: "100%",
-        display: "flex",
-        paddingTop: "50px",
-      }}
-    >
-      <AdminMenu
-        menuState={menuState}
-        drawerWidth={drawerWidth}
-        isMobileSize={isMobileSize}
-      />
+    <>
+      <Head>
+        <title>管理者ページ - DICE</title>
+      </Head>
 
-      <AppBar
-        color="secondary"
+      <Box
         sx={{
-          width: `calc(100% - ${shiftContents ? drawerWidth : 0}px)`,
-          margingLeft: isMenuOpen ? drawerWidth : 0,
-
-          transition: theme.transitions.create(["width", "margin"], {
-            easing: theme.transitions.easing.sharp,
-            duration: theme.transitions.duration.enteringScreen,
-          }),
+          width: "100%",
+          height: "100%",
+          display: "flex",
+          paddingTop: "50px",
         }}
       >
-        <Toolbar>
-          {(!isMenuOpen || isMobileSize) && (
-            <IconButton
-              onClick={() => setMenu((prev) => !prev)}
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="menu"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
-          )}
-          <Typography variant="h6" sx={{ flexGrow: 1 }}>
-            DICE 管理者ページ
-          </Typography>
-        </Toolbar>
-      </AppBar>
+        <AdminMenu
+          menuState={menuState}
+          drawerWidth={drawerWidth}
+          isMobileSize={isMobileSize}
+        />
 
-      <Box sx={{ flexGrow: 1 }}>
-        {/* ページ本体 */}
-        <Container sx={{ paddingTop: "30px", width: "100%" }}>
-          {children}
-        </Container>
+        <AppBar
+          color="secondary"
+          sx={{
+            width: `calc(100% - ${shiftContents ? drawerWidth : 0}px)`,
+            margingLeft: isMenuOpen ? drawerWidth : 0,
+
+            transition: theme.transitions.create(["width", "margin"], {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.enteringScreen,
+            }),
+          }}
+        >
+          <Toolbar>
+            {(!isMenuOpen || isMobileSize) && (
+              <IconButton
+                onClick={() => setMenu((prev) => !prev)}
+                size="large"
+                edge="start"
+                color="inherit"
+                aria-label="menu"
+                sx={{ mr: 2 }}
+              >
+                <MenuIcon />
+              </IconButton>
+            )}
+            <Typography variant="h6" sx={{ flexGrow: 1 }}>
+              DICE 管理者ページ
+            </Typography>
+          </Toolbar>
+        </AppBar>
+
+        <Box sx={{ flexGrow: 1 }}>
+          {/* ページ本体 */}
+          <Container sx={{ paddingTop: "30px", width: "100%" }}>
+            {children}
+          </Container>
+        </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
