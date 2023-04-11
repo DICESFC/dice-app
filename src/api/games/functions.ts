@@ -1,3 +1,4 @@
+import { BoardGameUpdateQuery } from "./../../interfaces/boardgame";
 import {
   getFirestore,
   collection,
@@ -6,6 +7,10 @@ import {
   query,
   QueryConstraint,
   QuerySnapshot,
+  updateDoc,
+  where,
+  doc,
+  getDoc,
 } from "firebase/firestore";
 import type { BoardGame, BoardGameAddQuery } from "../../interfaces/boardgame";
 import { uploadImage } from "../storage/functions";
@@ -14,15 +19,14 @@ import { generateBoardGameID } from "./utils";
 const db = getFirestore();
 const gamesCollectionRef = collection(db, "games");
 
-//===================
-//* ボドゲ追加
-//===================
-
 //このURLのサムネイルはダウンロードしない(主にNot Found系のやつ)
 const excludeThumbnailURLs: string[] = [
   "https://s3-us-west-1.amazonaws.com/5cc.images/games/empty+box.jpg",
 ];
 
+//===================
+//* ボドゲ追加
+//===================
 export const createBoardGame = async (data: BoardGameAddQuery) => {
   console.log("create boardgame:", data.name, data.code);
   try {
@@ -84,6 +88,38 @@ export const getBoardGameData = async (
   try {
     const querySnapshot = await getBoardGameSnapshot(queryData);
     return querySnapshot.docs.map((doc) => doc.data() as BoardGame);
+  } catch (e) {
+    throw new Error(`${e}`);
+  }
+};
+
+//===================
+//* ボドゲ更新
+//* idでSnapShotを特定し、それを対象に更新する
+//===================
+export const updateBoardGameData = async (query: BoardGameUpdateQuery) => {
+  try {
+    console.log("update game: ", query);
+
+    const querySnapshot = await getBoardGameSnapshot(
+      where("id", "==", query.id)
+    );
+
+    //更新対象のエラー処理
+    if (!querySnapshot.docs.length) {
+      throw new Error(
+        `ID"${query.id}"のゲームが存在しません。データベースの修正が必要です。`
+      );
+    } else if (querySnapshot.docs.length > 1) {
+      throw new Error(
+        `ID"${query.id}"のゲームが複数あります。データベースの修正が必要です。`
+      );
+    }
+
+    const docRef = doc(db, "games", querySnapshot.docs[0].id);
+    await updateDoc(docRef, query);
+
+    return await getDoc(docRef);
   } catch (e) {
     throw new Error(`${e}`);
   }

@@ -34,6 +34,14 @@ export type BoardGame = {
 };
 
 //ボドゲ追加時の情報
+//IDはなくてもいいよってこと
 export type BoardGameAddQuery = BoardGame & {
   id?: string;
+};
+
+//ボドゲ更新時の情報
+//name, codeは任意ってこと。idは必要
+export type BoardGameUpdateQuery = BoardGame & {
+  name?: string;
+  code?: string;
 };

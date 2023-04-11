@@ -6,7 +6,6 @@ import { getBoardGameSnapshot } from "@/api/games/functions";
 import {
   where,
   orderBy,
-  endAt,
   limit,
   startAfter,
   DocumentData,
@@ -20,6 +19,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import CommonError from "../common/CommonError";
 import BoardGameDialog from "./BoardGameDialog";
+import SearchBox from "./SearchBox";
 
 type Props = {
   allowBorrow?: boolean;
@@ -89,9 +89,13 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
           ...sx,
         }}
       >
-        {/* ボドゲリスト本体 */}
         <Container maxWidth="lg" sx={{}}>
-          <Grid container spacing={1} sx={{ mt: 0.5 }}>
+          {/* 検索ボックス */}
+          <SearchBox />
+
+          {/* ボドゲリスト本体 */}
+
+          <Grid container spacing={1}>
             {data.map((game: BoardGame) => (
               <Grid item xs={6} sm={4} md={3} lg={2} key={game.code}>
                 <BoardGameCard boardGame={game} openDialog={openDialog} />
@@ -124,6 +128,7 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
             </Typography>
           </Box>
         )}
+
         {/* ロード検知用ボックス。これが画面に入ると追加でコンテンツ取得 */}
         <Box
           ref={loadMoreLineRef}

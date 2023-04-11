@@ -21,9 +21,10 @@ const convertCSVProperty = (property: string) => {
     return property;
   }
 };
-
-//パース済みCSVをボドゲ登録用オブジェクトの配列にする
-//TODO: だいぶ型安全じゃないし雑にプロパティ初期化してるので修正したい
+//===================
+//  パース済みCSVをボドゲ登録用オブジェクトの配列にする
+//  TODO: だいぶ型安全じゃないし雑にプロパティ初期化してるので修正したい
+//===================
 export const csvToGameList = (csv: string[][]) => {
   if (!csv[0].includes("name")) {
     throw new Error(
@@ -69,7 +70,9 @@ export const csvToGameList = (csv: string[][]) => {
   return list;
 };
 
-//IDの重複確認 → undefined or 重複ならUUIDを使用
+//===================
+//  IDの重複確認 → undefined or 重複ならUUIDを使用
+//===================
 export const generateBoardGameID = async (suggestedID?: string) => {
   if (!suggestedID) return uuidv4();
 
