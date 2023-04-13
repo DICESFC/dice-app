@@ -31,17 +31,22 @@ export type BoardGame = {
   atlasURL?: string;
   //追加日
   createdAt?: number;
+
+  //検索用NGram
+  ngramField?: { [key: string]: boolean };
 };
 
 //ボドゲ追加時の情報
-//IDはなくてもいいよってこと
+//ID, ngramはなくてもいいよってこと
 export type BoardGameAddQuery = BoardGame & {
   id?: string;
+  ngramField?: { [key: string]: boolean };
 };
 
 //ボドゲ更新時の情報
-//name, codeは任意ってこと。idは必要
+//name, code, ngramは任意ってこと。idは必要
 export type BoardGameUpdateQuery = BoardGame & {
   name?: string;
   code?: string;
+  ngramField?: { [key: string]: boolean };
 };

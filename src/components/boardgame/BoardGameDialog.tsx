@@ -4,7 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  Paper,
+  Box,
   useMediaQuery,
   useTheme,
   DialogProps,
@@ -42,8 +42,8 @@ const BoardGameDialog: FC<CustomDialogProps> = (props) => {
         </IconButton>
       </DialogTitle>
 
-      {/* ビュー本体 */}
-      <DialogContent>
+      {/* ボドゲ詳細ビュー本体 */}
+      <DialogContent sx={{ minWidth: "80vw", minHeight: "80vh" }}>
         <BoardGameDetail game={game} />
       </DialogContent>
     </Dialog>

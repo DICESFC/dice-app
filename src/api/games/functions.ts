@@ -1,3 +1,4 @@
+import { getNgram } from "@/api/games/utils";
 import { BoardGameUpdateQuery } from "./../../interfaces/boardgame";
 import {
   getFirestore,
@@ -51,8 +52,14 @@ export const createBoardGame = async (data: BoardGameAddQuery) => {
       gameData.thumbnail = thumbnailURL;
     }
 
+    //検索用nGramを生成して適用する
+    //日本語, 英語のそれぞれでngramを獲得した後合成
+    const jpNgram = getNgram(data.name);
+    const enNgram = data.englishName ? getNgram(data.englishName) : {};
+    gameData.ngramField = { ...jpNgram, ...enNgram };
+
     const docRef = await addDoc(gamesCollectionRef, gameData);
-    console.log("successfully created:", data.name, data.code);
+    console.log("successfully created:", data.name, data.code, data);
     return { status: "success", ref: docRef };
   } catch (e) {
     throw new Error(`${e}`);
@@ -97,7 +104,7 @@ export const getBoardGameData = async (
 //* ボドゲ更新
 //* idでSnapShotを特定し、それを対象に更新する
 //===================
-export const updateBoardGameData = async (query: BoardGameUpdateQuery) => {
+export const updateBoardGameDataByID = async (query: BoardGameUpdateQuery) => {
   try {
     console.log("update game: ", query);
 
