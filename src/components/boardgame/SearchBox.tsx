@@ -13,7 +13,7 @@ type Props = {
 /*———————————–
   ボドゲ検索ボックス
 ———————————–*/
-const SearchBox: FC<Props> = memo(({ handleSearch }) => {
+const SearchBox: FC<Props> = memo(function SearchBox({ handleSearch }) {
   const [placeholder, setPlaceholder] = useState<string | undefined>(undefined);
   const inputRef = useRef<HTMLInputElement | null>(null);
 

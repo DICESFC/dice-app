@@ -54,12 +54,17 @@ const HomeLayout: FC<Props> = ({ children }) => {
     router.push(targetNavigation.href);
   };
 
-  //現在のpathから選択されたメニューを割り出す
-  //ちょっと重い処理なのであんまり呼び出したくない
-  const getMenuIDFromPath = (path: string): number => {
+  const router = useRouter();
+  const [selectedMenu, setSelectedMenu] = useState(-1);
+
+  //URL更新を監視してメニューに反映
+  //TODO: onSelectMenu経由でpathが変わった時には呼び出さないようにしたい
+  useEffect(() => {
+    //現在のpathから選択されたメニューを割り出す
+    //ちょっと重い処理なのであんまり呼び出したくない
+    let result = 0;
     //前方一致の最大文字数
     let maxMatchLength = 0;
-    let result = 0;
 
     //各メニューに対し比較
     for (let menuID = 0; menuID < NAVIGATIONS.length; menuID++) {
@@ -68,23 +73,18 @@ const HomeLayout: FC<Props> = ({ children }) => {
       //   navのhrefとpathが前方一致
       //＆ これまでで一番文字数が大きい場合
       // => 結果を上書き
-      if (path.indexOf(nav.href) === 0 && nav.href.length > maxMatchLength) {
+      if (
+        router.pathname.indexOf(nav.href) === 0 &&
+        nav.href.length > maxMatchLength
+      ) {
         maxMatchLength = nav.href.length;
         result = menuID;
       }
     }
-    return result;
-  };
 
-  const router = useRouter();
-  const [selectedMenu, setSelectedMenu] = useState(-1);
-
-  //URL更新を監視してメニューに反映
-  //TODO: onSelectMenu経由でpathが変わった時には呼び出さないようにしたい
-  useEffect(() => {
-    const menuID = getMenuIDFromPath(router.pathname);
-    setSelectedMenu(menuID);
-  }, [router.pathname, getMenuIDFromPath]);
+    //結果を選択済みメニューに
+    setSelectedMenu(result);
+  }, [router.pathname]);
 
   return (
     <>
