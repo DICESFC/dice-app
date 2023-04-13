@@ -18,7 +18,7 @@ const Logout: NextPageWithLayout = () => {
 
   useEffect(() => {
     signOut();
-  }, [signOut]);
+  }, []);
 
   //ログイン状態でないなら戻る
   if (!isSignedIn && !isLoading && isReady) {

@@ -30,6 +30,7 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
     <CacheProvider value={emotionCache}>
       <Head>
         <meta name="viewport" content="initial-scale=1, width=device-width" />
+        <title>DICE</title>
       </Head>
       <ThemeProvider theme={theme}>
         <QueryClientProvider client={queryClient}>

@@ -3,6 +3,7 @@ import { Container, Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
 import Auth from "@/components/auth/Auth";
+import Head from "next/head";
 
 /*———————————–
   ホーム画面
@@ -34,9 +35,15 @@ const Home: NextPageWithLayout = () => {
 
 Home.getLayout = (page) => {
   return (
-    <Auth>
-      <HomeLayout>{page}</HomeLayout>
-    </Auth>
+    <>
+      <Head>
+        <title>ホーム - DICE</title>
+      </Head>
+
+      <Auth>
+        <HomeLayout>{page}</HomeLayout>
+      </Auth>
+    </>
   );
 };
 

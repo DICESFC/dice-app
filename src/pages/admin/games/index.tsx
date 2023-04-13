@@ -4,6 +4,7 @@ import { Container } from "@mui/material";
 import Auth from "@/components/auth/Auth";
 import AdminLayout from "@/components/layouts/AdminLayout/AdminLayout";
 import GameCsvUploader from "@/components/admin/games/GameCsvUploader";
+import UpdateGameNgramButton from "@/components/admin/games/UpdateGameNgram";
 
 /*———————————–
   ボドゲ管理画面
@@ -12,6 +13,7 @@ const AdminGameManager: NextPageWithLayout = () => {
   return (
     <Container maxWidth="md">
       <GameCsvUploader />
+      <UpdateGameNgramButton />
     </Container>
   );
 };

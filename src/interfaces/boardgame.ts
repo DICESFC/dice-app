@@ -31,9 +31,35 @@ export type BoardGame = {
   atlasURL?: string;
   //追加日
   createdAt?: number;
+
+  //検索用NGram
+  ngramField?: { [key: string]: boolean };
 };
 
 //ボドゲ追加時の情報
+//ID, ngramはなくてもいいよってこと
 export type BoardGameAddQuery = BoardGame & {
   id?: string;
+  ngramField?: { [key: string]: boolean };
+};
+
+//ボドゲ更新時の情報
+//name, code, ngramは任意ってこと。idは必要
+export type BoardGameUpdateQuery = BoardGame & {
+  name?: string;
+  code?: string;
+  ngramField?: { [key: string]: boolean };
+};
+
+//ボドゲ検索の情報
+//これがgames/のURLにクエリとして格納される
+export type GameSearchQueryObject = {
+  word?: string;
+  isExpansion?: boolean;
+  orderBy?:
+    | "createdAt"
+    | "rating"
+    | "ratingCount"
+    | "learningComplexity"
+    | "strategyComplexity";
 };
