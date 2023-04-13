@@ -50,3 +50,16 @@ export type BoardGameUpdateQuery = BoardGame & {
   code?: string;
   ngramField?: { [key: string]: boolean };
 };
+
+//ボドゲ検索の情報
+//これがgames/のURLにクエリとして格納される
+export type GameSearchQueryObject = {
+  word?: string;
+  isExpansion?: boolean;
+  orderBy?:
+    | "createdAt"
+    | "rating"
+    | "ratingCount"
+    | "learningComplexity"
+    | "strategyComplexity";
+};

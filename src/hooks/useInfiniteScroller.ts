@@ -58,5 +58,14 @@ export const useInfiniteScroller = <T>(
     }
   }, [scrollObserver, ref]);
 
-  return { data, isLoading, isError, hasMore };
+  //内部状態をリセットする
+  const resetData = () => {
+    setData([]);
+    setIsLoading(false);
+    setIsError(false);
+    setHasMore(true);
+    setPage(0);
+  };
+
+  return { data, isLoading, isError, hasMore, resetData };
 };

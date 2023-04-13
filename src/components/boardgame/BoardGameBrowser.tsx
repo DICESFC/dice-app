@@ -1,6 +1,6 @@
 import { FC, useEffect, useState, useRef } from "react";
 import { Box, Container, SxProps } from "@mui/system";
-import { BoardGame } from "@/interfaces/boardgame";
+import { BoardGame, GameSearchQueryObject } from "@/interfaces/boardgame";
 
 import { getBoardGameSnapshot } from "@/api/games/functions";
 import {
@@ -20,6 +20,8 @@ import { useSnackbar } from "@/hooks/useSnackbar";
 import CommonError from "../common/CommonError";
 import BoardGameDialog from "./BoardGameDialog";
 import SearchBox from "./SearchBox";
+import { useRouter } from "next/router";
+import { getNgram } from "@/api/games/utils";
 
 type Props = {
   allowBorrow?: boolean;
@@ -38,7 +40,12 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
   const [isDialogOpen, setDialogOpen] = useState<boolean>(false);
   const [dialogGameData, setDialogGameData] = useState<BoardGame | null>(null);
 
+  const router = useRouter();
+  const query = router.query;
+
+  //=================
   //ページに応じて適切な情報を抜き出す
+  //=================
   const fetch = async (page: number): Promise<BoardGame[]> => {
     const gameSnapShot = await getBoardGameSnapshot([
       orderBy("ratingCount", "desc"),
@@ -54,21 +61,45 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
     return newData;
   };
 
+  //=================
+  //無限スクローラー本体
+  //=================
   const loadMoreLineRef = useRef(null);
-  const { data, hasMore, isError } = useInfiniteScroller<BoardGame>(
+  const { data, hasMore, isError, resetData } = useInfiniteScroller<BoardGame>(
     loadMoreLineRef,
     fetch
   );
 
-  //ダイアログを開いて対象ボドゲを上書き
+  //=================
+  //ダイアログを開いて表示対象ボドゲを上書き
+  //=================
   const openDialog = (game: BoardGame) => {
     setDialogOpen(true);
     setDialogGameData(game);
   };
 
-  //ダイアログを閉じる。ボドゲ指定は残ったままなので注意
+  //=================
+  //ダイアログを閉じる。
+  //ボドゲ指定は残ったままなので注意
+  //=================
   const closeDialog = () => {
     setDialogOpen(false);
+  };
+
+  //=================
+  //検索ボックスのsubmit時にクエリパラメータを更新し、各種パラメータをリセットする
+  //=================
+  const handleSearch = (queryData: GameSearchQueryObject): void => {
+    //無限スクローラーのリセット
+    resetData();
+    setLastDoc(null);
+    setDialogOpen(false);
+    setDialogGameData(null);
+
+    router.push({
+      pathname: "/games",
+      query: queryData,
+    });
   };
 
   return (
@@ -91,10 +122,15 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
       >
         <Container maxWidth="lg" sx={{}}>
           {/* 検索ボックス */}
-          <SearchBox />
+          <SearchBox handleSearch={handleSearch} />
+
+          {query.word && (
+            <Typography variant="body2" sx={{ my: 1 }}>
+              検索結果: {query.word}
+            </Typography>
+          )}
 
           {/* ボドゲリスト本体 */}
-
           <Grid container spacing={1}>
             {data.map((game: BoardGame) => (
               <Grid item xs={6} sm={4} md={3} lg={2} key={game.code}>
@@ -116,9 +152,11 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
           </Box>
         ) : (
           <Box sx={{ mt: 5, mb: 1, textAlign: "center" }}>
-            <DoneIcon color="success" fontSize="large" />
+            {data.length ? <DoneIcon color="success" fontSize="large" /> : ""}
             <Typography variant="h6" sx={{ mb: 4 }}>
-              全て表示しました🙌
+              {data.length
+                ? "全て表示しました！"
+                : "結果が見つかりませんでした><"}
             </Typography>
 
             <Typography variant="body2">
