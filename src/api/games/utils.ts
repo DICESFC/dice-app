@@ -104,6 +104,16 @@ export const generateBoardGameID = async (suggestedID?: string) => {
 };
 
 //===================
+//  カタカナをひらがなに変換する
+//===================
+const convertToHiragana = (str: string): string => {
+  return str.replace(/[\u30a1-\u30f6]/g, function (match) {
+    const chr = match.charCodeAt(0) - 0x60;
+    return String.fromCharCode(chr);
+  });
+};
+
+//===================
 //  検索文字列をn-gramオブジェクトに変換する
 //  フォーマットはFirebaseの中身見てね
 //===================
@@ -116,7 +126,12 @@ export const getNgram = (name: string): { [key: string]: true } => {
   const maxNgramLength = 80;
 
   const result: string[] = [];
-  const normalizedName = name.trim().replace("　", " ").toLowerCase();
+
+  //諸々の前処理
+  const normalizedName = convertToHiragana(name)
+    .trim()
+    .replace("　", " ")
+    .toLowerCase();
 
   //名前をスペース区切りにする
   const nameBlocks = normalizedName.split(" ");

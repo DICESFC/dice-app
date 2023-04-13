@@ -22,6 +22,7 @@ import BoardGameDialog from "./BoardGameDialog";
 import SearchBox from "./SearchBox";
 import { useRouter } from "next/router";
 import { getNgram } from "@/api/games/utils";
+import { convertQuery } from "./queryConverter";
 
 type Props = {
   allowBorrow?: boolean;
@@ -42,16 +43,13 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
 
   const router = useRouter();
   const query = router.query;
+  const queryFirebaseArray = convertQuery(query, lastDoc, DATA_FETCH_AMOUNT);
 
   //=================
   //ページに応じて適切な情報を抜き出す
   //=================
   const fetch = async (page: number): Promise<BoardGame[]> => {
-    const gameSnapShot = await getBoardGameSnapshot([
-      orderBy("ratingCount", "desc"),
-      ...(lastDoc ? [startAfter(lastDoc)] : []), //条件付き追加。雑。
-      limit(DATA_FETCH_AMOUNT),
-    ]);
+    const gameSnapShot = await getBoardGameSnapshot([...queryFirebaseArray]);
 
     setLastDoc(gameSnapShot.docs[gameSnapShot.docs.length - 1]);
 
@@ -89,17 +87,19 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
   //=================
   //検索ボックスのsubmit時にクエリパラメータを更新し、各種パラメータをリセットする
   //=================
-  const handleSearch = (queryData: GameSearchQueryObject): void => {
+  const handleSearch = async (
+    queryData: GameSearchQueryObject
+  ): Promise<void> => {
+    await router.push({
+      pathname: router.basePath,
+      query: queryData,
+    });
+
     //無限スクローラーのリセット
     resetData();
     setLastDoc(null);
     setDialogOpen(false);
     setDialogGameData(null);
-
-    router.push({
-      pathname: "/games",
-      query: queryData,
-    });
   };
 
   return (
