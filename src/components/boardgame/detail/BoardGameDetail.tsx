@@ -6,9 +6,9 @@ import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
+  Button,
   Divider,
   Grid,
-  Paper,
   Rating,
   Typography,
 } from "@mui/material";
@@ -19,6 +19,7 @@ import BoardGameDetailProperty from "./DetailProperty";
 import { getDetailText } from "@/features/games/detailText";
 import { useRouter } from "next/router";
 import Link from "next/link";
+import { useAuthState } from "@/hooks/useAuthState";
 
 type Props = {
   game: BoardGame;
@@ -28,6 +29,8 @@ type Props = {
   ボドゲ詳細パーツ
 ———————————–*/
 const BoardGameDetail: FC<Props> = ({ game }) => {
+  const { isSignedIn } = useAuthState();
+
   //レンタル可能かどうかのロジックを抜き出したやつ
   const { canBorrow, canBorrowLabel } = checkCanBorrow(game);
 
@@ -109,11 +112,11 @@ const BoardGameDetail: FC<Props> = ({ game }) => {
           </BoardGameDetailProperty>
         </Box>
 
-        {/* 商材情報セクション */}
+        {/* 詳細情報セクション */}
         <Accordion
           sx={{
             textAlign: "start",
-            mt: 4,
+            mt: 5,
             borderTop: "none",
             "&::before": {
               opacity: 0,
@@ -199,6 +202,32 @@ const BoardGameDetail: FC<Props> = ({ game }) => {
             </Typography>
           </AccordionDetails>
         </Accordion>
+
+        {/* 借りるボタン */}
+        <Button
+          variant="contained"
+          size="large"
+          sx={{
+            mt: 1,
+            width: "100%",
+            fontWeight: 600,
+            backgroundColor: "primary.light",
+            "&:hover": {
+              backgroundColor: "primary.main",
+            },
+          }}
+          disabled={!isSignedIn}
+          onClick={() => router.push("/borrow")}
+        >
+          このボドゲを借りる！
+        </Button>
+
+        {!isSignedIn && (
+          <Typography variant="caption" sx={{ mt: 3 }}>
+            ボドゲを借りるには<Link href="/login">ログイン</Link>
+            する必要があります。
+          </Typography>
+        )}
       </Box>
     </Box>
   );
