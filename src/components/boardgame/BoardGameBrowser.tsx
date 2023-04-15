@@ -2,7 +2,7 @@ import { FC, useEffect, useState, useRef } from "react";
 import { Box, Container, SxProps } from "@mui/system";
 import { BoardGame, GameSearchQueryObject } from "@/interfaces/boardgame";
 
-import { getBoardGameSnapshot } from "@/api/games/functions";
+import { getBoardGameSnapshot } from "@/features/games/api/functions";
 import {
   where,
   orderBy,
@@ -21,7 +21,7 @@ import CommonError from "../common/CommonError";
 import BoardGameDialog from "./BoardGameDialog";
 import SearchBox from "./SearchBox";
 import { useRouter } from "next/router";
-import { getNgram } from "@/api/games/utils";
+import { getNgram } from "@/features/games/utils";
 import { convertQuery } from "./queryConverter";
 
 type Props = {
@@ -85,6 +85,17 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
   };
 
   //=================
+  //このコンポーネントの状態をリセットする
+  //=================
+  const resetBrowser = () => {
+    //無限スクローラーのリセット
+    resetData();
+    setLastDoc(null);
+    setDialogOpen(false);
+    setDialogGameData(null);
+  };
+
+  //=================
   //検索ボックスのsubmit時にクエリパラメータを更新し、各種パラメータをリセットする
   //=================
   const handleSearch = async (
@@ -94,13 +105,14 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
       pathname: router.basePath,
       query: queryData,
     });
-
-    //無限スクローラーのリセット
-    resetData();
-    setLastDoc(null);
-    setDialogOpen(false);
-    setDialogGameData(null);
   };
+
+  //=================
+  // リンクに変更があったらブラウザをリセット
+  //=================
+  useEffect(() => {
+    resetBrowser();
+  }, [router.asPath]);
 
   return (
     <>
@@ -109,9 +121,7 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
         open={isDialogOpen}
         game={dialogGameData}
         onClose={closeDialog}
-      >
-        あああ
-      </BoardGameDialog>
+      />
 
       <Box
         sx={{
@@ -156,10 +166,10 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
             <Typography variant="h6" sx={{ mb: 4 }}>
               {data.length
                 ? "全て表示しました！"
-                : "結果が見つかりませんでした><"}
+                : "検索結果が見つかりませんでした"}
             </Typography>
 
-            <Typography variant="body2">
+            <Typography variant="caption" sx={{ mt: 5, mb: 2 }}>
               お探しのゲームがありませんか？
               <br />
               購入希望を出してボドゲを増やしましょう！

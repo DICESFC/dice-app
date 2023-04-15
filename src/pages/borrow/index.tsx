@@ -1,7 +1,7 @@
 import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Box, Button } from "@mui/material";
 import { BoardGame } from "@/interfaces/boardgame";
-import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
+import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 
 import axios from "axios";
 import Auth from "@/components/auth/Auth";

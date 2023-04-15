@@ -2,7 +2,7 @@ import { NextPageWithLayout } from "@/interfaces/common";
 import { Container } from "@mui/material";
 
 import Auth from "@/components/auth/Auth";
-import AdminLayout from "@/components/layouts/AdminLayout/AdminLayout";
+import AdminLayout from "@/layouts/AdminLayout/AdminLayout";
 import GameCsvUploader from "@/components/admin/games/GameCsvUploader";
 import UpdateGameNgramButton from "@/components/admin/games/UpdateGameNgram";
 

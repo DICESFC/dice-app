@@ -1,15 +1,15 @@
 import { NextPageWithLayout } from "@/interfaces/common";
-import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
+import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import Auth from "@/components/auth/Auth";
 import { useRouter } from "next/router";
 import { Box } from "@mui/system";
 import { useQuery } from "react-query";
 import CommonError from "@/components/common/CommonError";
-import { getBoardGameData } from "@/api/games/functions";
+import { getBoardGameData } from "@/features/games/api/functions";
 import { where } from "firebase/firestore";
 import CommonLoading from "@/components/common/CommonLoading";
 import { useSnackbar } from "@/hooks/useSnackbar";
-import BoardGameDetail from "@/components/boardgame/BoardGameDetail";
+import BoardGameDetail from "@/components/boardgame/detail/BoardGameDetail";
 import Head from "next/head";
 
 /*———————————–

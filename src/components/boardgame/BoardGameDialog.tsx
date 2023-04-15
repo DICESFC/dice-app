@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { BoardGame } from "@/interfaces/boardgame";
-import BoardGameDetail from "./BoardGameDetail";
+import BoardGameDetail from "./detail/BoardGameDetail";
 
 interface CustomDialogProps extends DialogProps {
   game: BoardGame | null;
@@ -29,21 +29,25 @@ const BoardGameDialog: FC<CustomDialogProps> = (props) => {
 
   return (
     <Dialog {...rest} fullScreen={isFullScreen} open={open} onClose={onClose}>
-      <DialogTitle
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
+      <IconButton
+        size="large"
+        onClick={() => onClose()}
+        color="inherit"
+        sx={{ position: "absolute", top: 20, right: 30 }}
       >
-        {game.name}
-        <IconButton size="large" onClick={() => onClose()} color="inherit">
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+        <CloseIcon />
+      </IconButton>
 
       {/* ボドゲ詳細ビュー本体 */}
-      <DialogContent sx={{ minWidth: "80vw", minHeight: "80vh" }}>
+      <DialogContent
+        sx={{
+          height: "100%",
+          overflow: "scroll",
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+        }}
+      >
         <BoardGameDetail game={game} />
       </DialogContent>
     </Dialog>

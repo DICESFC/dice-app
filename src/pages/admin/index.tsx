@@ -2,7 +2,7 @@ import { NextPageWithLayout } from "@/interfaces/common";
 import { Container } from "@mui/material";
 
 import Auth from "@/components/auth/Auth";
-import AdminLayout from "@/components/layouts/AdminLayout/AdminLayout";
+import AdminLayout from "@/layouts/AdminLayout/AdminLayout";
 
 /*———————————–
   管理者画面ホーム
