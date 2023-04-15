@@ -1,6 +1,6 @@
 import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Typography, Box, Button, Card } from "@mui/material";
-import HomeLayout from "@/components/layouts/HomeLayout/HomeLayout";
+import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
 import Auth from "@/components/auth/Auth";
 import Head from "next/head";

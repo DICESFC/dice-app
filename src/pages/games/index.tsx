@@ -1,8 +1,6 @@
 import { NextPageWithLayout } from "@/interfaces/common";
 import BoardGameBrowser from "@/components/boardgame/BoardGameBrowser";
-import HomeLayout, {
-  navigationPadding,
-} from "@/components/layouts/HomeLayout/HomeLayout";
+import HomeLayout, { navigationPadding } from "@/layouts/HomeLayout/HomeLayout";
 import Auth from "@/components/auth/Auth";
 import Head from "next/head";
 

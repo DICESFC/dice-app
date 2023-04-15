@@ -1,5 +1,5 @@
-import { getNgram } from "@/api/games/utils";
-import { BoardGameUpdateQuery } from "./../../interfaces/boardgame";
+import { getNgram } from "@/features/games/utils";
+import { BoardGameUpdateQuery } from "../../../interfaces/boardgame";
 import {
   getFirestore,
   collection,
@@ -13,9 +13,12 @@ import {
   doc,
   getDoc,
 } from "firebase/firestore";
-import type { BoardGame, BoardGameAddQuery } from "../../interfaces/boardgame";
-import { uploadImage } from "../storage/functions";
-import { generateBoardGameID } from "./utils";
+import type {
+  BoardGame,
+  BoardGameAddQuery,
+} from "../../../interfaces/boardgame";
+import { uploadImage } from "../../storage/api/functions";
+import { generateBoardGameID } from "../utils";
 
 const db = getFirestore();
 const gamesCollectionRef = collection(db, "games");
