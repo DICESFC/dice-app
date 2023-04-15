@@ -29,24 +29,19 @@ const BoardGameDialog: FC<CustomDialogProps> = (props) => {
 
   return (
     <Dialog {...rest} fullScreen={isFullScreen} open={open} onClose={onClose}>
-      <DialogTitle
-        sx={{
-          display: "flex",
-          justifyContent: "end",
-          alignItems: "center",
-          maxWidth: "100%",
-        }}
+      <IconButton
+        size="large"
+        onClick={() => onClose()}
+        color="inherit"
+        sx={{ position: "absolute", top: 20, right: 30 }}
       >
-        <IconButton size="large" onClick={() => onClose()} color="inherit">
-          <CloseIcon />
-        </IconButton>
-      </DialogTitle>
+        <CloseIcon />
+      </IconButton>
 
       {/* ボドゲ詳細ビュー本体 */}
       <DialogContent
         sx={{
           height: "100%",
-          maxHeight: "80vh",
           overflow: "scroll",
           display: "flex",
           flexDirection: "column",
