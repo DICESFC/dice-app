@@ -8,6 +8,7 @@ import Image from "@/components/common/Image";
 import GoogleLoginButton from "@/components/auth/GoogleButton";
 import { useRouter } from "next/router";
 import CommonError from "@/components/common/CommonError";
+import Link from "next/link";
 
 /*———————————–
   ログイン画面
@@ -58,7 +59,20 @@ const Login: NextPageWithLayout = () => {
         <Box sx={{ mb: 1 }}>
           <GoogleLoginButton onClick={signInWithGoogle} />
         </Box>
-        <Typography variant="caption">ログインするには？</Typography>
+        <Typography variant="caption" sx={{ display: "block" }}>
+          ログインするには？
+        </Typography>
+
+        <Box sx={{ mt: 9 }}>
+          <Typography variant="body2" sx={{ fontWeight: 600 }}>
+            \ ボドゲリスト公開中 /
+          </Typography>
+          <Link href="/welcome" style={{ textDecoration: "none" }}>
+            <Button variant="outlined" size="large">
+              新歓ページはこちら
+            </Button>
+          </Link>
+        </Box>
       </Box>
 
       {isError && (
