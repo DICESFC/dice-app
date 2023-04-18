@@ -43,6 +43,8 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
 
   const router = useRouter();
   const query = router.query;
+
+  //URLクエリをFirebase用に変換
   const queryFirebaseArray = convertQuery(query, lastDoc, DATA_FETCH_AMOUNT);
 
   //=================
@@ -71,7 +73,7 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
   //=================
   //ダイアログを開いて表示対象ボドゲを上書き
   //=================
-  const openDialog = (game: BoardGame) => {
+  const openDialog = async (game: BoardGame) => {
     setDialogOpen(true);
     setDialogGameData(game);
   };
@@ -108,11 +110,29 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
   };
 
   //=================
-  // リンクに変更があったらブラウザをリセット
+  // クエリに変更があったらブラウザをリセット
   //=================
   useEffect(() => {
     resetBrowser();
   }, [router.asPath]);
+
+  //=================
+  // ダイアログを開いてる時にブラウザバックしたら遷移の代わりにダイアログを閉じる
+  //=================
+  useEffect(() => {
+    if (isDialogOpen) {
+      const handlePopState = () => {
+        history.pushState(null, "", router.asPath);
+        closeDialog();
+        return false;
+      };
+
+      router.beforePopState(handlePopState);
+
+      //unmountするやつ
+      return () => router.beforePopState(() => true);
+    }
+  }, [isDialogOpen]);
 
   return (
     <>
