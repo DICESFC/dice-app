@@ -1,5 +1,5 @@
 import { FC } from "react";
-import { Card, Typography } from "@mui/material";
+import { Card, Grow, Typography } from "@mui/material";
 import { BoardGame } from "@/interfaces/boardgame";
 import Image from "../common/Image";
 import { Box } from "@mui/system";
@@ -33,68 +33,70 @@ const BoardGameCard: FC<Props> = ({ boardGame, openDialog }) => {
   };
 
   return (
-    <Card elevation={3} sx={{ p: 1 }} onClick={() => onClick()}>
-      {/* サムネイル */}
-      <Box>
-        <Image
-          src={boardGame.thumbnail || "/resources/logo/dicelogo.png"}
-          alt={boardGame.name}
-          width="200"
-          height="200"
-          style={{
-            objectFit: "contain",
-            width: "100%",
-            aspectRatio: 1,
-          }}
-        />
-      </Box>
+    <Grow in>
+      <Card elevation={3} sx={{ p: 1 }} onClick={() => onClick()}>
+        {/* サムネイル */}
+        <Box>
+          <Image
+            src={boardGame.thumbnail || "/resources/logo/dicelogo.png"}
+            alt={boardGame.name}
+            width="200"
+            height="200"
+            style={{
+              objectFit: "contain",
+              width: "100%",
+              aspectRatio: 1,
+            }}
+          />
+        </Box>
 
-      {/* ボドゲ名 */}
-      <Typography
-        variant="body1"
-        sx={{
-          fontWeight: 900,
-          mt: 1,
-          mx: 1,
-          overflow: "hidden",
-          textOverflow: "ellipsis",
-          display: "-webkit-box",
-          lineHeight: "1.2",
-          maxHeight: "2.4rem",
-        }}
-      >
-        {boardGame.name}
-      </Typography>
-
-      <Box
-        sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          mx: 1,
-          mt: 0.3,
-        }}
-      >
-        <GameOverviewText
-          variant="caption"
+        {/* ボドゲ名 */}
+        <Typography
+          variant="body1"
           sx={{
-            color: canBorrow ? "success.main" : "warning.main",
-            fontWeight: 700,
+            fontWeight: 900,
+            mt: 1,
+            mx: 1,
+            overflow: "hidden",
+            textOverflow: "ellipsis",
+            display: "-webkit-box",
+            lineHeight: "1.2",
+            maxHeight: "2.4rem",
           }}
         >
-          {canBorrowLabel}
-        </GameOverviewText>
+          {boardGame.name}
+        </Typography>
 
-        <GameOverviewText variant="caption">
-          <AccessTimeOutlinedIcon fontSize="inherit" sx={{ mr: 0.3 }} />
-          {boardGame.maxPlayTime || "不明"}
-        </GameOverviewText>
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            mx: 1,
+            mt: 0.3,
+          }}
+        >
+          <GameOverviewText
+            variant="caption"
+            sx={{
+              color: canBorrow ? "success.main" : "warning.main",
+              fontWeight: 700,
+            }}
+          >
+            {canBorrowLabel}
+          </GameOverviewText>
 
-        <GameOverviewText variant="caption">
-          <PersonOutlineOutlinedIcon fontSize="inherit" sx={{ mr: 0.3 }} />
-          {detailText.players}
-        </GameOverviewText>
-      </Box>
-    </Card>
+          <GameOverviewText variant="caption">
+            <AccessTimeOutlinedIcon fontSize="inherit" sx={{ mr: 0.3 }} />
+            {boardGame.maxPlayTime || "不明"}
+          </GameOverviewText>
+
+          <GameOverviewText variant="caption">
+            <PersonOutlineOutlinedIcon fontSize="inherit" sx={{ mr: 0.3 }} />
+            {detailText.players}
+          </GameOverviewText>
+        </Box>
+      </Card>
+    </Grow>
   );
 };
 

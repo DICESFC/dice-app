@@ -75,8 +75,8 @@ const BoardGameDetail: FC<Props> = ({ game }) => {
         <Image
           src={game.thumbnail || "/resources/logo/dicelogo.png"}
           alt={game.name}
-          width="200"
-          height="200"
+          width="300"
+          height="300"
           style={{
             objectFit: "contain",
             width: "70vw",
