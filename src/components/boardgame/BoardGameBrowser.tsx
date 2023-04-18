@@ -19,7 +19,7 @@ import DoneIcon from "@mui/icons-material/Done";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import CommonError from "../common/CommonError";
 import BoardGameDialog from "./BoardGameDialog";
-import SearchBox from "./SearchBox";
+import SearchBox from "./searchbox/SearchBox";
 import { useRouter } from "next/router";
 import { getNgram } from "@/features/games/utils";
 import { convertQuery } from "./queryConverter";
@@ -152,7 +152,7 @@ const BoardGameBrowser: FC<Props> = ({ allowBorrow, sx }) => {
       >
         <Container maxWidth="lg" sx={{}}>
           {/* 検索ボックス */}
-          <SearchBox handleSearch={handleSearch} />
+          <SearchBox handleSearch={handleSearch} currentQuery={query} />
 
           {query.word && (
             <Typography variant="body2" sx={{ my: 1 }}>
