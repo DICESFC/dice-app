@@ -11,3 +11,6 @@ cd dice-app
 npm install
 npm run dev
 ```
+
+```npm run dev```で開発サーバーが起動します。
+サーバーが起動している状態でlocalhost:3000にアクセスすると開発環境にアクセスできます。
