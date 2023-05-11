@@ -27,6 +27,7 @@ const Home: NextPageWithLayout = () => {
           }}
         >
           <MembershipCard />
+          {/*a*/}
         </Container>
       </Box>
     </Container>
