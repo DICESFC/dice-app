@@ -26,6 +26,7 @@ const Borrow: NextPageWithLayout = () => {
           レンタルページ
           <br />
           現状は開発用のあれこれ置き場です
+          <h1>最初のコミット</h1>
         </Box>
       </Container>
     </>
