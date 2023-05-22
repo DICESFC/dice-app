@@ -8,7 +8,7 @@ import AccessTimeOutlinedIcon from "@mui/icons-material/AccessTimeOutlined";
 import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined";
 
 import styled from "@emotion/styled";
-import { checkCanBorrow } from "@/features/borrow/api/canBorrow";
+import { checkCanBorrow } from "@/features/borrow/canBorrow";
 import { getDetailText } from "@/features/games/detailText";
 
 const GameOverviewText = styled(Typography)({

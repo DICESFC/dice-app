@@ -61,6 +61,7 @@ export const createBoardGame = async (data: BoardGameAddQuery) => {
     const enNgram = data.englishName ? getNgram(data.englishName) : {};
     gameData.ngramField = { ...jpNgram, ...enNgram };
 
+    //データを登録する
     const docRef = await addDoc(gamesCollectionRef, gameData);
     console.log("successfully created:", data.name, data.code, data);
     return { status: "success", ref: docRef };
