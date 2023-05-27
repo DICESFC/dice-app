@@ -1,4 +1,4 @@
-import { getNgram } from "@/features/games/utils";
+import { getNgram } from "@/api/games/utils";
 import { BoardGameUpdateQuery } from "../../../interfaces/boardgame";
 import {
   getFirestore,
@@ -17,7 +17,7 @@ import type {
   BoardGame,
   BoardGameAddQuery,
 } from "../../../interfaces/boardgame";
-import { uploadImage } from "../../storage/api/functions";
+import { uploadImage } from "../../../features/storage/functions";
 import { generateBoardGameID } from "../utils";
 
 const db = getFirestore();

@@ -1,8 +1,8 @@
 import { ChangeEvent, FC, useState } from "react";
 import { Button, Paper, Typography } from "@mui/material";
-import { getNgram } from "@/features/games/utils";
+import { getNgram } from "@/api/games/utils";
 import { Box } from "@mui/system";
-import { getBoardGameSnapshot } from "@/features/games/api/functions";
+import { getBoardGameSnapshot } from "@/api/games/api/functions";
 import { BoardGame } from "@/interfaces/boardgame";
 import { useSnackbar } from "@/hooks/useSnackbar";
 import { updateDoc } from "firebase/firestore";

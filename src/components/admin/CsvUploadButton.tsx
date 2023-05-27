@@ -1,6 +1,6 @@
 import { ChangeEvent, FC, useState } from "react";
 import { Button } from "@mui/material";
-import { csvToGameList } from "@/features/games/csvConverter";
+import { csvToGameList } from "@/api/games/csvConverter";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 type Props = {
