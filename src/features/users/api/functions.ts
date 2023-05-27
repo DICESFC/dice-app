@@ -17,37 +17,42 @@ const auth = getAuth();
 //* ユーザーを作成する
 //===================
 export const createUser = async (userCreateData: UserCreateData) => {
-  //auth上でユーザーを作成する
-  const userCredential = await createUserWithEmailAndPassword(
-    auth,
-    userCreateData.email,
-    generateRandomPassword()
-  );
-  const uid = userCredential.user.uid;
+  try {
+    //auth上でユーザーを作成する
+    const userCredential = await createUserWithEmailAndPassword(
+      auth,
+      userCreateData.email,
+      generateRandomPassword()
+    );
+    const uid = userCredential.user.uid;
 
-  //初期値設定＆不足情報を補う
-  const userData: UserUpdateData = {
-    id: uid,
-    name: userCreateData.name,
-    //一応セキュリティ怖いのでEmailはなしで
-    //email: userCreateData.email,
+    //初期値設定＆不足情報を補う
+    //ここ書き方改善したい
+    const userData: UserUpdateData = {
+      id: uid,
+      name: userCreateData.name,
+      //一応セキュリティ怖いのでEmailはなしで
+      //email: userCreateData.email,
 
-    //権限設定
-    isMember:
-      userCreateData.isMember === undefined ? true : userCreateData.isMember,
-    isAdmin:
-      userCreateData.isAdmin === undefined ? false : userCreateData.isAdmin,
+      //権限設定
+      isMember:
+        userCreateData.isMember === undefined ? true : userCreateData.isMember,
+      isAdmin:
+        userCreateData.isAdmin === undefined ? false : userCreateData.isAdmin,
 
-    //貸し出し関連のポイント
-    maxBorrowPoint:
-      userCreateData.isAdmin === undefined
-        ? DEFAULT_MAX_BORROW_POINT
-        : userCreateData.maxBorrowPoint,
-    usedBorrowPoint: 0,
-  };
+      //貸し出し関連のポイント
+      maxBorrowPoint:
+        userCreateData.isAdmin === undefined
+          ? DEFAULT_MAX_BORROW_POINT
+          : userCreateData.maxBorrowPoint,
+      usedBorrowPoint: 0,
+    };
 
-  //FireStoreでユーザー情報登録
-  await setUserData(userData, uid);
+    //FireStoreでユーザー情報登録
+    await setUserData(userData, uid);
+  } catch (e) {
+    console.error(e);
+  }
 };
 
 //===================

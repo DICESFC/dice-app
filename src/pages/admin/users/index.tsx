@@ -3,12 +3,17 @@ import { Container } from "@mui/material";
 
 import Auth from "@/components/auth/Auth";
 import AdminLayout from "@/layouts/AdminLayout/AdminLayout";
+import UserRegisterForm from "@/components/admin/users/UserRegisterForm";
 
 /*———————————–
   ユーザー管理画面
 ———————————–*/
 const AdminUserManager: NextPageWithLayout = () => {
-  return <Container>ようこそ、ユーザー管理者ページへ...</Container>;
+  return (
+    <Container>
+      <UserRegisterForm />
+    </Container>
+  );
 };
 
 AdminUserManager.getLayout = (page) => {

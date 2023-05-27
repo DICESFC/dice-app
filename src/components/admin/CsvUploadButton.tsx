@@ -4,11 +4,11 @@ import { csvToGameList } from "@/features/games/csvConverter";
 import FileUploadIcon from "@mui/icons-material/FileUpload";
 
 type Props = {
-  setGameData: any;
+  setData: any;
   setError: any;
 };
 
-const CsvUploadButton: FC<Props> = ({ setGameData, setError }) => {
+const CsvUploadButton: FC<Props> = ({ setData, setError }) => {
   //アップロードされたファイルをパースして親に渡す
   const handleFileUpload = (event: ChangeEvent<HTMLInputElement>) => {
     event.persist();
@@ -31,8 +31,8 @@ const CsvUploadButton: FC<Props> = ({ setGameData, setError }) => {
               .filter((line) => line) // 改行だけの行を削除
               .map((line) => line.split(","));
 
-            const gameData = csvToGameList(csvData);
-            setGameData(gameData);
+            const data = csvToGameList(csvData);
+            setData(data);
           }
         } catch (e) {
           console.error(e);
