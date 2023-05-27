@@ -9,7 +9,7 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
 import { Box } from "@mui/material";
-import SnackbarProvider from "@/hooks/provider/SnackbarProvider";
+import SnackbarProvider from "@/hooks/providers/SnackbarProvider";
 
 import "../api/init-firebase";
 import "../styles/globals.css";

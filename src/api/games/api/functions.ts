@@ -17,7 +17,7 @@ import type {
   BoardGame,
   BoardGameAddQuery,
 } from "../../../interfaces/boardgame";
-import { uploadImage } from "../../../features/storage/functions";
+import { uploadImage } from "../../storage/functions";
 import { generateBoardGameID } from "../utils";
 
 const db = getFirestore();
