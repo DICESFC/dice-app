@@ -9,7 +9,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 
 import styled from "@emotion/styled";
 import { checkCanBorrow } from "@/api/borrow/canBorrow";
-import { getDetailText } from "@/api/games/detailText";
+import { getDetailText } from "@/utils/games/detailText";
 
 const GameOverviewText = styled(Typography)({
   display: "inline-flex",
