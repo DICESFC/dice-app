@@ -1,18 +1,11 @@
 import { DEFAULT_MAX_BORROW_POINT } from "@/constants/constants";
 import { User, UserCreateData, UserUpdateData } from "@/interfaces/user";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import {
-  getFirestore,
-  collection,
-  addDoc,
-  doc,
-  updateDoc,
-} from "firebase/firestore";
-
-const db = getFirestore();
-const usersCollectionRef = collection(db, "users");
+import { firestore } from "../init-firebase-admin";
 
 const auth = getAuth();
+const usersRef = firestore.collection("users");
+
 //===================
 //* ユーザーを作成する
 //===================
@@ -59,8 +52,20 @@ export const createUser = async (userCreateData: UserCreateData) => {
 //* FireStore上でユーザーを設定する
 //===================
 export const setUserData = async (userData: UserUpdateData, uid: string) => {
-  const docRef = doc(usersCollectionRef, uid);
-  await updateDoc(docRef, { ...userData, id: uid });
+  const docRef = usersRef.doc(uid);
+  await docRef.update(userData);
+};
+//===================
+//* FireStoreからユーザーデータを取得する
+//* ついでにuidも追加する
+//===================
+export const getUserData = async (uid: string) => {
+  const docRef = usersRef.doc(uid);
+  const doc = await docRef.get();
+  return {
+    uid,
+    ...doc.data(),
+  };
 };
 
 //===================
