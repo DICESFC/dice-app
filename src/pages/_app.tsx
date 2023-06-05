@@ -13,10 +13,6 @@ import SnackbarProvider from "@/hooks/providers/SnackbarProvider";
 
 import "../styles/globals.css";
 
-import initAuth from "../api/auth/initAuth"; // next-firebase-authを初期化
-initAuth();
-import "../api/init-firebase-client"; // クライアント側firebaseを初期化
-
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
 const queryClient = new QueryClient();
