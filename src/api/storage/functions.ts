@@ -1,5 +1,5 @@
 import axios, { AxiosResponse } from "axios";
-import { storage } from "../init-firebase-admin";
+import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 //===================
 //* 画像アップロード
@@ -9,23 +9,22 @@ export const uploadImage = async (
   gameName: string
 ): Promise<string | undefined> => {
   try {
+    const storage = getStorage();
+
     //ファイルのダウンロード
     const response: AxiosResponse = await axios.get(url, {
-      responseType: "text",
+      responseType: "blob",
     });
 
-    const imgData = response.data;
-    const file = storage
-      .bucket()
-      .file(`images/boardgames/${gameName}-${new Date().getTime()}`);
+    const file = response.data;
 
-    //ファイルアップロード
-    await file.save(imgData);
-    const downloadUrl = await file.getSignedUrl({
-      action: "read",
-      expires: "12-31-3020", //1000年後に設定
-    });
-    return downloadUrl[0];
+    const storageRef = ref(
+      storage,
+      `images/boardgames/${gameName}-${new Date().getTime()}`
+    );
+    await uploadBytes(storageRef, file);
+    const downloadUrl = await getDownloadURL(storageRef);
+    return downloadUrl;
   } catch (e) {
     console.error(e);
     return undefined;

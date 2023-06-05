@@ -2,7 +2,7 @@ import { FC, useEffect, useState, useRef } from "react";
 import { Box, Container, SxProps } from "@mui/system";
 import { BoardGame, GameSearchQueryObject } from "@/interfaces/boardgame";
 
-import { getBoardGameSnapshot } from "@/api/games/functions";
+import { getBoardGameSnapshot } from "@/api/games/api/functions";
 import {
   where,
   orderBy,

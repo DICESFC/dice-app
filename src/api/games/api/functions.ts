@@ -1,12 +1,27 @@
 import { getNgram } from "@/api/games/utils";
-import { BoardGameUpdateQuery } from "../../interfaces/boardgame";
-import { firestore } from "../init-firebase-admin";
-import type { BoardGame, BoardGameAddQuery } from "../../interfaces/boardgame";
-import { uploadImage } from "../storage/functions";
-import { generateBoardGameID } from "./utils";
-import { Query, WhereFilterOp } from "firebase-admin/firestore";
+import { BoardGameUpdateQuery } from "../../../interfaces/boardgame";
+import {
+  getFirestore,
+  collection,
+  getDocs,
+  addDoc,
+  query,
+  QueryConstraint,
+  QuerySnapshot,
+  updateDoc,
+  where,
+  doc,
+  getDoc,
+} from "firebase/firestore";
+import type {
+  BoardGame,
+  BoardGameAddQuery,
+} from "../../../interfaces/boardgame";
+import { uploadImage } from "../../storage/functions";
+import { generateBoardGameID } from "../utils";
 
-const gamesRef = firestore.collection("games");
+const db = getFirestore();
+const gamesCollectionRef = collection(db, "games");
 
 //このURLのサムネイルはダウンロードしない(主にNot Found系のやつ)
 const excludeThumbnailURLs: string[] = [
@@ -47,7 +62,7 @@ export const createBoardGame = async (data: BoardGameAddQuery) => {
     gameData.ngramField = { ...jpNgram, ...enNgram };
 
     //データを登録する
-    const docRef = await gamesRef.add(gameData);
+    const docRef = await addDoc(gamesCollectionRef, gameData);
     console.log("successfully created:", data.name, data.code, data);
     return { status: "success", ref: docRef };
   } catch (e) {
@@ -56,36 +71,34 @@ export const createBoardGame = async (data: BoardGameAddQuery) => {
 };
 
 //===================
-//* ボドゲ取得
-//* where条件たちを受け取る
+//* ボドゲのSnapshotを取得。ボドゲブラウザーとかで使う
+//* queryの条件, またはその配列を受け取る
 //===================
-export const getBoardGameData = async (queryData: {
-  where?: [string, WhereFilterOp, any][];
-  startAt?: string;
-  endAt?: string;
-
-  //未使用
-  orderBy?: string;
-}) => {
+export const getBoardGameSnapshot = async (
+  queryData: QueryConstraint[] | QueryConstraint
+): Promise<QuerySnapshot> => {
   try {
-    let query = gamesRef as Query;
+    //クエリを配列に変換
+    const queryArray = Array.isArray(queryData) ? queryData : [queryData];
 
-    //where条件を連鎖させる
-    if (queryData.where) {
-      for (const whereQuery of queryData.where) {
-        query = query.where(...whereQuery);
-      }
-    }
+    const q = query(gamesCollectionRef, ...queryArray);
+    const querySnapshot = await getDocs(q);
+    return querySnapshot;
+  } catch (e) {
+    throw new Error(`${e}`);
+  }
+};
 
-    //ここひどい書き方。。読んでる人ごめんね
-    query = queryData.startAt ? query.startAt(queryData.startAt) : query;
-    query = queryData.endAt ? query.endAt(queryData.endAt) : query;
-
-    const querySnapshot = await query.get();
-
-    //データを取得
-    const data = querySnapshot.docs.map((doc) => doc.data() as BoardGame);
-    return data;
+//===================
+//* ボドゲ取得
+//* queryの条件, またはその配列を受け取る
+//===================
+export const getBoardGameData = async (
+  queryData: QueryConstraint[] | QueryConstraint
+) => {
+  try {
+    const querySnapshot = await getBoardGameSnapshot(queryData);
+    return querySnapshot.docs.map((doc) => doc.data() as BoardGame);
   } catch (e) {
     throw new Error(`${e}`);
   }
@@ -99,8 +112,9 @@ export const updateBoardGameDataByID = async (query: BoardGameUpdateQuery) => {
   try {
     console.log("update game: ", query);
 
-    //IDでゲームを検索
-    const querySnapshot = await gamesRef.where("id", "==", query.id).get();
+    const querySnapshot = await getBoardGameSnapshot(
+      where("id", "==", query.id)
+    );
 
     //更新対象のエラー処理
     if (!querySnapshot.docs.length) {
@@ -113,10 +127,10 @@ export const updateBoardGameDataByID = async (query: BoardGameUpdateQuery) => {
       );
     }
 
-    const docRef = gamesRef.doc(`games/${querySnapshot.docs[0].id}`);
-    await docRef.update(query);
+    const docRef = doc(db, "games", querySnapshot.docs[0].id);
+    await updateDoc(docRef, query);
 
-    return await docRef.get();
+    return await getDoc(docRef);
   } catch (e) {
     throw new Error(`${e}`);
   }

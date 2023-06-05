@@ -1,6 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 
-import { firestore } from "../init-firebase-admin";
+import {
+  collection,
+  getDocs,
+  getFirestore,
+  query,
+  where,
+} from "firebase/firestore";
 //===================
 //  IDの重複確認 → undefined or 重複ならUUIDを使用
 //  TODO: 分割してutils.tsを死滅させる
@@ -11,11 +17,11 @@ export const generateBoardGameID = async (suggestedID?: string) => {
   //IDの形式
   const idRegex = new RegExp(/^[-a-z0-9]+$/);
 
-  const db = firestore;
-  const gamesRef = db.collection("games");
+  const db = getFirestore();
+  const gamesCollectionRef = collection(db, "games");
 
-  const q = gamesRef.where("id", "==", `${suggestedID}`);
-  const querySnapshot = await q.get();
+  const q = query(gamesCollectionRef, where("id", "==", `${suggestedID}`));
+  const querySnapshot = await getDocs(q);
 
   //重複IDがある場合
   if (querySnapshot.docs.length) {

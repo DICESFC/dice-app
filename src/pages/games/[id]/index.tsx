@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { Box } from "@mui/system";
 import { useQuery } from "react-query";
 import CommonError from "@/components/common/CommonError";
-import { getBoardGameData } from "@/api/games/functions";
+import { getBoardGameData } from "@/api/games/api/functions";
 import { where } from "firebase/firestore";
 import CommonLoading from "@/components/common/CommonLoading";
 import { useSnackbar } from "@/hooks/useSnackbar";
