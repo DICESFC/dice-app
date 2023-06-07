@@ -1,5 +1,5 @@
-import { getNgram } from "@/api/games/utils";
-import { BoardGameUpdateQuery } from "../../../interfaces/boardgame";
+import { getNgram } from "@/api/client/games/utils";
+import { BoardGameUpdateQuery } from "../../../../interfaces/boardgame";
 import {
   getFirestore,
   collection,
@@ -16,7 +16,7 @@ import {
 import type {
   BoardGame,
   BoardGameAddQuery,
-} from "../../../interfaces/boardgame";
+} from "../../../../interfaces/boardgame";
 import { uploadImage } from "../../storage/functions";
 import { generateBoardGameID } from "../utils";
 

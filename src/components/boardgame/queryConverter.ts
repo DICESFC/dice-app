@@ -1,4 +1,4 @@
-import { getNgram } from "@/api/games/utils";
+import { getNgram } from "@/api/client/games/utils";
 import { QueryConstraint } from "firebase/firestore";
 import { GameSearchQueryObject } from "./../../interfaces/boardgame";
 import {

@@ -11,7 +11,7 @@ import CsvUploadButton from "../CsvUploadButton";
 import GameConfirmTable from "./GameConfirmTable";
 import { BoardGame } from "@/interfaces/boardgame";
 import CommonError from "@/components/common/CommonError";
-import { createBoardGame } from "@/api/games/api/functions";
+import { createBoardGame } from "@/api/client/games/api/functions";
 import { useSnackbar } from "@/hooks/useSnackbar";
 
 type Props = {};

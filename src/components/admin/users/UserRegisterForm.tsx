@@ -1,6 +1,6 @@
 import { FC, useState } from "react";
 import { Button, Paper, Typography } from "@mui/material";
-import { createUser } from "@/api/users/functions";
+import { createUser } from "@/api/client/users/functions";
 
 type Props = {};
 
