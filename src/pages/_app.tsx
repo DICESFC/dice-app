@@ -9,10 +9,11 @@ import { QueryClient, QueryClientProvider } from "react-query";
 import theme from "../styles/theme";
 import createEmotionCache from "../styles/createEmotionCache";
 import { Box } from "@mui/material";
-import SnackbarProvider from "@/hooks/providers/SnackbarProvider";
+import SnackbarProvider from "@/providers/SnackbarProvider";
 
-import "../api/init-firebase";
+import "../api/init-firebase-client";
 import "../styles/globals.css";
+import { AuthProvider } from "@/providers/AuthProvider";
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache();
@@ -33,23 +34,25 @@ const App: NextComponentType<AppContext, AppInitialProps, AppLayoutProps> = ({
         <title>DICE</title>
       </Head>
       <ThemeProvider theme={theme}>
-        <QueryClientProvider client={queryClient}>
-          <SnackbarProvider>
-            {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
-            <CssBaseline />
-            <Box
-              sx={{
-                display: "flex",
-                position: "relative",
-                width: "100%",
-                height: "100%",
-                overflow: "scroll",
-              }}
-            >
-              {getLayout(<Component {...pageProps} />)}
-            </Box>
-          </SnackbarProvider>
-        </QueryClientProvider>
+        <AuthProvider>
+          <QueryClientProvider client={queryClient}>
+            <SnackbarProvider>
+              {/* CssBaseline kickstart an elegant, consistent, and simple baseline to build upon. */}
+              <CssBaseline />
+              <Box
+                sx={{
+                  display: "flex",
+                  position: "relative",
+                  width: "100%",
+                  height: "100%",
+                  overflow: "scroll",
+                }}
+              >
+                {getLayout(<Component {...pageProps} />)}
+              </Box>
+            </SnackbarProvider>
+          </QueryClientProvider>
+        </AuthProvider>
       </ThemeProvider>
     </CacheProvider>
   );
