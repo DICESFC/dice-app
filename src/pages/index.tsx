@@ -2,16 +2,19 @@ import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
-import Auth from "@/components/auth/Auth";
 import Head from "next/head";
 import { GetServerSidePropsContext } from "next";
-import nookies from "nookies";
-import { firebaseAdmin } from "@/api/init-firebase-admin";
+import {
+  UserAuthInfo,
+  authenticateCurrentUser,
+} from "@/utils/auth/getCurrentUser";
 
 /*———————————–
   ホーム画面
 ———————————–*/
-const Home: NextPageWithLayout = () => {
+const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
+  currentUser,
+}) => {
   return (
     <Container maxWidth="lg">
       <Box
@@ -29,8 +32,7 @@ const Home: NextPageWithLayout = () => {
             px: 2,
           }}
         >
-          <MembershipCard />
-          {/*a*/}
+          <MembershipCard user={currentUser.data} />
         </Container>
       </Box>
     </Container>
@@ -44,37 +46,25 @@ Home.getLayout = (page) => {
         <title>ホーム - DICE</title>
       </Head>
 
-      <Auth>
-        <HomeLayout>{page}</HomeLayout>
-      </Auth>
+      <HomeLayout>{page}</HomeLayout>
     </>
   );
 };
 
 export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
   try {
-    const cookies = nookies.get(ctx);
-    const token = await firebaseAdmin.auth().verifyIdToken(cookies.auth_token);
+    const currentUser = await authenticateCurrentUser(ctx);
+    //メンバー権限がない場合
+    if (!currentUser.data.isMember) {
+      throw new Error("ログイン状態が確認できませんでした");
+    }
 
-    // the user is authenticated!
-    const { uid, email } = token;
-
-    // FETCH STUFF HERE!! 🚀
-    console.log(uid, email);
     return {
-      props: { message: `Your email is ${email} and your UID is ${uid}.` },
+      props: { currentUser },
     };
   } catch (err) {
-    // either the `token` cookie didn't exist
-    // or token verification failed
-    // either way: redirect to the login page
     ctx.res.writeHead(302, { Location: "/login" });
     ctx.res.end();
-
-    // `as never` prevents inference issues
-    // with InferGetServerSidePropsType.
-    // The props returned here don't matter because we've
-    // already redirected the user.
     return { props: {} as never };
   }
 };

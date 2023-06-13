@@ -1,13 +1,16 @@
 import { FC } from "react";
 import { Card } from "@mui/material";
 import { useAuthState } from "@/hooks/useAuthState";
+import { User } from "@/interfaces/user";
+
+type Props = {
+  user: User;
+};
 
 /*———————————–
   メンバーカード
 ———————————–*/
-const MembershipCard: FC = () => {
-  const { userInfo } = useAuthState();
-
+const MembershipCard: FC<Props> = ({ user }) => {
   return (
     <Card
       sx={{
@@ -18,7 +21,7 @@ const MembershipCard: FC = () => {
       }}
       elevation={7}
     >
-      ようこそ {userInfo.name}さん！
+      ようこそ {user.name}さん！
     </Card>
   );
 };
