@@ -2,7 +2,7 @@ import { FC, useEffect, useState, useRef } from "react";
 import { Box, Container, SxProps } from "@mui/system";
 import { BoardGame, GameSearchQueryObject } from "@/interfaces/boardgame";
 
-import { getBoardGameSnapshot } from "@/features/games/api/functions";
+import { getBoardGameSnapshot } from "@/api/games/api/functions";
 import {
   where,
   orderBy,
@@ -21,7 +21,7 @@ import CommonError from "../common/CommonError";
 import BoardGameDialog from "./BoardGameDialog";
 import SearchBox from "./searchbox/SearchBox";
 import { useRouter } from "next/router";
-import { getNgram } from "@/features/games/utils";
+import { getNgram } from "@/api/games/utils";
 import { convertQuery } from "./queryConverter";
 
 type Props = {

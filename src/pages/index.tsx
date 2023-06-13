@@ -2,13 +2,19 @@ import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
-import Auth from "@/components/auth/Auth";
 import Head from "next/head";
+import { GetServerSidePropsContext } from "next";
+import {
+  UserAuthInfo,
+  authenticateCurrentUser,
+} from "@/utils/auth/getCurrentUser";
 
 /*———————————–
   ホーム画面
 ———————————–*/
-const Home: NextPageWithLayout = () => {
+const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
+  currentUser,
+}) => {
   return (
     <Container maxWidth="lg">
       <Box
@@ -26,8 +32,7 @@ const Home: NextPageWithLayout = () => {
             px: 2,
           }}
         >
-          <MembershipCard />
-          hello
+          <MembershipCard user={currentUser.data} />
         </Container>
       </Box>
     </Container>
@@ -41,11 +46,27 @@ Home.getLayout = (page) => {
         <title>ホーム - DICE</title>
       </Head>
 
-      <Auth>
-        <HomeLayout>{page}</HomeLayout>
-      </Auth>
+      <HomeLayout>{page}</HomeLayout>
     </>
   );
+};
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  try {
+    const currentUser = await authenticateCurrentUser(ctx);
+    //メンバー権限がない場合
+    if (!currentUser.data.isMember) {
+      throw new Error("ログイン状態が確認できませんでした");
+    }
+
+    return {
+      props: { currentUser },
+    };
+  } catch (err) {
+    ctx.res.writeHead(302, { Location: "/login" });
+    ctx.res.end();
+    return { props: {} as never };
+  }
 };
 
 export default Home;
