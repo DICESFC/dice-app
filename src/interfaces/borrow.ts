@@ -8,4 +8,6 @@ export type BorrowData = {
   dueDate: number;
   returnedAt?: number;
   active: boolean;
+  gameName: string;
+  userName: string;
 };
