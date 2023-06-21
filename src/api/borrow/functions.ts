@@ -1,4 +1,7 @@
-import { updateBoardGameDataByID } from "./../games/api/functions";
+import {
+  getBoardGameData,
+  updateBoardGameDataByID,
+} from "./../games/api/functions";
 import { BoardGame } from "@/interfaces/boardgame";
 import { BorrowData } from "@/interfaces/borrow";
 import { User } from "@/interfaces/user";
@@ -104,7 +107,6 @@ export const borrowBoardGame = async (game: BoardGame, user: User) => {
 //===================
 export const returnBoardGame = async (game: BoardGame, user: User) => {
   try {
-    console.log(game, user);
     //現在のレンタルデータを取得する
     const q = query(
       borrowCollectionRef,
@@ -151,4 +153,62 @@ export const returnBoardGame = async (game: BoardGame, user: User) => {
       message: "エラーが発生しました",
     };
   }
+};
+
+//===================
+//* ユーザーのレンタル情報を取得
+//===================
+export const getBorrowDataByUser = async (user: User, active?: boolean) => {
+  //取得条件
+  const queryArray = [where("uid", "==", user.id)];
+
+  //activeが引数に指定されているなら、対象の状態のレンタルのみを収集
+  if (active != undefined) {
+    queryArray.push(where("active", "==", active));
+  }
+
+  //データ取得
+  const q = query(borrowCollectionRef, ...queryArray);
+  const activeBorrowRef = await getDocs(q);
+
+  //データを返す
+  return activeBorrowRef.docs.map((doc) => doc.data() as BorrowData);
+};
+
+//===================
+//* ユーザーの借り入れ情報を取得する
+//* 第二引数のactiveで返却待ちかどうかを指定できる
+//* バリバリにN+1問題が起きてるので注意。firestore側では対策が難しいのでlimit掛けるなどが必要かも
+//* あとコード汚い。。
+//===================
+export const getBorrowedGameDataByUser = async (
+  user: User,
+  active?: boolean
+) => {
+  //レンタルデータを収集
+  const activeBorrowData = await getBorrowDataByUser(user, active);
+
+  //ボドゲデータを収集
+  const gameDatas = await Promise.all(
+    activeBorrowData.map((borrowData) => {
+      return getBoardGameData(where("id", "==", borrowData.gameID));
+    })
+  );
+
+  //ボドゲ情報と貸出情報を合成したデータリストを作る
+  const result = [];
+  for (let i = 0; i < activeBorrowData.length; i++) {
+    result.push({
+      gameData:
+        gameDatas[i].length === 1
+          ? gameDatas[i][0]
+          : {
+              name: "ボドゲデータにエラーがあります",
+              message: `gameData.length: ${gameDatas[i].length}`,
+            },
+      borrowData: activeBorrowData[i],
+    });
+  }
+
+  return result;
 };

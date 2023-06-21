@@ -8,6 +8,7 @@ import {
   UserAuthInfo,
   authenticateCurrentUser,
 } from "@/utils/auth/getCurrentUser";
+import BorrowedGames from "@/components/home/BorrowedGames";
 
 /*———————————–
   ホーム画面
@@ -33,6 +34,8 @@ const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
           }}
         >
           <MembershipCard user={currentUser.data} />
+
+          <BorrowedGames user={currentUser.data} />
         </Container>
       </Box>
     </Container>
