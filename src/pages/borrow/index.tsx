@@ -1,14 +1,12 @@
 import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Box, Button } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
-import Auth from "@/components/auth/Auth";
 import Head from "next/head";
 import { useState } from "react";
 import Scanner from "@/components/common/Scanner";
-import { getBoardGameData } from "@/features/games/api/functions";
+import { getBoardGameData } from "@/api/games/api/functions";
 import { useQuery } from "react-query";
 import { where } from "firebase/firestore";
-import { useRouter } from "next/router";
 import { useEffect } from "react";
 import {
   UserAuthInfo,
@@ -90,7 +88,7 @@ export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
     return {
       props: { currentUser },
     };
-  } catch (err) {
+  } catch (err: any) {
     ctx.res.writeHead(302, { Location: "/login" });
     ctx.res.end();
     return { props: {} as never };

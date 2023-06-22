@@ -6,6 +6,7 @@ type Props = {
   onDetected: (result: string) => void;
 };
 
+//TODO: any外す
 const Scanner = ({ onDetected }: Props): JSX.Element => {
   useEffect(() => {
     Quagga.init(
@@ -24,7 +25,7 @@ const Scanner = ({ onDetected }: Props): JSX.Element => {
         frequency: 10,
         locate: true,
       },
-      (err) => {
+      (err: any) => {
         if (err) {
           console.log(err, "error msg");
         }
@@ -35,16 +36,16 @@ const Scanner = ({ onDetected }: Props): JSX.Element => {
       }
     );
 
-    Quagga.onProcessed((result) => {
+    Quagga.onProcessed((result: any) => {
       if (result) {
-        console.log(result);
+        //console.log(result);
       }
     });
 
     Quagga.onDetected(detected);
   }, []);
 
-  const detected = (result) => {
+  const detected = (result: any) => {
     onDetected(result.codeResult.code);
   };
 
