@@ -1,9 +1,15 @@
 import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Box, Button } from "@mui/material";
-import { BoardGame } from "@/interfaces/boardgame";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
-
+import Auth from "@/components/auth/Auth";
 import Head from "next/head";
+import { useState } from "react";
+import Scanner from "@/components/common/Scanner";
+import { getBoardGameData } from "@/features/games/api/functions";
+import { useQuery } from "react-query";
+import { where } from "firebase/firestore";
+import { useRouter } from "next/router";
+import { useEffect } from "react";
 import {
   UserAuthInfo,
   authenticateCurrentUser,
@@ -16,6 +22,25 @@ import { GetServerSidePropsContext } from "next";
 const Borrow: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
   currentUser,
 }) => {
+  const [camera, setCamera] = useState(false);
+  const [code, setCode] = useState<null | number>(null);
+
+  const onDetected = (result: string) => {
+    setCode(Number(result));
+  };
+
+  const { data, refetch } = useQuery(
+    ["get-board-game", code],
+    async () => getBoardGameData(where("code", "==", code)),
+    { enabled: false }
+  );
+
+  useEffect(() => {
+    if (code !== null) refetch();
+  }, [code, refetch]);
+
+  console.log(data);
+
   return (
     <>
       <Container maxWidth="lg">
@@ -26,11 +51,16 @@ const Borrow: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
             flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            gap: "1rem",
           }}
         >
-          レンタルページ
-          <br />
+          <h1>レンタルページ</h1>
           現状は開発用のあれこれ置き場です
+          <p>{code ? code : "Scanning..."}</p>
+          <Button variant="contained" onClick={() => setCamera(!camera)}>
+            {camera ? "停止する" : "カメラ表示"}
+          </Button>
+          <div>{camera && <Scanner onDetected={onDetected} />}</div>
         </Box>
       </Container>
     </>
