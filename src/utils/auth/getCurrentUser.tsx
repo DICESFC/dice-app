@@ -25,6 +25,6 @@ export const authenticateCurrentUser = async (
   return {
     uid,
     email,
-    data: user.data() as User,
+    data: { ...(user.data() as User), id: uid },
   };
 };

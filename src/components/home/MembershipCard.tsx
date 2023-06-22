@@ -1,6 +1,5 @@
 import { FC } from "react";
 import { Card } from "@mui/material";
-import { useAuthState } from "@/hooks/useAuthState";
 import { User } from "@/interfaces/user";
 
 type Props = {
@@ -17,7 +16,6 @@ const MembershipCard: FC<Props> = ({ user }) => {
         width: "100%",
         aspectRatio: "5 / 3",
         borderRadius: "7px",
-        height: 400,
       }}
       elevation={7}
     >

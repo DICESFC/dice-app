@@ -1,8 +1,13 @@
 //貸し出しデータ
 export type BorrowData = {
-  userID: string;
+  //ユーザーのドキュメントid
+  uid: string;
+  //ゲームのid(こっちはドキュメントIDじゃないので注意)
   gameID: string;
   borrowedAt: number;
+  dueDate: number;
   returnedAt?: number;
   active: boolean;
+  gameName: string;
+  userName: string;
 };

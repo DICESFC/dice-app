@@ -14,7 +14,6 @@ import Head from "next/head";
 
 /*———————————–
   ボドゲ詳細画面
-  TODO: モーダル化
 ———————————–*/
 const Games: NextPageWithLayout = () => {
   const router = useRouter();

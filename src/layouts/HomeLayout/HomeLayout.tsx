@@ -52,6 +52,10 @@ const HomeLayout: FC<Props> = ({ children }) => {
     const targetNavigation = NAVIGATIONS[menuID];
     //画面遷移
     router.push(targetNavigation.href);
+
+    //クリック時は下のuseEffectに先んじて画面反映
+    //遷移を早く感じさせるための工夫です
+    setSelectedMenu(menuID);
   };
 
   const router = useRouter();
