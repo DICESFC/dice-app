@@ -2,7 +2,7 @@ import { NextPageWithLayout } from "@/interfaces/common";
 
 import { useAuthState } from "@/hooks/useAuthState";
 import { useRouter } from "next/router";
-import { signOut } from "@/features/auth/api/functions";
+import { signOut } from "@/api/auth/functions";
 import CommonLoading from "@/components/common/CommonLoading";
 import { useEffect } from "react";
 import { useSnackbar } from "@/hooks/useSnackbar";

@@ -10,10 +10,18 @@ import { useQuery } from "react-query";
 import { where } from "firebase/firestore";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import {
+  UserAuthInfo,
+  authenticateCurrentUser,
+} from "@/utils/auth/getCurrentUser";
+import { GetServerSidePropsContext } from "next";
+
 /*———————————–
   レンタル画面
 ———————————–*/
-const Borrow: NextPageWithLayout = () => {
+const Borrow: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
+  currentUser,
+}) => {
   const [camera, setCamera] = useState(false);
   const [code, setCode] = useState<null | number>(null);
 
@@ -32,6 +40,7 @@ const Borrow: NextPageWithLayout = () => {
   }, [code, refetch]);
 
   console.log(data);
+
   return (
     <>
       <Container maxWidth="lg">
@@ -65,11 +74,27 @@ Borrow.getLayout = (page) => {
         <title>ボドゲレンタル - DICE</title>
       </Head>
 
-      <Auth>
-        <HomeLayout>{page}</HomeLayout>
-      </Auth>
+      <HomeLayout>{page}</HomeLayout>
     </>
   );
+};
+
+export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
+  try {
+    const currentUser = await authenticateCurrentUser(ctx);
+    //メンバー権限がない場合
+    if (!currentUser.data.isMember) {
+      throw new Error("ログイン状態が確認できませんでした");
+    }
+
+    return {
+      props: { currentUser },
+    };
+  } catch (err) {
+    ctx.res.writeHead(302, { Location: "/login" });
+    ctx.res.end();
+    return { props: {} as never };
+  }
 };
 
 export default Borrow;

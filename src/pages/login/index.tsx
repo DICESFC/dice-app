@@ -2,7 +2,7 @@ import { NextPageWithLayout } from "@/interfaces/common";
 import { Container, Box, Button, Typography } from "@mui/material";
 
 import { useAuthState } from "@/hooks/useAuthState";
-import { signInWithGoogle } from "@/features/auth/api/functions";
+import { signInWithGoogle } from "@/api/auth/functions";
 
 import Image from "@/components/common/Image";
 import GoogleLoginButton from "@/components/auth/GoogleButton";

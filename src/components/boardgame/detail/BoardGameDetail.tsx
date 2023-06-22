@@ -14,9 +14,9 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-import { checkCanBorrow } from "@/features/borrow/api/canBorrow";
+import { checkCanBorrow } from "@/api/borrow/canBorrow";
 import BoardGameDetailProperty from "./DetailProperty";
-import { getDetailText } from "@/features/games/detailText";
+import { getDetailText } from "@/api/games/detailText";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAuthState } from "@/hooks/useAuthState";

@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import { Snackbar, Alert } from "@mui/material";
-import SnackbarContext, { useSnackbar } from "../useSnackbar";
+import SnackbarContext, { useSnackbar } from "../hooks/useSnackbar";
 
 type Props = {
   children: ReactNode;
