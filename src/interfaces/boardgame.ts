@@ -1,4 +1,6 @@
 type BoardGameBase = {
+  [key: string]: any;
+
   isBorrowedNow?: boolean;
   prohibitBorrow?: boolean;
 
