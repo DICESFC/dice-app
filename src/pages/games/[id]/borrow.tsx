@@ -29,6 +29,8 @@ const BorrowGame: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
   const handleBorrow = async () => {
     if (data) {
       const result = await borrowBoardGame(data[0], currentUser.data);
+      console.log(result);
+
       if (result.status === "success") {
         openSnackbar("レンタルが正常に登録されました");
       } else {
@@ -41,6 +43,8 @@ const BorrowGame: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
   const handleReturn = async () => {
     if (data) {
       const result = await returnBoardGame(data[0], currentUser.data);
+      console.log(result);
+
       if (result.status === "success") {
         openSnackbar("正常に返却できました");
       } else {
