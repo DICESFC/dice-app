@@ -1,10 +1,11 @@
 import { FC } from "react";
-import { Card } from "@mui/material";
+import { Card, Divider, Typography } from "@mui/material";
 import { User } from "@/interfaces/user";
 import { useQuery } from "react-query";
 import { getBorrowedGameDataByUser } from "@/api/borrow/functions";
-import CommonLoading from "../common/CommonLoading";
-import CommonError from "../common/CommonError";
+import CommonLoading from "../../common/CommonLoading";
+import CommonError from "../../common/CommonError";
+import BorrowedGameCard from "./BorrowedGameCard";
 
 type Props = {
   user: User;
@@ -17,7 +18,7 @@ const BorrowedGames: FC<Props> = ({ user }) => {
   //返却待ちのボドゲを収集する
   const { data, isLoading, isError } = useQuery(
     `get-boardgame-${user.id}`,
-    async () => getBorrowedGameDataByUser(user, true)
+    async () => getBorrowedGameDataByUser(user, { active: true })
   );
 
   if (isError)
@@ -25,7 +26,15 @@ const BorrowedGames: FC<Props> = ({ user }) => {
   if (isLoading || !data)
     return <CommonLoading>レンタル情報を読み込み中...</CommonLoading>;
 
-  return <>{data.map((d) => d.borrowData.gameName)}</>;
+  return (
+    <>
+      <Divider sx={{ mt: 2, mb: 1 }} />
+      <Typography sx={{ textAlign: "center" }}>現在借りているボドゲ</Typography>
+      {data.map((d) => (
+        <BorrowedGameCard data={d} key={d.gameData.id} />
+      ))}
+    </>
+  );
 };
 
 export default BorrowedGames;

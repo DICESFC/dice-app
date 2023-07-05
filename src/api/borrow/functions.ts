@@ -1,10 +1,12 @@
+import { MAX_BORROW_DAYS } from "@/constants/constants";
 import {
   getBoardGameData,
   updateBoardGameDataByID,
 } from "./../games/api/functions";
 import { BoardGame } from "@/interfaces/boardgame";
-import { BorrowData } from "@/interfaces/borrow";
+import { BorrowData, ConbinedBorrowData } from "@/interfaces/borrow";
 import { User } from "@/interfaces/user";
+import { getCurrentTime } from "@/utils/borrow/borrowDue";
 import {
   getFirestore,
   collection,
@@ -67,12 +69,9 @@ export const borrowBoardGame = async (game: BoardGame, user: User) => {
       };
     }
 
-    const jstOffset = +((new Date().getTimezoneOffset() + 9 * 60) * 60 * 1000);
-
-    // 取得できる値は必ず日本時間になる
-    const jstNow = new Date(Date.now() + jstOffset);
-    // 1日は86400000ミリ秒なので、それを7日分追加
-    const dueDate = new Date(jstNow.getTime() + 7 * 86400000);
+    const jstNow = getCurrentTime();
+    // 7日後
+    const dueDate = new Date(jstNow.getTime() + MAX_BORROW_DAYS);
 
     const borrowData: BorrowData = {
       uid: user.id,
@@ -183,10 +182,13 @@ export const getBorrowDataByUser = async (user: User, active?: boolean) => {
 //===================
 export const getBorrowedGameDataByUser = async (
   user: User,
-  active?: boolean
-) => {
+  options?: { active?: boolean }
+): Promise<ConbinedBorrowData[]> => {
   //レンタルデータを収集
-  const activeBorrowData = await getBorrowDataByUser(user, active);
+  const activeBorrowData = await getBorrowDataByUser(
+    user,
+    options ? options.active : undefined
+  );
 
   //ボドゲデータを収集
   const gameDatas = await Promise.all(
@@ -199,15 +201,13 @@ export const getBorrowedGameDataByUser = async (
   const result = [];
   for (let i = 0; i < activeBorrowData.length; i++) {
     result.push({
-      gameData:
-        gameDatas[i].length === 1
-          ? gameDatas[i][0]
-          : {
-              name: "ボドゲデータにエラーがあります",
-              message: `gameData.length: ${gameDatas[i].length}`,
-            },
+      gameData: gameDatas[i][0],
       borrowData: activeBorrowData[i],
     });
+
+    if (gameDatas[i].length != 1) {
+      console.error("ボドゲデータに不備があります: ", activeBorrowData[i]);
+    }
   }
 
   return result;

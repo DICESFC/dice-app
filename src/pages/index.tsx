@@ -8,7 +8,7 @@ import {
   UserAuthInfo,
   authenticateCurrentUser,
 } from "@/utils/auth/getCurrentUser";
-import BorrowedGames from "@/components/home/BorrowedGames";
+import BorrowedGames from "@/components/home/BorrowedGames/BorrowedGames";
 
 /*———————————–
   ホーム画面
