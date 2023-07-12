@@ -1,9 +1,11 @@
 import { NextPageWithLayout } from "@/interfaces/common";
-import { Container, Typography, Box, Button, Card } from "@mui/material";
+import { Container,Link, Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
 import Auth from "@/components/auth/Auth";
 import Head from "next/head";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
+
 
 /*———————————–
   ホーム画面
@@ -25,7 +27,13 @@ const Home: NextPageWithLayout = () => {
             mt: 2,
             px: 2,
           }}
-        >
+          >
+         
+         <Button variant="outlined" href="./admin" startIcon={< AdminPanelSettingsIcon/>}>
+           Admin
+         </Button>
+         {/* .がpwdでそっから相対パス */}
+         
           <MembershipCard />
         </Container>
       </Box>
