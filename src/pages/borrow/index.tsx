@@ -13,6 +13,7 @@ import {
   authenticateCurrentUser,
 } from "@/utils/auth/getCurrentUser";
 import { GetServerSidePropsContext } from "next";
+import { useRouter } from "next/router";
 
 /*———————————–
   レンタル画面
@@ -22,6 +23,8 @@ const Borrow: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
 }) => {
   const [camera, setCamera] = useState(false);
   const [code, setCode] = useState<null | number>(null);
+
+  const router = useRouter();
 
   const onDetected = (result: string) => {
     setCode(Number(result));
@@ -37,7 +40,11 @@ const Borrow: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
     if (code !== null) refetch();
   }, [code, refetch]);
 
-  console.log(data);
+  if (data) {
+    console.log(data);
+    const boardGameId = data[0].id;
+    router.push(`games/${boardGameId}`);
+  }
 
   return (
     <>
