@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "@/interfaces/common";
-import { Container, Typography, Box, Button, Card } from "@mui/material";
+import { Container, Link,Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
 import Head from "next/head";
@@ -7,6 +7,7 @@ import { UserAuthInfo } from "@/utils/auth/getCurrentUser";
 import BorrowedGames from "@/components/home/BorrowedGames/BorrowedGames";
 import Auth from "@/components/auth/Auth";
 import { useAuthState } from "@/hooks/useAuthState";
+import AdminPanelSettingsIcon from '@mui/icons-material/AdminPanelSettings';
 
 /*———————————–
   ホーム画面
@@ -31,6 +32,11 @@ const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = () => {
             px: 2,
           }}
         >
+
+         <Button variant="outlined" href="./admin" startIcon={< AdminPanelSettingsIcon/>}>
+           Admin
+         </Button>
+         {/* .がpwdでそっから相対パス */}
           <MembershipCard user={userData} />
 
           <BorrowedGames user={userData} />
