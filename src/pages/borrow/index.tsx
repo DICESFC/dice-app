@@ -13,6 +13,7 @@ import {
   authenticateCurrentUser,
 } from "@/utils/auth/getCurrentUser";
 import Auth from "@/components/auth/Auth";
+import { useRouter } from "next/router";
 
 /*———————————–
   レンタル画面
@@ -20,6 +21,8 @@ import Auth from "@/components/auth/Auth";
 const Borrow: NextPageWithLayout = () => {
   const [camera, setCamera] = useState(false);
   const [code, setCode] = useState<null | number>(null);
+
+  const router = useRouter();
 
   const onDetected = (result: string) => {
     setCode(Number(result));
@@ -34,6 +37,12 @@ const Borrow: NextPageWithLayout = () => {
   useEffect(() => {
     if (code !== null) refetch();
   }, [code, refetch]);
+
+  if (data) {
+    console.log(data);
+    const boardGameId = data[0].id;
+    router.push(`games/${boardGameId}`);
+  }
 
   return (
     <>
