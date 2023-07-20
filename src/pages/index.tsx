@@ -3,23 +3,16 @@ import { Container, Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
 import Head from "next/head";
-import { GetServerSidePropsContext } from "next";
-import {
-  UserAuthInfo,
-  authenticateCurrentUser,
-} from "@/utils/auth/getCurrentUser";
+import { UserAuthInfo } from "@/utils/auth/getCurrentUser";
 import BorrowedGames from "@/components/home/BorrowedGames/BorrowedGames";
-import { useContext } from "react";
-import { AuthContext } from "@/providers/AuthProvider";
+import Auth from "@/components/auth/Auth";
+import { useAuthState } from "@/hooks/useAuthState";
 
 /*———————————–
   ホーム画面
 ———————————–*/
-const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
-  currentUser,
-}) => {
-  const user = useContext(AuthContext);
-  console.log(user);
+const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = () => {
+  const { userData } = useAuthState();
 
   return (
     <Container maxWidth="lg">
@@ -38,9 +31,9 @@ const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
             px: 2,
           }}
         >
-          <MembershipCard user={currentUser.data} />
+          <MembershipCard user={userData} />
 
-          <BorrowedGames user={currentUser.data} />
+          <BorrowedGames user={userData} />
         </Container>
       </Box>
     </Container>
@@ -54,27 +47,11 @@ Home.getLayout = (page) => {
         <title>ホーム - DICE</title>
       </Head>
 
-      <HomeLayout>{page}</HomeLayout>
+      <Auth>
+        <HomeLayout>{page}</HomeLayout>
+      </Auth>
     </>
   );
-};
-
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  try {
-    const currentUser = await authenticateCurrentUser(ctx);
-    //メンバー権限がない場合
-    if (!currentUser.data.isMember) {
-      throw new Error("ログイン状態が確認できませんでした");
-    }
-
-    return {
-      props: { currentUser },
-    };
-  } catch (err) {
-    ctx.res.writeHead(302, { Location: "/login" });
-    ctx.res.end();
-    return { props: {} as never };
-  }
 };
 
 export default Home;

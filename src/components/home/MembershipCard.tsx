@@ -1,9 +1,10 @@
 import { FC } from "react";
 import { Card } from "@mui/material";
 import { User } from "@/interfaces/user";
+import CommonLoading from "../common/CommonLoading";
 
 type Props = {
-  user: User;
+  user?: User;
 };
 
 /*———————————–
@@ -19,7 +20,11 @@ const MembershipCard: FC<Props> = ({ user }) => {
       }}
       elevation={7}
     >
-      ようこそ {user.name}さん！
+      {user ? (
+        <>ようこそ {user.name}さん！</>
+      ) : (
+        <CommonLoading>読み込み中...</CommonLoading>
+      )}
     </Card>
   );
 };
