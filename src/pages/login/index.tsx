@@ -9,88 +9,102 @@ import GoogleLoginButton from "@/components/auth/GoogleButton";
 import { useRouter } from "next/router";
 import CommonError from "@/components/common/CommonError";
 import Link from "next/link";
+import CircleInstructionDialog from "@/components/welcome/CircleInstructionDialogue";
+import { useState } from "react";
 
 /*———————————–
   ログイン画面
 ———————————–*/
 const Login: NextPageWithLayout = () => {
-  const { isSignedIn, isError, userInfo } = useAuthState();
+  const { isSignedIn, isError, userData } = useAuthState();
   const router = useRouter();
+  const [isCircleInstructionOpen, setIsCircleInstructionOpen] =
+    useState<boolean>(false);
 
   //正常にログインした状態ならホームへ
-  if (isSignedIn && userInfo.isMember) {
+  if (isSignedIn && userData && userData.isMember) {
     router.replace("/");
   }
 
   return (
-    <Container
-      maxWidth="sm"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center",
-        textAlign: "center",
-        height: "100%",
-      }}
-    >
-      <Box
+    <>
+      <CircleInstructionDialog
+        open={isCircleInstructionOpen}
+        onClose={() => setIsCircleInstructionOpen(false)}
+      />
+      <Container
+        maxWidth="sm"
         sx={{
-          mb: 3,
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "center",
+          alignItems: "center",
+          textAlign: "center",
+          height: "100%",
         }}
       >
         <Box
           sx={{
-            marginX: "auto",
-            maxWidth: "65%",
-            height: "auto",
-            mb: 2,
+            mb: 3,
           }}
         >
-          <Image
-            src="/resources/logo/dicelogo.png"
-            alt="DICEロゴ"
-            width="700"
-            height="700"
-            priority
-          />
-        </Box>
+          <Box
+            sx={{
+              marginX: "auto",
+              maxWidth: "65%",
+              height: "auto",
+              mb: 2,
+            }}
+          >
+            <Image
+              src="/resources/logo/dicelogo.png"
+              alt="DICEロゴ"
+              width="700"
+              height="700"
+              priority
+            />
+          </Box>
 
-        <Box sx={{ mb: 1 }}>
-          <GoogleLoginButton onClick={signInWithGoogle} />
-        </Box>
-        <Typography variant="caption" sx={{ display: "block" }}>
-          ログインするには？
-        </Typography>
-
-        <Box sx={{ mt: 9 }}>
-          <Typography variant="body2" sx={{ fontWeight: 600 }}>
-            \ ボドゲリスト公開中 /
+          <Box sx={{ mb: 1 }}>
+            <GoogleLoginButton onClick={signInWithGoogle} />
+          </Box>
+          <Typography
+            variant="caption"
+            sx={{ display: "block", cursor: "pointer" }}
+            onClick={() => setIsCircleInstructionOpen(true)}
+          >
+            ログインするには？
           </Typography>
-          <Link href="/welcome" style={{ textDecoration: "none" }}>
-            <Button variant="outlined" size="large">
-              新歓ページはこちら
-            </Button>
-          </Link>
+
+          <Box sx={{ mt: 9 }}>
+            <Typography variant="body2" sx={{ fontWeight: 600 }}>
+              \ ボドゲリスト公開中 /
+            </Typography>
+            <Link href="/welcome" style={{ textDecoration: "none" }}>
+              <Button variant="outlined" size="large">
+                新歓ページはこちら
+              </Button>
+            </Link>
+          </Box>
         </Box>
-      </Box>
 
-      {isError && (
-        <CommonError title="認証エラー">
-          Google認証に失敗しました。
-          <br />
-          keio.jpアカウントで再ログインしてみて下さい。
-        </CommonError>
-      )}
+        {isError && (
+          <CommonError title="認証に失敗しました">
+            アカウントが発行されていない可能性があります。
+            <br />
+            keio.jpアカウントで再度ログインしてみてください。
+          </CommonError>
+        )}
 
-      {isSignedIn && !userInfo.isMember && (
-        <CommonError title="権限エラー" severity="warning">
-          アプリの閲覧権限がありません。
-          <br />
-          サークルへお問い合わせ下さい。
-        </CommonError>
-      )}
-    </Container>
+        {isSignedIn && userData && !userData.isMember && (
+          <CommonError title="権限エラー" severity="warning">
+            アプリの閲覧権限がありません。
+            <br />
+            サークルへお問い合わせ下さい。
+          </CommonError>
+        )}
+      </Container>
+    </>
   );
 };
 

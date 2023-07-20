@@ -1,13 +1,75 @@
-import { User, getAuth } from "firebase/auth";
+import { getAuth } from "firebase/auth";
 import nookies from "nookies";
 import { useEffect, useState, createContext } from "react";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
+import { User } from "@/interfaces/user";
+import { User as FirebaseUser } from "firebase/auth";
 
-const AuthContext = createContext<{ user: User | null }>({
-  user: null,
-});
+//ログイン状態, 会員情報, ロード情報などを格納するオブジェクト
+export type AuthState = {
+  isSignedIn: boolean;
+  isLoading: boolean;
+  isError: boolean;
+  userData?: User;
+};
+
+const INITIAL_AUTH_STATE: AuthState = {
+  isSignedIn: false,
+  isError: false,
+  isLoading: true,
+};
+
+export const AuthContext = createContext<AuthState>(INITIAL_AUTH_STATE);
 
 export function AuthProvider({ children }: any) {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [authState, setAuthState] = useState(INITIAL_AUTH_STATE);
+
+  //ユーザー情報を取得する
+  useEffect(() => {
+    (async () => {
+      //まだGoogleログインをしていない場合
+      try {
+        if (!user) {
+          setAuthState({
+            ...authState,
+            isSignedIn: false,
+            isLoading: false,
+            isError: false,
+          });
+
+          //Googleログインが済んでいる場合
+        } else {
+          setAuthState({
+            ...authState,
+            isLoading: true,
+            isError: false,
+          });
+
+          const docRef = doc(getFirestore(), "users", user.uid);
+          const result = await getDoc(docRef);
+          const userData = result.data() as User;
+
+          setAuthState({
+            ...authState,
+            userData,
+            isLoading: false,
+            isError: false,
+            isSignedIn: true,
+          });
+        }
+
+        //情報取得に失敗した場合
+      } catch (e) {
+        console.error(e);
+        setAuthState({
+          ...INITIAL_AUTH_STATE,
+          isLoading: false,
+          isError: true,
+        });
+      }
+    })();
+  }, [user]);
 
   // 認証トークンが変化した時にcookieに送信
   useEffect(() => {
@@ -37,6 +99,6 @@ export function AuthProvider({ children }: any) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user }}>{children}</AuthContext.Provider>
+    <AuthContext.Provider value={authState}>{children}</AuthContext.Provider>
   );
 }

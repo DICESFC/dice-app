@@ -1,3 +1,5 @@
+import { BoardGame } from "./boardgame";
+
 //貸し出しデータ
 export type BorrowData = {
   //ユーザーのドキュメントid
@@ -10,4 +12,10 @@ export type BorrowData = {
   active: boolean;
   gameName: string;
   userName: string;
+};
+
+//貸し出しとゲームデータを合成したもの
+export type ConbinedBorrowData = {
+  borrowData: BorrowData;
+  gameData: BoardGame;
 };
