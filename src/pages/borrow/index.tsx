@@ -12,14 +12,12 @@ import {
   UserAuthInfo,
   authenticateCurrentUser,
 } from "@/utils/auth/getCurrentUser";
-import { GetServerSidePropsContext } from "next";
+import Auth from "@/components/auth/Auth";
 
 /*———————————–
   レンタル画面
 ———————————–*/
-const Borrow: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
-  currentUser,
-}) => {
+const Borrow: NextPageWithLayout = () => {
   const [camera, setCamera] = useState(false);
   const [code, setCode] = useState<null | number>(null);
 
@@ -36,8 +34,6 @@ const Borrow: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
   useEffect(() => {
     if (code !== null) refetch();
   }, [code, refetch]);
-
-  console.log(data);
 
   return (
     <>
@@ -72,27 +68,10 @@ Borrow.getLayout = (page) => {
         <title>ボドゲレンタル - DICE</title>
       </Head>
 
-      <HomeLayout>{page}</HomeLayout>
+      <Auth>
+        <HomeLayout>{page}</HomeLayout>
+      </Auth>
     </>
   );
 };
-
-export const getServerSideProps = async (ctx: GetServerSidePropsContext) => {
-  try {
-    const currentUser = await authenticateCurrentUser(ctx);
-    //メンバー権限がない場合
-    if (!currentUser.data.isMember) {
-      throw new Error("ログイン状態が確認できませんでした");
-    }
-
-    return {
-      props: { currentUser },
-    };
-  } catch (err: any) {
-    ctx.res.writeHead(302, { Location: "/login" });
-    ctx.res.end();
-    return { props: {} as never };
-  }
-};
-
 export default Borrow;
