@@ -15,13 +15,17 @@ type Props = {
   現在借りているボドゲ集
 ———————————–*/
 const BorrowedGames: FC<Props> = ({ user }) => {
-  if (!user) return <CommonLoading>ユーザー情報を読み込み中...</CommonLoading>;
-
   //返却待ちのボドゲを収集する
   const { data, isLoading, isError } = useQuery(
-    `get-boardgame-${user.id}`,
-    async () => getBorrowedGameDataByUser(user, { active: true })
+    `get-boardgame-${user ? user.id : ""}`,
+    async () => {
+      if (!user) return null;
+      return getBorrowedGameDataByUser(user, { active: true });
+    },
+    { enabled: !!user }
   );
+
+  if (!user) return <CommonLoading>ユーザー情報を読み込み中...</CommonLoading>;
 
   if (isError)
     return <CommonError>レンタル情報の読み込みに失敗しました</CommonError>;
