@@ -9,6 +9,8 @@ import {
   authenticateCurrentUser,
 } from "@/utils/auth/getCurrentUser";
 import BorrowedGames from "@/components/home/BorrowedGames/BorrowedGames";
+import { useContext } from "react";
+import { AuthContext } from "@/providers/AuthProvider";
 
 /*———————————–
   ホーム画面
@@ -16,6 +18,9 @@ import BorrowedGames from "@/components/home/BorrowedGames/BorrowedGames";
 const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = ({
   currentUser,
 }) => {
+  const user = useContext(AuthContext);
+  console.log(user);
+
   return (
     <Container maxWidth="lg">
       <Box

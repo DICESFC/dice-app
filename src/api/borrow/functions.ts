@@ -212,3 +212,20 @@ export const getBorrowedGameDataByUser = async (
 
   return result;
 };
+
+//===================
+//* ユーザーによってボドゲが借りられているかどうか
+//===================
+export const isGameBorrowedByUser = async (game: BoardGame, user: User) => {
+  //現在のレンタルデータを取得する
+  const q = query(
+    borrowCollectionRef,
+    where("gameID", "==", game.id),
+    where("uid", "==", user.id),
+    where("active", "==", true)
+  );
+  const activeBorrowData = await getDocs(q);
+
+  //取得してきたdocsの数が0以上ならレンタル中
+  return !!activeBorrowData.docs.length;
+};

@@ -16,13 +16,13 @@ import { useState } from "react";
   ログイン画面
 ———————————–*/
 const Login: NextPageWithLayout = () => {
-  const { isSignedIn, isError, userInfo } = useAuthState();
+  const { isSignedIn, isError, userData } = useAuthState();
   const router = useRouter();
   const [isCircleInstructionOpen, setIsCircleInstructionOpen] =
     useState<boolean>(false);
 
   //正常にログインした状態ならホームへ
-  if (isSignedIn && userInfo.isMember) {
+  if (isSignedIn && userData && userData.isMember) {
     router.replace("/");
   }
 
@@ -96,7 +96,7 @@ const Login: NextPageWithLayout = () => {
           </CommonError>
         )}
 
-        {isSignedIn && !userInfo.isMember && (
+        {isSignedIn && userData && !userData.isMember && (
           <CommonError title="権限エラー" severity="warning">
             アプリの閲覧権限がありません。
             <br />

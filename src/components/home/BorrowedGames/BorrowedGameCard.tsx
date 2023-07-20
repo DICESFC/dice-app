@@ -1,13 +1,10 @@
 import { FC } from "react";
-import { User } from "@/interfaces/user";
-import { useQuery } from "react-query";
-import { getBorrowedGameDataByUser } from "@/api/borrow/functions";
-import CommonLoading from "../../common/CommonLoading";
-import CommonError from "../../common/CommonError";
 import { BorrowData, ConbinedBorrowData } from "@/interfaces/borrow";
 import { Box, Card, Typography } from "@mui/material";
 import Image from "@/components/common/Image";
 import { getRemainTime } from "@/utils/borrow/borrowDue";
+import { relative } from "path";
+import { useRouter } from "next/router";
 
 type Props = {
   data: ConbinedBorrowData;
@@ -18,6 +15,7 @@ type Props = {
 ———————————–*/
 const BorrowedGameCard: FC<Props> = ({ data }) => {
   const { gameData, borrowData } = data;
+  const router = useRouter();
 
   //残り時間を取得
   const remainBorrowTime = getRemainTime(borrowData);
@@ -49,11 +47,41 @@ const BorrowedGameCard: FC<Props> = ({ data }) => {
       ? `あと${Math.floor(remainBorrowTime / oneHour)}時間`
       : "返却期限切れ";
 
+  //カードクリック時にボドゲページに飛ぶ
+  const handleClick = () => {
+    router.push(`games/${gameData.id}`);
+  };
+
   return (
     <>
       <Card
-        sx={{ height: "80px", display: "flex", borderRadius: "10px", my: 1 }}
+        sx={{
+          height: "80px",
+          display: "flex",
+          borderRadius: "15px",
+          my: 1,
+          cursor: "pointer",
+          position: "relative",
+        }}
+        onClick={handleClick}
       >
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            height: "100%",
+            width: `calc(100% * ${
+              1 -
+              remainBorrowTime / (borrowData.dueDate - borrowData.borrowedAt)
+            })`,
+            backgroundColor: "primary.main",
+            opacity: 0.1,
+            zIndex: 0,
+            borderRadius: "5px",
+          }}
+        />
+
         <Box
           sx={{
             flexGrow: 1,
@@ -61,6 +89,7 @@ const BorrowedGameCard: FC<Props> = ({ data }) => {
             flexDirection: "column",
             justifyContent: "center",
             pl: 5,
+            zIndex: 2,
           }}
         >
           <Box>
@@ -82,7 +111,8 @@ const BorrowedGameCard: FC<Props> = ({ data }) => {
             </Typography>
           </Box>
         </Box>
-        <Box sx={{ p: 2, pr: 3, flexGrow: 0 }}>
+
+        <Box sx={{ p: 2, pr: 3, flexGrow: 0, zIndex: 0 }}>
           <Image
             src={gameData.thumbnail || "/resources/logo/dicelogo.png"}
             alt={gameData.name}

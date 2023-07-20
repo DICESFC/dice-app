@@ -18,15 +18,16 @@ const Auth: FC<Props> = ({
   memberOnly = true,
   adminOnly = false,
 }: Props) => {
-  const { isLoading, isSignedIn, userInfo } = useAuthState();
+  const { isLoading, isSignedIn, userData } = useAuthState();
   const router = useRouter();
 
-  if (isLoading) return <CommonLoading>ログインしています...</CommonLoading>;
+  if (isLoading || !userData)
+    return <CommonLoading>ログインしています...</CommonLoading>;
 
   const isAuthenticated =
     isSignedIn &&
-    (!adminOnly || userInfo.isAdmin) &&
-    (!memberOnly || userInfo.isMember);
+    (!adminOnly || userData.isAdmin) &&
+    (!memberOnly || userData.isMember);
 
   //認証だめやろがい！の場合
   if (!isAuthenticated) {
