@@ -20,6 +20,7 @@ import { getDetailText } from "@/api/games/detailText";
 import { useRouter } from "next/router";
 import Link from "next/link";
 import { useAuthState } from "@/hooks/useAuthState";
+import BorrowReturnButton from "./BorrowReturnButton";
 
 type Props = {
   game: BoardGame;
@@ -204,30 +205,7 @@ const BoardGameDetail: FC<Props> = ({ game }) => {
         </Accordion>
 
         {/* 借りるボタン */}
-        <Button
-          variant="contained"
-          size="large"
-          sx={{
-            mt: 1,
-            width: "100%",
-            fontWeight: 600,
-            backgroundColor: "primary.light",
-            "&:hover": {
-              backgroundColor: "primary.main",
-            },
-          }}
-          disabled={!isSignedIn}
-          onClick={() => router.push("/borrow")}
-        >
-          このボドゲを借りる！
-        </Button>
-
-        {!isSignedIn && (
-          <Typography variant="caption" sx={{ mt: 3 }}>
-            ボドゲを借りるには<Link href="/login">ログイン</Link>
-            する必要があります。
-          </Typography>
-        )}
+        <BorrowReturnButton game={game} />
       </Box>
     </Box>
   );

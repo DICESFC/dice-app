@@ -59,8 +59,13 @@ export const checkCanBorrow = async (game: BoardGame) => {
 //===================
 //* ボドゲを借りる
 //===================
-export const borrowBoardGame = async (game: BoardGame, user: User) => {
+export const borrowBoardGame = async (
+  game: BoardGame,
+  user: User | undefined
+) => {
   try {
+    if (!user) throw new Error("ユーザーデータが存在しません");
+
     const canBorrow = await checkCanBorrow(game);
     if (!canBorrow) {
       return {
@@ -97,15 +102,20 @@ export const borrowBoardGame = async (game: BoardGame, user: User) => {
     return { status: "success", ref: docRef };
   } catch (error) {
     console.error(error);
-    return { status: "fail", message: "エラーが発生しました" };
+    return { status: "fail", message: `エラーが発生しました: ${error}` };
   }
 };
 
 //===================
 //* ボドゲを返す
 //===================
-export const returnBoardGame = async (game: BoardGame, user: User) => {
+export const returnBoardGame = async (
+  game: BoardGame,
+  user: User | undefined
+) => {
   try {
+    if (!user) throw new Error("ユーザーデータがありません");
+
     //現在のレンタルデータを取得する
     const q = query(
       borrowCollectionRef,
@@ -149,7 +159,7 @@ export const returnBoardGame = async (game: BoardGame, user: User) => {
     console.error(error);
     return {
       status: "fail",
-      message: "エラーが発生しました",
+      message: `エラーが発生しました: ${error}`,
     };
   }
 };
@@ -216,7 +226,12 @@ export const getBorrowedGameDataByUser = async (
 //===================
 //* ユーザーによってボドゲが借りられているかどうか
 //===================
-export const isGameBorrowedByUser = async (game: BoardGame, user: User) => {
+export const isGameBorrowedByUser = async (
+  game: BoardGame,
+  user: User | undefined
+) => {
+  if (!user) return false;
+
   //現在のレンタルデータを取得する
   const q = query(
     borrowCollectionRef,
@@ -226,6 +241,6 @@ export const isGameBorrowedByUser = async (game: BoardGame, user: User) => {
   );
   const activeBorrowData = await getDocs(q);
 
-  //取得してきたdocsの数が0以上ならレンタル中
+  //取得してきたdocsの数が1ならレンタル中
   return !!activeBorrowData.docs.length;
 };

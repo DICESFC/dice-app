@@ -52,7 +52,7 @@ export function AuthProvider({ children }: any) {
 
           setAuthState({
             ...authState,
-            userData,
+            userData: { ...userData, id: user.uid },
             isLoading: false,
             isError: false,
             isSignedIn: true,
