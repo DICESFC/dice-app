@@ -58,8 +58,6 @@ const Borrow: NextPageWithLayout = () => {
           }}
         >
           <h1>レンタルページ</h1>
-          現状は開発用のあれこれ置き場です
-          <p>{code ? code : "Scanning..."}</p>
           <Button variant="contained" onClick={() => setCamera(!camera)}>
             {camera ? "停止する" : "カメラ表示"}
           </Button>
