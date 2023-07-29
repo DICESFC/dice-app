@@ -15,12 +15,19 @@ const Scanner = ({ onDetected }: Props): JSX.Element => {
           name: "live",
           type: "LiveStream",
           target: document.querySelector("#Quagga"),
+          constraints: {
+            facingMode: "environment",
+          },
         },
+        locator: {
+          patchSize: "large",
+          halfSample: true,
+        },
+
         // other options...
         decoder: {
           readers: ["ean_reader"],
         },
-        locator: true,
         numOfWorkers: 4,
         frequency: 10,
         locate: true,
@@ -52,6 +59,7 @@ const Scanner = ({ onDetected }: Props): JSX.Element => {
   return (
     <Box
       sx={{
+        width: "1000px",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
