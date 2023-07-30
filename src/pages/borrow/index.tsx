@@ -8,10 +8,7 @@ import { getBoardGameData } from "@/api/games/api/functions";
 import { useQuery } from "react-query";
 import { where } from "firebase/firestore";
 import { useEffect } from "react";
-import {
-  UserAuthInfo,
-  authenticateCurrentUser,
-} from "@/utils/auth/getCurrentUser";
+
 import Auth from "@/components/auth/Auth";
 import { useRouter } from "next/router";
 
@@ -46,7 +43,7 @@ const Borrow: NextPageWithLayout = () => {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container w-full>
         <Box
           sx={{
             my: 4,
@@ -57,7 +54,6 @@ const Borrow: NextPageWithLayout = () => {
             gap: "1rem",
           }}
         >
-          <h1>レンタルページ</h1>
           <Button variant="contained" onClick={() => setCamera(!camera)}>
             {camera ? "停止する" : "カメラ表示"}
           </Button>
