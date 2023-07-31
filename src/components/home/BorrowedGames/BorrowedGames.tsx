@@ -6,7 +6,7 @@ import { getBorrowedGameDataByUser } from "@/api/borrow/functions";
 import CommonLoading from "../../common/CommonLoading";
 import CommonError from "../../common/CommonError";
 import BorrowedGameCard from "./BorrowedGameCard";
-import ChecklistIcon from "@mui/icons-material/Checklist";
+import ChecklistIcon from '@mui/icons-material/Checklist';
 
 type Props = {
   user?: User;

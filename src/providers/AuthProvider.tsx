@@ -22,7 +22,7 @@ const INITIAL_AUTH_STATE: AuthState = {
 export const AuthContext = createContext<AuthState>(INITIAL_AUTH_STATE);
 
 export function AuthProvider({ children }: any) {
-  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [user, setUser] = useState<FirebaseUser | null | undefined>(undefined);
   const [authState, setAuthState] = useState(INITIAL_AUTH_STATE);
 
   //ユーザー情報を取得する
@@ -30,7 +30,15 @@ export function AuthProvider({ children }: any) {
     (async () => {
       //まだGoogleログインをしていない場合
       try {
-        if (!user) {
+        if (user === undefined) {
+          setAuthState({
+            ...authState,
+            isSignedIn: false,
+            isLoading: true,
+            isError: false,
+          });
+        }
+        else if (user === null) {
           setAuthState({
             ...authState,
             isSignedIn: false,
@@ -75,11 +83,11 @@ export function AuthProvider({ children }: any) {
   useEffect(() => {
     return getAuth().onIdTokenChanged(async (user) => {
       if (!user) {
-        console.log("[AuthProvider]ログアウト状態を検出しました");
+        //console.log("[AuthProvider]ログアウト状態を検出しました");
         setUser(null);
         nookies.set(undefined, "auth_token", "", { path: "/" });
       } else {
-        console.log("[AuthProvider]ログイン状態を検出しました: ", user);
+        //console.log("[AuthProvider]ログイン状態を検出しました: ", user);
         const token = await user.getIdToken();
         setUser(user);
         nookies.set(undefined, "auth_token", token, { path: "/" });
