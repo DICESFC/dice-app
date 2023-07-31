@@ -1,11 +1,12 @@
 import { FC } from "react";
-import { Card, Divider, Typography } from "@mui/material";
+import { Box, Card, Divider, Typography } from "@mui/material";
 import { User } from "@/interfaces/user";
 import { useQuery } from "react-query";
 import { getBorrowedGameDataByUser } from "@/api/borrow/functions";
 import CommonLoading from "../../common/CommonLoading";
 import CommonError from "../../common/CommonError";
 import BorrowedGameCard from "./BorrowedGameCard";
+import ChecklistIcon from "@mui/icons-material/Checklist";
 
 type Props = {
   user?: User;
@@ -39,6 +40,17 @@ const BorrowedGames: FC<Props> = ({ user }) => {
       {data.map((d) => (
         <BorrowedGameCard data={d} key={d.gameData.id} />
       ))}
+
+      {data.length === 0 && (
+        <>
+          <Box sx={{ textAlign: "center", mt: 3, color: "#aaaaaa" }}>
+            <ChecklistIcon fontSize="large" />
+            <Typography variant="body2">
+              現在借りているボドゲはありません。
+            </Typography>
+          </Box>
+        </>
+      )}
     </>
   );
 };

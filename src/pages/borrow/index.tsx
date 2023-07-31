@@ -1,5 +1,5 @@
 import { NextPageWithLayout } from "@/interfaces/common";
-import { Container, Box, Button } from "@mui/material";
+import { Container, Box, Button, Typography } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import Head from "next/head";
 import { useState } from "react";
@@ -19,7 +19,7 @@ import { useRouter } from "next/router";
   レンタル画面
 ———————————–*/
 const Borrow: NextPageWithLayout = () => {
-  const [camera, setCamera] = useState(false);
+  const [camera, setCamera] = useState<boolean>(false);
   const [code, setCode] = useState<null | number>(null);
 
   const router = useRouter();
@@ -38,7 +38,11 @@ const Borrow: NextPageWithLayout = () => {
     if (code !== null) refetch();
   }, [code, refetch]);
 
-  if (data) {
+  useEffect(() => {
+    setCamera(true);
+  });
+
+  if (data && data.length) {
     console.log(data);
     const boardGameId = data[0].id;
     router.push(`games/${boardGameId}`);
@@ -57,9 +61,9 @@ const Borrow: NextPageWithLayout = () => {
             gap: "1rem",
           }}
         >
-          <h1>レンタルページ</h1>
-          現状は開発用のあれこれ置き場です
-          <p>{code ? code : "Scanning..."}</p>
+          <Typography>
+            この機能を使用する場合はカメラ使用を許可してね！
+          </Typography>
           <Button variant="contained" onClick={() => setCamera(!camera)}>
             {camera ? "停止する" : "カメラ表示"}
           </Button>
