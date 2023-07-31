@@ -8,10 +8,7 @@ import { getBoardGameData } from "@/api/games/api/functions";
 import { useQuery } from "react-query";
 import { where } from "firebase/firestore";
 import { useEffect } from "react";
-import {
-  UserAuthInfo,
-  authenticateCurrentUser,
-} from "@/utils/auth/getCurrentUser";
+
 import Auth from "@/components/auth/Auth";
 import { useRouter } from "next/router";
 
@@ -50,7 +47,7 @@ const Borrow: NextPageWithLayout = () => {
 
   return (
     <>
-      <Container maxWidth="lg">
+      <Container w-full>
         <Box
           sx={{
             my: 4,
