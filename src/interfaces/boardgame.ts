@@ -1,9 +1,6 @@
-export type BoardGame = {
+type BoardGameBase = {
   [key: string]: any;
 
-  name: string;
-  code: string;
-  id: string;
   isBorrowedNow?: boolean;
   prohibitBorrow?: boolean;
 
@@ -36,19 +33,28 @@ export type BoardGame = {
   ngramField?: { [key: string]: boolean };
 };
 
+export type BoardGame = BoardGameBase & {
+  [key: string]: any;
+
+  name: string;
+  code: string;
+  id: string;
+};
+
 //ボドゲ追加時の情報
 //ID, ngramはなくてもいいよってこと
-export type BoardGameAddQuery = BoardGame & {
+export type BoardGameAddQuery = BoardGameBase & {
+  name: string;
+  code: string;
   id?: string;
-  ngramField?: { [key: string]: boolean };
 };
 
 //ボドゲ更新時の情報
 //name, code, ngramは任意ってこと。idは必要
-export type BoardGameUpdateQuery = BoardGame & {
+export type BoardGameUpdateQuery = BoardGameBase & {
   name?: string;
   code?: string;
-  ngramField?: { [key: string]: boolean };
+  id: string;
 };
 
 //ボドゲ検索の情報

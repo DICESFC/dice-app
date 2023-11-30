@@ -1,14 +1,20 @@
 import { NextPageWithLayout } from "@/interfaces/common";
-import { Container, Typography, Box, Button, Card } from "@mui/material";
+import { Container, Link, Typography, Box, Button, Card } from "@mui/material";
 import HomeLayout from "@/layouts/HomeLayout/HomeLayout";
 import MembershipCard from "@/components/home/MembershipCard";
-import Auth from "@/components/auth/Auth";
 import Head from "next/head";
+import { UserAuthInfo } from "@/utils/auth/getCurrentUser";
+import BorrowedGames from "@/components/home/BorrowedGames/BorrowedGames";
+import Auth from "@/components/auth/Auth";
+import { useAuthState } from "@/hooks/useAuthState";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
 
 /*———————————–
   ホーム画面
 ———————————–*/
-const Home: NextPageWithLayout = () => {
+const Home: NextPageWithLayout<{ currentUser: UserAuthInfo }> = () => {
+  const { userData } = useAuthState();
+
   return (
     <Container maxWidth="lg">
       <Box
@@ -26,7 +32,20 @@ const Home: NextPageWithLayout = () => {
             px: 2,
           }}
         >
-          <MembershipCard />
+          {/* .がpwdでそっから相対パス */}
+          <Button
+            variant="outlined"
+            href="./admin"
+            startIcon={<AdminPanelSettingsIcon />}
+          >
+            Admin
+          </Button>
+
+          {/* メンバーカード */}
+          <MembershipCard user={userData} />
+
+          {/* 現在借りているゲーム */}
+          <BorrowedGames user={userData} />
         </Container>
       </Box>
     </Container>

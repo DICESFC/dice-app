@@ -3,6 +3,7 @@ import {
   signInWithPopup,
   signOut as signOutFirebase,
   GoogleAuthProvider,
+  getIdToken,
 } from "firebase/auth";
 
 /*———————————–
@@ -15,8 +16,9 @@ export const signInWithGoogle = async () => {
     // Googleプロバイダオブジェクトのインスタンスを作成
     const provider = new GoogleAuthProvider();
     // Googleでログイン
-    const result = await signInWithPopup(auth, provider);
-    console.log("login:", result);
+    const user = await signInWithPopup(auth, provider);
+    const idToken = auth.currentUser;
+    console.log("login:", user);
   } catch (error) {
     console.error(error);
   }

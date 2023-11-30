@@ -7,11 +7,11 @@ import {
   Divider,
   CircularProgress,
 } from "@mui/material";
-import CsvUploadButton from "./CsvUploadButton";
+import CsvUploadButton from "../CsvUploadButton";
 import GameConfirmTable from "./GameConfirmTable";
 import { BoardGame } from "@/interfaces/boardgame";
 import CommonError from "@/components/common/CommonError";
-import { createBoardGame } from "@/features/games/api/functions";
+import { createBoardGame } from "@/api/games/api/functions";
 import { useSnackbar } from "@/hooks/useSnackbar";
 
 type Props = {};
@@ -65,7 +65,7 @@ const GameCsvUploader: FC<Props> = () => {
       <Typography variant="h6">CSVからボードゲームを追加</Typography>
 
       <Box sx={{ my: 1 }}>
-        <CsvUploadButton setGameData={setGameData} setError={setError} />
+        <CsvUploadButton setData={setGameData} setError={setError} />
 
         <Button
           variant="contained"

@@ -1,24 +1,30 @@
 import { FC } from "react";
 import { Card } from "@mui/material";
-import { useAuthState } from "@/hooks/useAuthState";
+import { User } from "@/interfaces/user";
+import CommonLoading from "../common/CommonLoading";
+
+type Props = {
+  user?: User;
+};
 
 /*———————————–
   メンバーカード
 ———————————–*/
-const MembershipCard: FC = () => {
-  const { userInfo } = useAuthState();
-
+const MembershipCard: FC<Props> = ({ user }) => {
   return (
     <Card
       sx={{
         width: "100%",
         aspectRatio: "5 / 3",
         borderRadius: "7px",
-        height: 400,
       }}
       elevation={7}
     >
-      ようこそ {userInfo.name}さん！
+      {user ? (
+        <>ようこそ {user.name}さん！</>
+      ) : (
+        <CommonLoading>読み込み中...</CommonLoading>
+      )}
     </Card>
   );
 };

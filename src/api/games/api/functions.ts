@@ -1,4 +1,4 @@
-import { getNgram } from "@/features/games/utils";
+import { getNgram } from "@/api/games/utils";
 import { BoardGameUpdateQuery } from "../../../interfaces/boardgame";
 import {
   getFirestore,
@@ -17,7 +17,7 @@ import type {
   BoardGame,
   BoardGameAddQuery,
 } from "../../../interfaces/boardgame";
-import { uploadImage } from "../../storage/api/functions";
+import { uploadImage } from "../../storage/functions";
 import { generateBoardGameID } from "../utils";
 
 const db = getFirestore();
@@ -61,6 +61,7 @@ export const createBoardGame = async (data: BoardGameAddQuery) => {
     const enNgram = data.englishName ? getNgram(data.englishName) : {};
     gameData.ngramField = { ...jpNgram, ...enNgram };
 
+    //データを登録する
     const docRef = await addDoc(gamesCollectionRef, gameData);
     console.log("successfully created:", data.name, data.code, data);
     return { status: "success", ref: docRef };
