@@ -4,8 +4,12 @@ import { Box, BottomNavigation, Card } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import CasinoOutlinedIcon from "@mui/icons-material/CasinoOutlined";
 import ArchiveOutlinedIcon from "@mui/icons-material/ArchiveOutlined";
+import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
+import { useAuthState } from "@/hooks/useAuthState";
 
 import BottomMenuAction from "./BottomMenuAction";
+
+
 
 type Props = {
   children: ReactNode;
@@ -19,6 +23,7 @@ type Navigation = {
 
 const NAVIGATION_MARGIN = 20;
 const NAVIGATION_HEIGHT = 50;
+
 export const navigationPadding: number =
   NAVIGATION_MARGIN * 1.5 + NAVIGATION_HEIGHT;
 
@@ -26,6 +31,8 @@ export const navigationPadding: number =
   下部にナビゲーションが表示されるレイアウト(Homeなど)
 ———————————–*/
 const HomeLayout: FC<Props> = ({ children }) => {
+  const { userData } = useAuthState();
+  
   //　ボトムナビゲーションの一覧
   //　labelがkeyなので被りは無しで！
   //　hrefは/で始める, 末尾の/は無し
@@ -45,6 +52,13 @@ const HomeLayout: FC<Props> = ({ children }) => {
       href: "/games",
       icon: <CasinoOutlinedIcon />,
     },
+    //userがアドミンなら管理ボタンをナビに追加
+    ...((userData?.isAdmin) ? [
+    {
+      label: "管理",
+      href: "/admin",
+      icon: <ManageAccountsOutlinedIcon />,
+    },] : [])
   ];
 
   //メニューがタップされたら画面遷移
