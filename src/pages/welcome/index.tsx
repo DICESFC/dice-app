@@ -34,7 +34,7 @@ const Games: NextPageWithLayout = () => {
           borderRadius: "20px",
           //margin: "5%",
           }}
-          href="https://docs.google.com/spreadsheets/d/13ZoSeHn0RfN7p8H0FeyRUISnXinnQXaVJfB41_M0Xrg/edit#gid=1797793016"
+          href="https://forms.gle/soT5M52ibcJX8d4m9"
         >
           入会希望者はここをタップ！!
         </Button>
