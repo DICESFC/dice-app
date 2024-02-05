@@ -185,38 +185,38 @@ const AdminLayout: FC<Props> = ({ children }) => {
           <Container sx={{ paddingTop: "30px", width: "100%" }}>
             {children}
           </Container>
+          {/* ナビゲーション本体 */}
+          <Card
+            sx={{
+              position: "fixed",
+              bottom: NAVIGATION_MARGIN,
+              width: `calc(100% - ${NAVIGATION_MARGIN * 15}px)`,
+              marginX: `${NAVIGATION_MARGIN}px`,
+              borderRadius: "100vh",
+              opacity: 0.96,
+            }}
+            elevation={2}
+          >
+            <BottomNavigation
+              value={selectedMenu}
+              onChange={(event, newValue) => {
+                onSelectMenu(newValue);
+              }}
+              sx={{
+                height: `${NAVIGATION_HEIGHT}px`,
+                opacity: 1,
+              }}
+            >
+              {NAVIGATIONS.map((nav) => (
+                <AdminBottomMenuAction
+                  key={nav.label}
+                  label={nav.label}
+                  icon={nav.icon}
+                />
+              ))}
+            </BottomNavigation>
+          </Card>
         </Box>
-      {/* ナビゲーション本体 */}
-      <Card
-        sx={{
-          position: "fixed",
-          bottom: NAVIGATION_MARGIN,
-          width: `calc(100% - ${NAVIGATION_MARGIN * 2}px)`,
-          marginX: `${NAVIGATION_MARGIN}px`,
-          borderRadius: "100vh",
-          opacity: 0.96,
-        }}
-        elevation={2}
-      >
-        <BottomNavigation
-          value={selectedMenu}
-          onChange={(event, newValue) => {
-            onSelectMenu(newValue);
-          }}
-          sx={{
-            height: `${NAVIGATION_HEIGHT}px`,
-            opacity: 1,
-          }}
-        >
-          {NAVIGATIONS.map((nav) => (
-            <AdminBottomMenuAction
-              key={nav.label}
-              label={nav.label}
-              icon={nav.icon}
-            />
-          ))}
-        </BottomNavigation>
-      </Card>
       </Box>
     </>
   );
