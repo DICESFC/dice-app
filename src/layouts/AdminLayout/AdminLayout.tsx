@@ -190,7 +190,10 @@ const AdminLayout: FC<Props> = ({ children }) => {
             sx={{
               position: "fixed",
               bottom: NAVIGATION_MARGIN,
-              width: `calc(100% - ${NAVIGATION_MARGIN * 15}px)`,
+              width: {
+                xs: `calc(100% - ${NAVIGATION_MARGIN * 2}px)`,
+                sm: `calc(100% - ${NAVIGATION_MARGIN * 15}px)`,
+              },
               marginX: `${NAVIGATION_MARGIN}px`,
               borderRadius: "100vh",
               opacity: 0.96,
